@@ -1,0 +1,10 @@
+D:\GitHub\C_SHARP\BackupMaster-Server\ESBackupServer\ESBackupServer\bin\ESBackupServer.dll.config
+D:\GitHub\C_SHARP\BackupMaster-Server\ESBackupServer\ESBackupServer\bin\ESBackupServer.dll
+D:\GitHub\C_SHARP\BackupMaster-Server\ESBackupServer\ESBackupServer\bin\ESBackupServer.pdb
+D:\GitHub\C_SHARP\BackupMaster-Server\ESBackupServer\ESBackupServer\bin\EntityFramework.dll
+D:\GitHub\C_SHARP\BackupMaster-Server\ESBackupServer\ESBackupServer\bin\EntityFramework.SqlServer.dll
+D:\GitHub\C_SHARP\BackupMaster-Server\ESBackupServer\ESBackupServer\bin\EntityFramework.xml
+D:\GitHub\C_SHARP\BackupMaster-Server\ESBackupServer\ESBackupServer\bin\EntityFramework.SqlServer.xml
+D:\GitHub\C_SHARP\BackupMaster-Server\ESBackupServer\ESBackupServer\obj\Debug\ESBackupServer.csprojResolveAssemblyReference.cache
+D:\GitHub\C_SHARP\BackupMaster-Server\ESBackupServer\ESBackupServer\obj\Debug\ESBackupServer.dll
+D:\GitHub\C_SHARP\BackupMaster-Server\ESBackupServer\ESBackupServer\obj\Debug\ESBackupServer.pdb
