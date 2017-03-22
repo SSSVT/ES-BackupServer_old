@@ -1,7 +1,7 @@
 /*
-	- Klienti = úèty
-	- Nastavení záloh
-	- Historie záloh
+	- OK - Klienti = úèty
+	- OK - Nastavení záloh
+	- OK - Historie záloh (zálohy)
 	- Logy
 	- Maily
 	- Historie pøihlášení
@@ -50,6 +50,25 @@ CREATE TABLE esbk_tbBackupSetting(
 CREATE TABLE esbk_tbBackupSettingTypes(
 	ID int identity(1,1) not null,
 	TP_NAME varchar(64) not null
+);
+
+CREATE TABLE esbk_tbBackupActions(
+	ID uniqueidentifier not null, -- GUID
+	IDesbk_tbBackups bigint not null,
+	IDesbk_tbBackupActionTypes int not null,
+	AC_VALUE varchar(max) not null,
+
+	-- TIME, BEFORE/AFTER BACKUP
+);
+CREATE TABLE esbk_tbBackupActionTypes(
+	ID int identity(1,1) not null, -- int
+	TP_NAME varchar(64) not null
+);
+CREATE TABLE esbk_tbBackupLogs(
+	ID uniqueidentifier not null,
+	IDesbk_tbBackups bigint not null,
+	LG_TIME datetime not null,
+	LG_VALUE varchar(max) not null
 );
 
 CREATE TABLE esbk_tbBackupDetails(
