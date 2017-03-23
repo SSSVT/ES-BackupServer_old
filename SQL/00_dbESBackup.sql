@@ -1,10 +1,10 @@
 /*
-	- OK - Klienti = ˙Ëty
-	- OK - NastavenÌ z·loh
-	- OK - Historie z·loh (z·lohy)
-	- Logy
+	- OK - Klienti = √∫ƒçty
+	- OK - Nastaven√≠ z√°loh
+	- OK - Historie z√°loh (z√°lohy)
+	- OK - Logy
 	- Maily
-	- Historie p¯ihl·öenÌ
+	- OK - Historie p≈ôihl√°≈°en√≠
 */
 
 USE [master];
@@ -24,6 +24,7 @@ CREATE TABLE esbk_tbClients(
 	ID int identity(1,1) not null, -- int
 	CL_NAME varchar(64) not null, -- string
 	CL_DESCRIPTION varchar(512), -- string
+	CL_HWID varchar(512), -- HWID
 
 	-- return true/false = login failed
 	CL_LOGIN_NAME varchar(128) not null, -- username
@@ -36,9 +37,14 @@ CREATE TABLE esbk_tbBackups(
 	ID bigint identity(1,1) not null, -- long
 	BK_IDesbk_tbClients int not null, -- int
 
-	-- k ovÏ¯enÌ
+	BK_NAME varchar(128), -- string
+	BK_DESCRIPTION varchar(512), -- string
+	
 	BK_TIME_BEGIN datetime not null, -- datetime
 	BK_TIME_END datetime, -- datetime?, null - updatem
+
+	BK_EXPIRATION datetime, -- datetime?
+	BK_COMPRESSION char(1) -- C = compress, N = do not compress
 );
 
 CREATE TABLE esbk_tbBackupSetting(
@@ -49,16 +55,20 @@ CREATE TABLE esbk_tbBackupSetting(
 );
 CREATE TABLE esbk_tbBackupSettingTypes(
 	ID int identity(1,1) not null,
-	TP_NAME varchar(64) not null
+	TP_NAME varchar(64) not null -- ingore, path, ...
 );
 
 CREATE TABLE esbk_tbBackupActions(
 	ID uniqueidentifier not null, -- GUID
 	IDesbk_tbBackups bigint not null,
 	IDesbk_tbBackupActionTypes int not null,
-	AC_VALUE varchar(max) not null,
 
-	-- TIME, BEFORE/AFTER BACKUP
+	AC_VALUE varchar(max) not null, -- parameters (path, email, ...)
+
+	-- TIME/BEFORE/AFTER BACKUP
+	AC_ACTION_TYPE bit not null, -- 0 = event (before/after); 1 = time
+	AC_EVENT int, -- int
+	AC_TIME datetime, -- datetime?
 );
 CREATE TABLE esbk_tbBackupActionTypes(
 	ID int identity(1,1) not null, -- int
@@ -75,15 +85,22 @@ CREATE TABLE esbk_tbBackupDetails(
 	ID uniqueidentifier not null, -- GUID
 	BK_PATH varchar(4096), -- string
 
-	-- k ovÏ¯enÌ
+	-- k ovƒõ≈ôen√≠
 	BK_TIME datetime not null, -- datetime
 	BK_LAST_CHANGE datetime not null, -- datetime
-	BK_HASK varchar(2048), -- string
+	BK_HASH varchar(2048), -- string
 );
 CREATE TABLE esbk_tbClientLogins(
 	ID uniqueidentifier not null, -- GUID
 	IDesbk_tbClients int not null, -- int
 
 	LG_TIME datetime not null, -- datetime
-	LG_CLIENT_IP varbinary(128) not null, -- Byte[]; IPv4 - 32 bit˘, IPv6 - 128 bit˘
+	LG_CLIENT_IP varbinary(128) not null, -- Byte[]; IPv4 - 32 bit≈Ø, IPv6 - 128 bit≈Ø
 );
+
+/* PK */
+ALTER TABLE esbk_tbClients ADD CONSTRAINT PK_esbk_tbClients_ID PRIMARY KEY (ID);
+ALTER TABLE esbk_tbBackups ADD CONSTRAINT PK_esbk_tbBackups_ID PRIMARY KEY (ID);
+ALTER TABLE esbk_tbBackupSetting ADD CONSTRAINT PK_esbk_tbBackupSetting_ID PRIMARY KEY NONCLUSTERED (ID);
+ALTER TABLE esbk_tbBackupSettingTypes ADD CONSTRAINT PK_esbk_tbBackupSettingTypes_ID PRIMARY KEY (ID);
+ALTER TABLE esbk_tbBackupActions ADD CONSTRAINT PK_esbk_tbBackupActions_ID PRIMARY KEY NONCLUSTERED (ID);
