@@ -11,8 +11,15 @@ namespace ESBackupServer.Database.Objects
         public byte ID { get; set; }
 
         [Column("TP_NAME")]
-        public string Name { get; set; }
+        public LogTypeNames Name { get; set; }
 
         public virtual List<Log> Logs { get; set; }
+    }
+
+    public enum LogTypeNames
+    {
+        Error,
+        Warning,
+        Message
     }
 }

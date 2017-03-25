@@ -11,8 +11,31 @@ namespace ESBackupServer.Database.Objects
         public int ID { get; set; }
 
         [Column("TP_NAME")]
-        public string Name { get; set; }
+        public SettingTypeNames Name { get; set; }
 
         public virtual List<Setting> Settings { get; set; }
+    }
+
+    public enum SettingTypeNames
+    {
+        Ingore,
+        Only,
+        PathSource,
+        PathDestination,
+        Compression,
+
+        Start,
+        Resume,
+        Pause,
+        Stop,
+
+        ShutDown,
+        Restart,
+        Sleep,
+        Hibernate,
+        Lock,
+
+        Email,
+        Notification
     }
 }

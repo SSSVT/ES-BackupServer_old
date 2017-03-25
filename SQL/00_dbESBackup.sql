@@ -149,28 +149,28 @@ BEGIN /* UQ */
 END
 
 BEGIN /* INSERT INTO esbk_tbClientSettingTypes */
-	INSERT INTO esbk_tbClientSettingTypes VALUES ('IGNORE'); -- ignorovat cestu, soubory, ...
-	INSERT INTO esbk_tbClientSettingTypes VALUES ('ONLY'); -- pouze cestu, soubory, ...
-	INSERT INTO esbk_tbClientSettingTypes VALUES ('PATH SOURCE'); -- cesta zdroj
-	INSERT INTO esbk_tbClientSettingTypes VALUES ('PATH TARGET'); -- cesta cíl
-	INSERT INTO esbk_tbClientSettingTypes VALUES ('COMPRESSION'); -- komprese zálohy (.zip)
+	INSERT INTO esbk_tbClientSettingTypes VALUES ('Ignore'); -- ignorovat cestu, soubory, ...
+	INSERT INTO esbk_tbClientSettingTypes VALUES ('Only'); -- pouze cestu, soubory, ...
+	INSERT INTO esbk_tbClientSettingTypes VALUES ('PathSource'); -- cesta zdroj
+	INSERT INTO esbk_tbClientSettingTypes VALUES ('PathDestination'); -- cesta cíl
+	INSERT INTO esbk_tbClientSettingTypes VALUES ('Compression'); -- komprese zálohy (.zip)
 
-	INSERT INTO esbk_tbClientSettingTypes VALUES ('START'); -- Start backup
-	INSERT INTO esbk_tbClientSettingTypes VALUES ('RESUME'); -- Resume backup
-	INSERT INTO esbk_tbClientSettingTypes VALUES ('PAUSE'); -- Pause backup
-	INSERT INTO esbk_tbClientSettingTypes VALUES ('STOP'); -- Stop backup
+	INSERT INTO esbk_tbClientSettingTypes VALUES ('Start'); -- Start backup
+	INSERT INTO esbk_tbClientSettingTypes VALUES ('Resume'); -- Resume backup
+	INSERT INTO esbk_tbClientSettingTypes VALUES ('Pause'); -- Pause backup
+	INSERT INTO esbk_tbClientSettingTypes VALUES ('Stop'); -- Stop backup
 
-	INSERT INTO esbk_tbClientSettingTypes VALUES ('SHUTDOWN');
-	INSERT INTO esbk_tbClientSettingTypes VALUES ('RESTART');
-	INSERT INTO esbk_tbClientSettingTypes VALUES ('SLEEP');
-	INSERT INTO esbk_tbClientSettingTypes VALUES ('HIBERNATE');
-	INSERT INTO esbk_tbClientSettingTypes VALUES ('LOCK');
+	INSERT INTO esbk_tbClientSettingTypes VALUES ('ShutDown');
+	INSERT INTO esbk_tbClientSettingTypes VALUES ('Restart');
+	INSERT INTO esbk_tbClientSettingTypes VALUES ('Sleep');
+	INSERT INTO esbk_tbClientSettingTypes VALUES ('Hibernate');
+	INSERT INTO esbk_tbClientSettingTypes VALUES ('Lock');
 
-	INSERT INTO esbk_tbClientSettingTypes VALUES ('EMAIL');
-	INSERT INTO esbk_tbClientSettingTypes VALUES ('NOTIFICATION'); -- notifikace na obrazovce
+	INSERT INTO esbk_tbClientSettingTypes VALUES ('Email');
+	INSERT INTO esbk_tbClientSettingTypes VALUES ('Notification'); -- notifikace na obrazovce
 END
 BEGIN /* INSERT INTO esbk_tbClientLogTypes */
-	INSERT INTO esbk_tbClientLogTypes VALUES ('ERROR'); -- exceptions
-	INSERT INTO esbk_tbClientLogTypes VALUES ('WARNING'); -- nevím, ale může se hodit :D
-	INSERT INTO esbk_tbClientLogTypes VALUES ('MESSAGE'); -- finished, email sent, ...
+	INSERT INTO esbk_tbClientLogTypes VALUES ('Error'); -- exceptions
+	INSERT INTO esbk_tbClientLogTypes VALUES ('Warning'); -- nevím, ale může se hodit :D
+	INSERT INTO esbk_tbClientLogTypes VALUES ('Message'); -- finished, email sent, ...
 END

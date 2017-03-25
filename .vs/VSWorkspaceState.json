@@ -1,8 +1,11 @@
 {
   "ExpandedNodes": [
     "",
+    "\\ESBackupServer",
+    "\\ESBackupServer\\ESBackupServer",
+    "\\ESBackupServer\\ESBackupServer\\Database",
     "\\SQL"
   ],
-  "SelectedNode": "\\SQL\\00_dbESBackup.sql",
+  "SelectedNode": "\\ESBackupServer\\ESBackupServer.sln",
   "PreviewInSolutionExplorer": false
 }
