@@ -1,12 +1,3 @@
-/* INFO
-	- OK - Klienti = účty
-	- OK - Nastavení záloh
-	- OK - Historie záloh (zálohy)
-	- OK - Logy
-	- OK - Maily, ... (actions)
-	- OK - Historie přihlášení
-*/
-
 USE [master];
 IF EXISTS(SELECT * FROM sys.databases WHERE name='dbESBackup')
 BEGIN
@@ -114,7 +105,6 @@ BEGIN /* PK */
 	ALTER TABLE esbk_tbClientLogs ADD CONSTRAINT PK_esbk_tbClientLogs_ID PRIMARY KEY NONCLUSTERED (ID);
 	ALTER TABLE esbk_tbClientLogTypes ADD CONSTRAINT PK_esbk_tbClientLogTypes_ID PRIMARY KEY (ID);
 END
-
 BEGIN /* FK */
 	ALTER TABLE esbk_tbClientLogins ADD CONSTRAINT FK_esbk_tbClientLogins_IDesbk_tbClients FOREIGN KEY (IDesbk_tbClients) REFERENCES esbk_tbClients(ID);
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT FK_esbk_tbBackups_IDesbk_tbClients FOREIGN KEY (IDesbk_tbClients) REFERENCES esbk_tbClients(ID);
@@ -134,7 +124,6 @@ BEGIN /* IX */
 	CREATE INDEX IX_esbk_tbClientLogs_IDesbk_tbClients ON esbk_tbClientLogs(IDesbk_tbClients);
 	CREATE INDEX IX_esbk_tbClientLogs_IDesbk_tbBackups ON esbk_tbClientLogs(IDesbk_tbBackups);
 	CREATE INDEX IX_esbk_tbClientLogs_IDesbk_tbClientLogTypes ON esbk_tbClientLogs(IDesbk_tbClientLogTypes);
-
 END
 BEGIN /* DF */
 	ALTER TABLE esbk_tbClients ADD CONSTRAINT DF_esbk_tbClients_CL_VERIFIED DEFAULT (0) FOR CL_VERIFIED;
@@ -164,7 +153,8 @@ BEGIN /* INSERT INTO esbk_tbClientSettingTypes */
 	INSERT INTO esbk_tbClientSettingTypes VALUES ('PATH SOURCE'); -- cesta zdroj
 	INSERT INTO esbk_tbClientSettingTypes VALUES ('PATH TARGET'); -- cesta cíl
 
-	INSERT INTO esbk_tbClientSettingTypes VALUES ('START'); -- Start/resume backup
+	INSERT INTO esbk_tbClientSettingTypes VALUES ('START'); -- Start backup
+	INSERT INTO esbk_tbClientSettingTypes VALUES ('RESUME'); -- Resume backup
 	INSERT INTO esbk_tbClientSettingTypes VALUES ('PAUSE'); -- Pause backup
 	INSERT INTO esbk_tbClientSettingTypes VALUES ('STOP'); -- Stop backup
 
