@@ -6,11 +6,11 @@ using System.Web;
 
 namespace ESBackupServer.Database.Repositories
 {
-    internal class ClientLoginRepository : AbRepository<ClientLogin>
+    internal class ClientLoginRepository : AbRepository<Login>
     {
-        internal override List<ClientLogin> FindAll()
+        internal override List<Login> FindAll()
         {
-            return new List<ClientLogin>();
+            return new List<Login>();
         }
     }
 }

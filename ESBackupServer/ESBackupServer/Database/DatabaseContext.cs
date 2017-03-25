@@ -13,10 +13,15 @@ namespace ESBackupServer.Database
         {
 
         }
-
-        public DbSet<Client> Clients { get; set; }
+        
         public DbSet<Backup> Backups { get; set; }
-
+        public DbSet<BackupDetail> BackupsDetails { get; set; }
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<Log> Logs { get; set; }
+        public DbSet<Login> Logins { get; set; }
+        public DbSet<LogType> LogTypes { get; set; }
+        public DbSet<Setting> Settings { get; set; }
+        public DbSet<SettingType> SettingsTypes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

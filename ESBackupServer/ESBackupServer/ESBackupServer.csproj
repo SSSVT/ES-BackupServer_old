@@ -74,9 +74,13 @@
   <ItemGroup>
     <Compile Include="Database\DatabaseContext.cs" />
     <Compile Include="Database\Objects\Backup.cs" />
-    <Compile Include="Database\Objects\BackupLog.cs" />
+    <Compile Include="Database\Objects\BackupDetail.cs" />
     <Compile Include="Database\Objects\Client.cs" />
-    <Compile Include="Database\Objects\ClientLogin.cs" />
+    <Compile Include="Database\Objects\Log.cs" />
+    <Compile Include="Database\Objects\Login.cs" />
+    <Compile Include="Database\Objects\LogType.cs" />
+    <Compile Include="Database\Objects\Setting.cs" />
+    <Compile Include="Database\Objects\SettingType.cs" />
     <Compile Include="Database\Repositories\AbRepository.cs" />
     <Compile Include="Database\Repositories\ClientLoginRepository.cs" />
     <Compile Include="Database\Repositories\ClientRepository.cs" />
@@ -104,6 +108,9 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

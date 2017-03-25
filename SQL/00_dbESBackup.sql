@@ -22,11 +22,10 @@ CREATE TABLE esbk_tbClients(
 	CL_LOGIN_SALT varchar(512) not null, -- salt
 
 	-- info o backupech (kvůli selectům a nastavení) - 
-	--CL_LAST_BACKUP datetime, -- nemusel ještě proběhnout žádný
+	CL_LAST_BACKUP datetime, -- nemusel ještě proběhnout žádný
 	--CL_BACKUP_AUTOREPEAT_TIME bigint, -- časová prodleva mezi backupy (v minutách)
 	--CL_BACKUP_ATTEMPTS int not null,
 	
-
 	CL_VERIFIED bit not null -- bool, autorizován
 ); /* Tabulka serverů (klientů), kteří se zálohují */
 CREATE TABLE esbk_tbClientLogins(
@@ -34,7 +33,7 @@ CREATE TABLE esbk_tbClientLogins(
 	IDesbk_tbClients int not null, -- int
 
 	LG_TIME datetime not null, -- datetime
-	LG_CLIENT_IP varbinary(128) not null, -- Byte[]; IPv4 - 32 bitů, IPv6 - 128 bitů
+	LG_CLIENT_IP varbinary(128) not null, -- byte[]; IPv4 - 32 bitů, IPv6 - 128 bitů
 ); /* Historie přihlášení klientů */
 
 CREATE TABLE esbk_tbClientSetting(
@@ -68,18 +67,18 @@ CREATE TABLE esbk_tbBackups(
 	BK_TIME_END datetime, -- datetime?, null - updatem
 
 	BK_EXPIRATION datetime, -- datetime?
-	BK_COMPRESSION char(1) -- C = compress, N = do not compress
+	BK_COMPRESSION bit not null -- 0 = do not compress; 1 = compress
 ); /* Historie provedených záloh */
 CREATE TABLE esbk_tbBackupDetails(
 	ID uniqueidentifier not null, -- GUID
 	IDesbk_tbBackups bigint not null, -- long
 	BK_PATH_SOURCE varchar(max), -- string
-	BK_PATH_TARGET varchar(max), -- string
+	BK_PATH_DESTINATION varchar(max), -- string
 
 	-- k ověření
 	BK_TIME datetime not null, -- datetime, čas provedení zálohy
 	BK_LAST_CHANGE datetime not null, -- datetime - získání ze souboru
-	BK_HASH varchar(2048), -- string
+	BK_HASH varchar(4096), -- string
 ); /* Info o jednotlivých zálohách (tbRozpisObjednávek) */
 
 CREATE TABLE esbk_tbClientLogs(
@@ -129,10 +128,12 @@ BEGIN /* DF */
 	ALTER TABLE esbk_tbClients ADD CONSTRAINT DF_esbk_tbClients_CL_VERIFIED DEFAULT (0) FOR CL_VERIFIED;
 	ALTER TABLE esbk_tbClientLogins ADD CONSTRAINT DF_esbk_tbClientLogins_LG_TIME DEFAULT (GETDATE()) FOR LG_TIME;
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT DF_esbk_tbBackups_BK_TIME_BEGIN DEFAULT (GETDATE()) FOR BK_TIME_BEGIN;
+	ALTER TABLE esbk_tbBackups ADD CONSTRAINT DF_esbk_tbBackups_BK_COMPRESSION DEFAULT (0) FOR BK_COMPRESSION;
 	ALTER TABLE esbk_tbBackupDetails ADD CONSTRAINT DF_esbk_tbBackupDetails_BK_TIME DEFAULT (GETDATE()) FOR BK_TIME;
 	ALTER TABLE esbk_tbClientLogs ADD CONSTRAINT DF_esbk_tbClientLogs_LG_TIME DEFAULT (GETDATE()) FOR LG_TIME;
 END
 BEGIN /* CK */
+	ALTER TABLE esbk_tbClients ADD CONSTRAINT CK_esbk_tbClients_CL_LAST_BACKUP CHECK (CL_LAST_BACKUP <= GETDATE());
 	ALTER TABLE esbk_tbClientLogins ADD CONSTRAINT CK_esbk_tbClientLogins_LG_TIME CHECK (LG_TIME <= GETDATE());
 	ALTER TABLE esbk_tbClientLogins ADD CONSTRAINT CK_esbk_tbClientLogins_LG_CLIENT_IP CHECK (LEN(LG_CLIENT_IP) = 32 OR LEN(LG_CLIENT_IP) = 128); -- IPv4 || IPv6
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT CK_esbk_tbBackups_BK_TIME_BEGIN CHECK (BK_TIME_BEGIN <= GETDATE());
@@ -152,6 +153,7 @@ BEGIN /* INSERT INTO esbk_tbClientSettingTypes */
 	INSERT INTO esbk_tbClientSettingTypes VALUES ('ONLY'); -- pouze cestu, soubory, ...
 	INSERT INTO esbk_tbClientSettingTypes VALUES ('PATH SOURCE'); -- cesta zdroj
 	INSERT INTO esbk_tbClientSettingTypes VALUES ('PATH TARGET'); -- cesta cíl
+	INSERT INTO esbk_tbClientSettingTypes VALUES ('COMPRESSION'); -- komprese zálohy (.zip)
 
 	INSERT INTO esbk_tbClientSettingTypes VALUES ('START'); -- Start backup
 	INSERT INTO esbk_tbClientSettingTypes VALUES ('RESUME'); -- Resume backup
