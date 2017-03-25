@@ -2,7 +2,7 @@
 {
     internal abstract class AbRepository<T>
     {
-        protected DatabaseContext _Context { get; set; } = new DatabaseContext();
+        protected DatabaseContext _Context { get; set; } = DatabaseContext.GetInstance();
 
         internal abstract T FindByID(int id);
         internal abstract void Add(T item);

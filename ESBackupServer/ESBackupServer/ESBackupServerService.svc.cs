@@ -13,7 +13,8 @@ namespace ESBackupServer
     public class ESBackupServerService : IESBackupServerService
     {
         public void Test()
-        {            
+        {
+
         }
     }
 }

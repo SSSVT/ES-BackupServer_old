@@ -6,16 +6,16 @@ namespace ESBackupServer.Database
     internal class DatabaseContext : DbContext
     {
         #region Singleton
-        private static DatabaseContext _instance;
+        private static DatabaseContext _Instance { get; set; }
         private DatabaseContext() : base("name=MSSQL")
         {
         }
         public static DatabaseContext GetInstance()
         {
-            if (DatabaseContext._instance == null)
-                DatabaseContext._instance = new DatabaseContext();
+            if (DatabaseContext._Instance == null)
+                DatabaseContext._Instance = new DatabaseContext();
 
-            return DatabaseContext._instance;
+            return DatabaseContext._Instance;
         }
         #endregion
 

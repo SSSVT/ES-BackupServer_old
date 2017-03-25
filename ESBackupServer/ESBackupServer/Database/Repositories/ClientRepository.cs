@@ -6,16 +6,16 @@ namespace ESBackupServer.Database.Repositories
     internal class ClientRepository : AbRepository<Client>
     {
         #region Singleton
-        private static ClientRepository _instance;
+        private static ClientRepository _Instance { get; set; }
         private ClientRepository()
         {
         }
         public static ClientRepository GetInstance()
         {
-            if (ClientRepository._instance == null)
-                ClientRepository._instance = new ClientRepository();
+            if (ClientRepository._Instance == null)
+                ClientRepository._Instance = new ClientRepository();
 
-            return ClientRepository._instance;
+            return ClientRepository._Instance;
         }
         #endregion
         #region AbRepository

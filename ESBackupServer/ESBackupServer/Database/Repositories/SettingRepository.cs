@@ -6,16 +6,16 @@ namespace ESBackupServer.Database.Repositories
     internal class SettingRepository : AbRepository<Setting>
     {
         #region Singleton
-        private static SettingRepository _instance;
+        private static SettingRepository _Instance { get; set; }
         private SettingRepository()
         {
         }
         public static SettingRepository GetInstance()
         {
-            if (SettingRepository._instance == null)
-                SettingRepository._instance = new SettingRepository();
+            if (SettingRepository._Instance == null)
+                SettingRepository._Instance = new SettingRepository();
 
-            return SettingRepository._instance;
+            return SettingRepository._Instance;
         }
         #endregion
         #region AbRepository
