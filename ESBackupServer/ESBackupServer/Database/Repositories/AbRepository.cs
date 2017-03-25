@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace ESBackupServer.Database.Repositories
+﻿namespace ESBackupServer.Database.Repositories
 {
     internal abstract class AbRepository<T>
     {
-        internal abstract List<T> FindAll();
+        protected DatabaseContext _Context { get; set; } = new DatabaseContext();
 
+        internal abstract T FindByID(int id);
+        internal abstract void Add(T item);
+        internal abstract void Remove(T item);
+        internal abstract void Update(T item);
     }
 }

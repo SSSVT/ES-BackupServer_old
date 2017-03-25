@@ -82,8 +82,14 @@
     <Compile Include="Database\Objects\Setting.cs" />
     <Compile Include="Database\Objects\SettingType.cs" />
     <Compile Include="Database\Repositories\AbRepository.cs" />
-    <Compile Include="Database\Repositories\ClientLoginRepository.cs" />
+    <Compile Include="Database\Repositories\BackupDetailRepository.cs" />
+    <Compile Include="Database\Repositories\BackupRepository.cs" />
+    <Compile Include="Database\Repositories\LoginRepository.cs" />
     <Compile Include="Database\Repositories\ClientRepository.cs" />
+    <Compile Include="Database\Repositories\LogRepository.cs" />
+    <Compile Include="Database\Repositories\LogTypeRepository.cs" />
+    <Compile Include="Database\Repositories\SettingTypeRepository.cs" />
+    <Compile Include="Database\Repositories\SettingRepository.cs" />
     <Compile Include="Service1.svc.cs">
       <DependentUpon>Service1.svc</DependentUpon>
     </Compile>

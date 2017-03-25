@@ -29,7 +29,7 @@ namespace ESBackupServer.Database.Objects
         [Column("CL_LOGIN_SALT")]
         public string Login_Salt { get; set; }
 
-        //TODO: Add columns if necessary
+        [Column("CL_LAST_BACKUP")]
         public DateTime? LastBackup { get; set; }
 
         [Column("CL_VERIFIED")]
