@@ -12,9 +12,9 @@ namespace ESBackupServer
     // NOTE: In order to launch WCF Test Client for testing this service, please select ESBackupServerService.svc or ESBackupServerService.svc.cs at the Solution Explorer and start debugging.
     public class ESBackupServerService : IESBackupServerService
     {
-        public void Test()
+        public string TestConnection()
         {
-
+            return "Connection OK";
         }
     }
 }

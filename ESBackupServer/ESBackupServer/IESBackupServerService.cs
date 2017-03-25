@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ESBackupServer.App.Objects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -13,6 +14,6 @@ namespace ESBackupServer
     public interface IESBackupServerService
     {
         [OperationContract]
-        void Test();
+        string TestConnection();
     }
 }
