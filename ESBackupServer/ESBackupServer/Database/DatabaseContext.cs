@@ -5,11 +5,20 @@ namespace ESBackupServer.Database
 {
     internal class DatabaseContext : DbContext
     {
-        public DatabaseContext() : base("name=MSSQL")
+        #region Singleton
+        private static DatabaseContext _instance;
+        private DatabaseContext() : base("name=MSSQL")
         {
-
         }
-        
+        public static DatabaseContext GetInstance()
+        {
+            if (DatabaseContext._instance == null)
+                DatabaseContext._instance = new DatabaseContext();
+
+            return DatabaseContext._instance;
+        }
+        #endregion
+
         public DbSet<Backup> Backups { get; set; }
         public DbSet<BackupDetail> BackupsDetails { get; set; }
         public DbSet<Client> Clients { get; set; }

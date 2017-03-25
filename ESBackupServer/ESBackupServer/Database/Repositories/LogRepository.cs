@@ -5,6 +5,19 @@ namespace ESBackupServer.Database.Repositories
 {
     internal class LogRepository : AbRepository<Log>
     {
+        #region Singleton
+        private static LogRepository _instance;
+        private LogRepository()
+        {
+        }
+        public static LogRepository GetInstance()
+        {
+            if (LogRepository._instance == null)
+                LogRepository._instance = new LogRepository();
+
+            return LogRepository._instance;
+        }
+        #endregion
         #region AbRepository
         internal override void Add(Log item)
         {

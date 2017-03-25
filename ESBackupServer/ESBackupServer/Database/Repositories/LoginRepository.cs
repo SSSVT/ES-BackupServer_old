@@ -5,6 +5,19 @@ namespace ESBackupServer.Database.Repositories
 {
     internal class LoginRepository : AbRepository<Login>
     {
+        #region Singleton
+        private static LoginRepository _instance;
+        private LoginRepository()
+        {
+        }
+        public static LoginRepository GetInstance()
+        {
+            if (LoginRepository._instance == null)
+                LoginRepository._instance = new LoginRepository();
+
+            return LoginRepository._instance;
+        }
+        #endregion
         #region AbRepository
         internal override void Add(Login item)
         {

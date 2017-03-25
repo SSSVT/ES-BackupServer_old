@@ -5,6 +5,19 @@ namespace ESBackupServer.Database.Repositories
 {
     internal class BackupRepository : AbRepository<Backup>
     {
+        #region Singleton
+        private static BackupRepository _instance;
+        private BackupRepository()
+        {
+        }
+        public static BackupRepository GetInstance()
+        {
+            if (BackupRepository._instance == null)
+                BackupRepository._instance = new BackupRepository();
+
+            return BackupRepository._instance;
+        }
+        #endregion
         #region AbRepository
         internal override void Add(Backup item)
         {

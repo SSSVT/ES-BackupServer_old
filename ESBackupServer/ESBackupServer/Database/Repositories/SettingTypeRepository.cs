@@ -5,6 +5,19 @@ namespace ESBackupServer.Database.Repositories
 {
     internal class SettingTypeRepository : AbRepository<SettingType>
     {
+        #region Singleton
+        private static SettingTypeRepository _instance;
+        private SettingTypeRepository()
+        {
+        }
+        public static SettingTypeRepository GetInstance()
+        {
+            if (SettingTypeRepository._instance == null)
+                SettingTypeRepository._instance = new SettingTypeRepository();
+
+            return SettingTypeRepository._instance;
+        }
+        #endregion
         #region AbRepository
         internal override void Add(SettingType item)
         {
