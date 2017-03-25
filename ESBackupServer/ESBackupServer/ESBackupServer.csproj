@@ -68,7 +68,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Service1.svc" />
+    <Content Include="ESBackupServerService.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -90,10 +90,10 @@
     <Compile Include="Database\Repositories\LogTypeRepository.cs" />
     <Compile Include="Database\Repositories\SettingTypeRepository.cs" />
     <Compile Include="Database\Repositories\SettingRepository.cs" />
-    <Compile Include="Service1.svc.cs">
-      <DependentUpon>Service1.svc</DependentUpon>
+    <Compile Include="ESBackupServerService.svc.cs">
+      <DependentUpon>ESBackupServerService.svc</DependentUpon>
     </Compile>
-    <Compile Include="IService1.cs" />
+    <Compile Include="IESBackupServerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
