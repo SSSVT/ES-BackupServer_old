@@ -118,7 +118,7 @@ BEGIN /* FK */
 END
 BEGIN /* IX */
 	CREATE INDEX IX_esbk_tbClientLogins_ID ON esbk_tbClientLogins(ID);
-	CREATE INDEX IX_esbk_tbClientLogins_IDesbk_tbClients_LG_TIME ON esbk_tbClientLogins(IDesbk_tbClients, LG_TIME);
+	CREATE INDEX IX_esbk_tbClientLogins_IDesbk_tbClients_LG_TIME_UTC ON esbk_tbClientLogins(IDesbk_tbClients, LG_TIME_UTC);
 	CREATE INDEX IX_esbk_tbBackups_IDesbk_tbClients ON esbk_tbBackups(IDesbk_tbClients);
 	CREATE INDEX IX_esbk_tbBackupDetails_IDesbk_tbBackups ON esbk_tbBackupDetails(IDesbk_tbBackups);
 	CREATE INDEX IX_esbk_tbClientSetting_IDesbk_tbClients ON esbk_tbClientSetting(IDesbk_tbClients);
@@ -137,14 +137,14 @@ BEGIN /* DF */
 END
 BEGIN /* CK */
 	ALTER TABLE esbk_tbClients ADD CONSTRAINT CK_esbk_tbClients_CL_LAST_BACKUP CHECK (CL_LAST_BACKUP <= GETDATE());
-	ALTER TABLE esbk_tbClientLogins ADD CONSTRAINT CK_esbk_tbClientLogins_LG_TIME CHECK (LG_TIME <= GETDATE());
+	ALTER TABLE esbk_tbClientLogins ADD CONSTRAINT CK_esbk_tbClientLogins_LG_TIME_UTC CHECK (LG_TIME_UTC <= GETDATE());
 	ALTER TABLE esbk_tbClientLogins ADD CONSTRAINT CK_esbk_tbClientLogins_LG_CLIENT_IP CHECK (LEN(LG_CLIENT_IP) = 32 OR LEN(LG_CLIENT_IP) = 128); -- IPv4 || IPv6
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT CK_esbk_tbBackups_BK_TIME_BEGIN CHECK (BK_TIME_BEGIN <= GETDATE());
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT CK_esbk_tbBackups_BK_TIME_END CHECK (BK_TIME_BEGIN <= BK_TIME_END AND BK_TIME_END <= GETDATE());
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT CK_esbk_tbBackups_BK_EXPIRATION CHECK (BK_EXPIRATION >= GETDATE());
 	ALTER TABLE esbk_tbBackupDetails ADD CONSTRAINT CK_esbk_tbBackupDetails_BK_TIME CHECK (BK_TIME <= GETDATE());
 	ALTER TABLE esbk_tbBackupDetails ADD CONSTRAINT CK_esbk_tbBackupDetails_BK_LAST_CHANGE CHECK (BK_LAST_CHANGE <= GETDATE());
-	ALTER TABLE esbk_tbClientLogs ADD CONSTRAINT CK_esbk_tbClientLogs_LG_TIME CHECK (LG_TIME <= GETDATE());
+	ALTER TABLE esbk_tbClientLogs ADD CONSTRAINT CK_esbk_tbClientLogs_LG_TIME_UTC CHECK (LG_TIME_UTC <= GETDATE());
 END
 BEGIN /* UQ */
 	ALTER TABLE esbk_tbClients ADD CONSTRAINT UQ_esbk_tbClients_CL_LOGIN_NAME UNIQUE (CL_LOGIN_NAME);
