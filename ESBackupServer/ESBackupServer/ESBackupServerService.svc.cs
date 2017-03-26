@@ -11,8 +11,6 @@ namespace ESBackupServer
     public class ESBackupServerService : IESBackupServerService
     {
         #region User authentication
-
-        #endregion
         /// <summary>
         /// Returns session ID
         /// </summary>
@@ -50,7 +48,8 @@ namespace ESBackupServer
 
             return true;
         }
-        
+        #endregion
+
         #region Debugging methods
         public string TestConnection()
         {
