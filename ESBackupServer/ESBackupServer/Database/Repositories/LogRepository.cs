@@ -22,6 +22,7 @@ namespace ESBackupServer.Database.Repositories
         internal override void Add(Log item)
         {
             this._Context.Logs.Add(item);
+            this._Context.SaveChanges();
         }
         internal override Log FindByID(int id)
         {
@@ -30,6 +31,7 @@ namespace ESBackupServer.Database.Repositories
         internal override void Remove(Log item)
         {
             this._Context.Logs.Remove(item);
+            this._Context.SaveChanges();
         }
         internal override void Update(Log item)
         {

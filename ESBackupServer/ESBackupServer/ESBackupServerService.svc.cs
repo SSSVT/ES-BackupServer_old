@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
+using System.ServiceModel.Channels;
 using System.ServiceModel.Web;
 using System.Text;
 
@@ -12,6 +13,12 @@ namespace ESBackupServer
     // NOTE: In order to launch WCF Test Client for testing this service, please select ESBackupServerService.svc or ESBackupServerService.svc.cs at the Solution Explorer and start debugging.
     public class ESBackupServerService : IESBackupServerService
     {
+        public Guid Login(string username, string password)
+        {
+            //TODO: Implement
+            throw new NotImplementedException();
+        }
+
         public string TestConnection()
         {
             return "Connection OK";

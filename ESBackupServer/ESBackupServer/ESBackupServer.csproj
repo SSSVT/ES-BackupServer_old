@@ -72,6 +72,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App\Objects\Net\NetInfoObtainer.cs" />
     <Compile Include="Database\DatabaseContext.cs" />
     <Compile Include="Database\Objects\Backup.cs" />
     <Compile Include="Database\Objects\BackupDetail.cs" />
@@ -98,7 +99,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App\Interfaces\" />
-    <Folder Include="App\Objects\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>

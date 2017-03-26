@@ -22,6 +22,7 @@ namespace ESBackupServer.Database.Repositories
         internal override void Add(SettingType item)
         {
             this._Context.SettingsTypes.Add(item);
+            this._Context.SaveChanges();
         }
         internal override SettingType FindByID(int id)
         {
@@ -30,6 +31,7 @@ namespace ESBackupServer.Database.Repositories
         internal override void Remove(SettingType item)
         {
             this._Context.SettingsTypes.Remove(item);
+            this._Context.SaveChanges();
         }
         internal override void Update(SettingType item)
         {

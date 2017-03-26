@@ -22,6 +22,7 @@ namespace ESBackupServer.Database.Repositories
         internal override void Add(Backup item)
         {
             this._Context.Backups.Add(item);
+            this._Context.SaveChanges();
         }
         internal override Backup FindByID(int id)
         {
@@ -30,6 +31,7 @@ namespace ESBackupServer.Database.Repositories
         internal override void Remove(Backup item)
         {
             this._Context.Backups.Remove(item);
+            this._Context.SaveChanges();
         }
         internal override void Update(Backup item)
         {

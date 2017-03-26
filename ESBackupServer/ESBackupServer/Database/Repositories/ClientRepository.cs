@@ -22,6 +22,7 @@ namespace ESBackupServer.Database.Repositories
         internal override void Add(Client item)
         {
             this._Context.Clients.Add(item);
+            this._Context.SaveChanges();
         }
         internal override Client FindByID(int id)
         {
@@ -30,6 +31,7 @@ namespace ESBackupServer.Database.Repositories
         internal override void Remove(Client item)
         {
             this._Context.Clients.Remove(item);
+            this._Context.SaveChanges();
         }
         internal override void Update(Client item)
         {
@@ -37,5 +39,11 @@ namespace ESBackupServer.Database.Repositories
             throw new NotImplementedException();
         }
         #endregion
+
+        internal bool IsLoginValid(string username, string password)
+        {
+            //TODO: Implement
+            throw new NotImplementedException();
+        }
     }
 }

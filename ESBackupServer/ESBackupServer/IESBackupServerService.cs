@@ -14,5 +14,10 @@ namespace ESBackupServer
     {
         [OperationContract]
         string TestConnection();
+
+        [OperationContract]
+        Guid Login(string username, string password);
+
+
     }
 }

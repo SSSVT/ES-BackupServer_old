@@ -22,6 +22,7 @@ namespace ESBackupServer.Database.Repositories
         internal override void Add(LogType item)
         {
             this._Context.LogTypes.Add(item);
+            this._Context.SaveChanges();
         }
         internal override LogType FindByID(int id)
         {
@@ -30,6 +31,7 @@ namespace ESBackupServer.Database.Repositories
         internal override void Remove(LogType item)
         {
             this._Context.LogTypes.Remove(item);
+            this._Context.SaveChanges();
         }
         internal override void Update(LogType item)
         {

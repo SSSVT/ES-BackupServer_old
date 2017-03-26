@@ -22,6 +22,7 @@ namespace ESBackupServer.Database.Repositories
         internal override void Add(Login item)
         {
             this._Context.Logins.Add(item);
+            this._Context.SaveChanges();
         }
         internal override Login FindByID(int id)
         {
@@ -30,6 +31,7 @@ namespace ESBackupServer.Database.Repositories
         internal override void Remove(Login item)
         {
             this._Context.Logins.Remove(item);
+            this._Context.SaveChanges();
         }
         internal override void Update(Login item)
         {
@@ -37,5 +39,11 @@ namespace ESBackupServer.Database.Repositories
             throw new NotImplementedException();
         }
         #endregion
+
+        public Guid CreateLogin(string username, string password)
+        {
+            //TODO: Implement
+            throw new NotImplementedException();
+        }
     }
 }
