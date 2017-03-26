@@ -19,12 +19,12 @@ namespace ESBackupServer.Database.Repositories
         }
         #endregion
         #region AbRepository
-        internal override void Add(LogType item)
+        protected override void Add(LogType item)
         {
             this._Context.LogTypes.Add(item);
             this._Context.SaveChanges();
         }
-        internal override LogType FindByID(int id)
+        internal override LogType Find(object id)
         {
             return this._Context.LogTypes.Find(id);
         }

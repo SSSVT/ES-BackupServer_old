@@ -21,13 +21,13 @@ namespace ESBackupServer.Database.Objects
         public string Hardware_ID { get; set; }
 
         [Column("CL_LOGIN_NAME")]
-        public string Login_Name { get; set; }
+        public string Username { get; set; }
 
         [Column("CL_LOGIN_PSWD")]
-        public string Login_Password { get; set; }
+        public string Password { get; set; }
 
         [Column("CL_LOGIN_SALT")]
-        public string Login_Salt { get; set; }
+        public string Salt { get; set; }
 
         [Column("CL_LAST_BACKUP")]
         public DateTime? LastBackup { get; set; }

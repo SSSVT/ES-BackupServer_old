@@ -19,12 +19,12 @@ namespace ESBackupServer.Database.Repositories
         }
         #endregion
         #region AbRepository
-        internal override void Add(Log item)
+        protected override void Add(Log item)
         {
             this._Context.Logs.Add(item);
             this._Context.SaveChanges();
         }
-        internal override Log FindByID(int id)
+        internal override Log Find(object id)
         {
             return this._Context.Logs.Find(id);
         }
@@ -39,5 +39,14 @@ namespace ESBackupServer.Database.Repositories
             throw new NotImplementedException();
         }
         #endregion
+
+        internal void Create(Client client, string message, LogTypeNames type)
+        {
+            this.Add(new Log(client, DateTime.UtcNow, message, type));
+        }
+        internal void Create(Client client, Backup backup, string message, LogTypeNames type)
+        {
+            this.Add(new Log(client, backup, DateTime.UtcNow, message, type));
+        }
     }
 }

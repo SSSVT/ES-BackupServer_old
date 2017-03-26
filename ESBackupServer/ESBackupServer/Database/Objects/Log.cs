@@ -7,6 +7,7 @@ namespace ESBackupServer.Database.Objects
     [Table("esbk_tbClientLogs")]
     public class Log
     {
+        #region Entity Framework
         [Key, Column("ID")]
         public Guid ID { get; set; }
 
@@ -20,7 +21,7 @@ namespace ESBackupServer.Database.Objects
         public byte IDLogType { get; set; }
 
         [Column("LG_TIME")]
-        public DateTime Time { get; set; }
+        public DateTime UTCTime { get; set; }
 
         [Column("LG_VALUE")]
         public string Value { get; set; }
@@ -33,5 +34,31 @@ namespace ESBackupServer.Database.Objects
 
         [ForeignKey("IDLogType")]
         public virtual LogType LogType { get; set; }
+        #endregion
+
+        public Log(Client client, DateTime UTCtime, string value, LogTypeNames logtype)
+        {
+            this.IDClient = client.ID;
+
+            switch (logtype)
+            {
+                case LogTypeNames.Error:
+                    this.IDLogType = 0;
+                    break;
+                case LogTypeNames.Warning:
+                    this.IDLogType = 1;
+                    break;
+                case LogTypeNames.Message:
+                    this.IDLogType = 2;
+                    break;
+            }
+
+            this.UTCTime = UTCtime;
+            this.Value = value;
+        }
+        public Log(Client client, Backup backup, DateTime UTCtime, string value, LogTypeNames logtype) : this(client, UTCtime, value, logtype)
+        {
+            this.IDBackup = backup.ID;
+        }
     }
 }

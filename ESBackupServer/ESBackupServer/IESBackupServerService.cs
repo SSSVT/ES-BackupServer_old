@@ -15,9 +15,12 @@ namespace ESBackupServer
         [OperationContract]
         string TestConnection();
 
+        #region User authentication
         [OperationContract]
-        Guid Login(string username, string password);
+        Guid? Login(string username, string password);
 
-
+        [OperationContract]
+        bool Logout(Guid sessionID);
+        #endregion
     }
 }

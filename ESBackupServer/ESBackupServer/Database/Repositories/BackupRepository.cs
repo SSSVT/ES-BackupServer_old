@@ -19,12 +19,12 @@ namespace ESBackupServer.Database.Repositories
         }
         #endregion
         #region AbRepository
-        internal override void Add(Backup item)
+        protected override void Add(Backup item)
         {
             this._Context.Backups.Add(item);
             this._Context.SaveChanges();
         }
-        internal override Backup FindByID(int id)
+        internal override Backup Find(object id)
         {
             return this._Context.Backups.Find(id);
         }

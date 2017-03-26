@@ -32,8 +32,10 @@ CREATE TABLE esbk_tbClientLogins(
 	ID uniqueidentifier not null, -- GUID
 	IDesbk_tbClients int not null, -- int
 
-	LG_TIME datetime not null, -- datetime
+	LG_TIME_UTC datetime not null, -- datetime
 	LG_CLIENT_IP varbinary(128) not null, -- byte[]; IPv4 - 32 bitů, IPv6 - 128 bitů
+
+	LG_ACTIVE bit not null
 ); /* Historie přihlášení klientů */
 
 CREATE TABLE esbk_tbClientSetting(
@@ -86,7 +88,7 @@ CREATE TABLE esbk_tbClientLogs(
 	IDesbk_tbClients int not null, -- musí se vázat ke klientovi
 	IDesbk_tbBackups bigint, -- long? - nemusí se vázat k záloze
 	IDesbk_tbClientLogTypes tinyint not null, -- byte
-	LG_TIME datetime not null, -- datetime
+	LG_TIME_UTC datetime not null, -- datetime
 	LG_VALUE varchar(max) not null -- string
 ); /* Logy */
 CREATE TABLE esbk_tbClientLogTypes(
@@ -115,7 +117,8 @@ BEGIN /* FK */
 	ALTER TABLE esbk_tbClientLogs ADD CONSTRAINT FK_esbk_tbClientLogs_IDesbk_tbClientLogTypes FOREIGN KEY (IDesbk_tbClientLogTypes) REFERENCES esbk_tbClientLogTypes(ID);
 END
 BEGIN /* IX */
-	CREATE INDEX IX_esbk_tbClientLogins_IDesbk_tbClients ON esbk_tbClientLogins(IDesbk_tbClients);
+	CREATE INDEX IX_esbk_tbClientLogins_ID ON esbk_tbClientLogins(ID);
+	CREATE INDEX IX_esbk_tbClientLogins_IDesbk_tbClients_LG_TIME ON esbk_tbClientLogins(IDesbk_tbClients, LG_TIME);
 	CREATE INDEX IX_esbk_tbBackups_IDesbk_tbClients ON esbk_tbBackups(IDesbk_tbClients);
 	CREATE INDEX IX_esbk_tbBackupDetails_IDesbk_tbBackups ON esbk_tbBackupDetails(IDesbk_tbBackups);
 	CREATE INDEX IX_esbk_tbClientSetting_IDesbk_tbClients ON esbk_tbClientSetting(IDesbk_tbClients);
@@ -126,11 +129,11 @@ BEGIN /* IX */
 END
 BEGIN /* DF */
 	ALTER TABLE esbk_tbClients ADD CONSTRAINT DF_esbk_tbClients_CL_VERIFIED DEFAULT (0) FOR CL_VERIFIED;
-	ALTER TABLE esbk_tbClientLogins ADD CONSTRAINT DF_esbk_tbClientLogins_LG_TIME DEFAULT (GETDATE()) FOR LG_TIME;
+	ALTER TABLE esbk_tbClientLogins ADD CONSTRAINT DF_esbk_tbClientLogins_LG_TIME_UTC DEFAULT (GETDATE()) FOR LG_TIME_UTC;
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT DF_esbk_tbBackups_BK_TIME_BEGIN DEFAULT (GETDATE()) FOR BK_TIME_BEGIN;
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT DF_esbk_tbBackups_BK_COMPRESSION DEFAULT (0) FOR BK_COMPRESSION;
 	ALTER TABLE esbk_tbBackupDetails ADD CONSTRAINT DF_esbk_tbBackupDetails_BK_TIME DEFAULT (GETDATE()) FOR BK_TIME;
-	ALTER TABLE esbk_tbClientLogs ADD CONSTRAINT DF_esbk_tbClientLogs_LG_TIME DEFAULT (GETDATE()) FOR LG_TIME;
+	ALTER TABLE esbk_tbClientLogs ADD CONSTRAINT DF_esbk_tbClientLogs_LG_TIME_UTC DEFAULT (GETDATE()) FOR LG_TIME_UTC;
 END
 BEGIN /* CK */
 	ALTER TABLE esbk_tbClients ADD CONSTRAINT CK_esbk_tbClients_CL_LAST_BACKUP CHECK (CL_LAST_BACKUP <= GETDATE());
@@ -144,6 +147,7 @@ BEGIN /* CK */
 	ALTER TABLE esbk_tbClientLogs ADD CONSTRAINT CK_esbk_tbClientLogs_LG_TIME CHECK (LG_TIME <= GETDATE());
 END
 BEGIN /* UQ */
+	ALTER TABLE esbk_tbClients ADD CONSTRAINT UQ_esbk_tbClients_CL_LOGIN_NAME UNIQUE (CL_LOGIN_NAME);
 	ALTER TABLE esbk_tbClientSettingTypes ADD CONSTRAINT UQ_esbk_tbClientSettingTypes_TP_NAME UNIQUE (TP_NAME);
 	ALTER TABLE esbk_tbClientLogTypes ADD CONSTRAINT UQ_esbk_tbClientLogTypes_TP_NAME UNIQUE (TP_NAME);
 END
@@ -171,6 +175,6 @@ BEGIN /* INSERT INTO esbk_tbClientSettingTypes */
 END
 BEGIN /* INSERT INTO esbk_tbClientLogTypes */
 	INSERT INTO esbk_tbClientLogTypes VALUES ('Error'); -- exceptions
-	INSERT INTO esbk_tbClientLogTypes VALUES ('Warning'); -- nevím, ale může se hodit :D
+	INSERT INTO esbk_tbClientLogTypes VALUES ('Warning'); -- Špatné přihlašovací údaje, ...
 	INSERT INTO esbk_tbClientLogTypes VALUES ('Message'); -- finished, email sent, ...
 END

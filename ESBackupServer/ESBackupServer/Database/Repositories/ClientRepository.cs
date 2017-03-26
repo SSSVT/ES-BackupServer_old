@@ -1,5 +1,6 @@
 ﻿using ESBackupServer.Database.Objects;
 using System;
+using System.Linq;
 
 namespace ESBackupServer.Database.Repositories
 {
@@ -19,12 +20,12 @@ namespace ESBackupServer.Database.Repositories
         }
         #endregion
         #region AbRepository
-        internal override void Add(Client item)
+        protected override void Add(Client item)
         {
             this._Context.Clients.Add(item);
             this._Context.SaveChanges();
         }
-        internal override Client FindByID(int id)
+        internal override Client Find(object id)
         {
             return this._Context.Clients.Find(id);
         }
@@ -40,10 +41,14 @@ namespace ESBackupServer.Database.Repositories
         }
         #endregion
 
-        internal bool IsLoginValid(string username, string password)
+        internal bool IsLoginValid(Client client, string password)
         {
-            //TODO: Implement
-            throw new NotImplementedException();
+            //TODO: Osolit heslo
+            return (client.Password == password) ? true : false;
+        }
+        internal Client FindByUsername(string username)
+        {
+            return this._Context.Clients.Where(x => x.Username == username).FirstOrDefault();
         }
     }
 }

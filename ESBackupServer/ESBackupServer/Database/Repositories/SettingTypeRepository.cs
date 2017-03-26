@@ -19,12 +19,12 @@ namespace ESBackupServer.Database.Repositories
         }
         #endregion
         #region AbRepository
-        internal override void Add(SettingType item)
+        protected override void Add(SettingType item)
         {
             this._Context.SettingsTypes.Add(item);
             this._Context.SaveChanges();
         }
-        internal override SettingType FindByID(int id)
+        internal override SettingType Find(object id)
         {
             return this._Context.SettingsTypes.Find(id);
         }

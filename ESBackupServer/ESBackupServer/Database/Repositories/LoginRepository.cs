@@ -1,5 +1,6 @@
 ﻿using ESBackupServer.Database.Objects;
 using System;
+using System.Linq;
 
 namespace ESBackupServer.Database.Repositories
 {
@@ -19,12 +20,12 @@ namespace ESBackupServer.Database.Repositories
         }
         #endregion
         #region AbRepository
-        internal override void Add(Login item)
+        protected override void Add(Login item)
         {
             this._Context.Logins.Add(item);
             this._Context.SaveChanges();
         }
-        internal override Login FindByID(int id)
+        internal override Login Find(object id)
         {
             return this._Context.Logins.Find(id);
         }
@@ -40,10 +41,17 @@ namespace ESBackupServer.Database.Repositories
         }
         #endregion
 
-        public Guid CreateLogin(string username, string password)
+        internal Login Find(Client client, DateTime time, bool active)
         {
-            //TODO: Implement
-            throw new NotImplementedException();
+            return this._Context.Logins.Where(x => x.IDClient == client.ID && x.UTCTime == time && x.Active == active).FirstOrDefault();
+        }
+
+        internal Login Create(Client client)
+        {
+            LoginRepository repo = LoginRepository.GetInstance();
+            DateTime time = DateTime.UtcNow;
+            repo.Add(new Login(client, time));
+            return repo.Find(client, time, true);
         }
     }
 }

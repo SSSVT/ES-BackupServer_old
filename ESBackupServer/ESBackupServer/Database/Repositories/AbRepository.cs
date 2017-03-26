@@ -3,9 +3,13 @@
     internal abstract class AbRepository<T>
     {
         protected DatabaseContext _Context { get; set; } = DatabaseContext.GetInstance();
+        internal virtual void SaveChanges()
+        {
+            this._Context.SaveChanges();
+        }
 
-        internal abstract T FindByID(int id);
-        internal abstract void Add(T item);
+        internal abstract T Find(object id);
+        protected abstract void Add(T item);
         internal abstract void Remove(T item);
         internal abstract void Update(T item);
     }
