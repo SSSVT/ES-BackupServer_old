@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ESBackupServer.App.Objects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -21,6 +22,11 @@ namespace ESBackupServer
 
         [OperationContract]
         bool Logout(Guid sessionID);
+        #endregion
+
+        #region Backup
+        [OperationContract]
+        Configuration GetConfiguration(Guid sessionID);
         #endregion
     }
 }

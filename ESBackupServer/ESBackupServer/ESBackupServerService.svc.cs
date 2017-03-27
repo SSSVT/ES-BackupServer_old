@@ -2,6 +2,8 @@
 using ESBackupServer.Database.Objects;
 using ESBackupServer.Database.Repositories;
 using System;
+using ESBackupServer.App.Objects;
+using System.Net;
 
 namespace ESBackupServer
 {
@@ -49,8 +51,17 @@ namespace ESBackupServer
         }
         #endregion
 
-        #region Setting communication
+        #region Backup
+        public Configuration GetConfiguration(Guid sessionID)
+        {
+            Login login = LoginRepository.GetInstance().Find(sessionID);
 
+            if (login.Active && new IPAddress(login.IP) == new NetInfoObtainer().GetClientIP())
+            {
+                return new ConfigurationFactory().Create(login.Client);
+            }
+            return null;            
+        }
         #endregion
 
         #region Debugging methods

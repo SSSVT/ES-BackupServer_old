@@ -11,6 +11,5 @@ namespace ESBackupServer.App.Objects.Config
     {
         public string Source { get; set; }
         public string Destination { get; set; }
-
     }
 }

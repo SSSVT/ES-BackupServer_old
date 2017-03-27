@@ -73,8 +73,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App\Components\Net\NetInfoObtainer.cs" />
+    <Compile Include="App\Objects\ConfigurationFactory.cs" />
     <Compile Include="App\Objects\Config\BackupSetting.cs" />
     <Compile Include="App\Objects\Configuration.cs" />
+    <Compile Include="App\Objects\Config\TimeSetting.cs" />
     <Compile Include="Database\DatabaseContext.cs" />
     <Compile Include="Database\Objects\Backup.cs" />
     <Compile Include="Database\Objects\BackupDetail.cs" />
