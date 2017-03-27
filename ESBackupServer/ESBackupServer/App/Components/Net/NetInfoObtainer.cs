@@ -6,7 +6,7 @@ using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.Web;
 
-namespace ESBackupServer.App.Objects.Net
+namespace ESBackupServer.App.Objects.Components.Net
 {
     internal class NetInfoObtainer
     {

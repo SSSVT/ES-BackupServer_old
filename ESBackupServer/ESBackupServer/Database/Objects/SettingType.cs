@@ -18,7 +18,7 @@ namespace ESBackupServer.Database.Objects
 
     public enum SettingTypeNames
     {
-        Ingore,
+        Ignore = 1,
         Only,
         PathSource,
         PathDestination,

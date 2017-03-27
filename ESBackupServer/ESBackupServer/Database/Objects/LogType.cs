@@ -18,7 +18,7 @@ namespace ESBackupServer.Database.Objects
 
     public enum LogTypeNames
     {
-        Error,
+        Error = 1,
         Warning,
         Message
     }

@@ -43,13 +43,13 @@ namespace ESBackupServer.Database.Objects
             switch (logtype)
             {
                 case LogTypeNames.Error:
-                    this.IDLogType = 0;
-                    break;
-                case LogTypeNames.Warning:
                     this.IDLogType = 1;
                     break;
-                case LogTypeNames.Message:
+                case LogTypeNames.Warning:
                     this.IDLogType = 2;
+                    break;
+                case LogTypeNames.Message:
+                    this.IDLogType = 3;
                     break;
             }
 

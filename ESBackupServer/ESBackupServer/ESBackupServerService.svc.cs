@@ -1,5 +1,4 @@
-﻿using ESBackupServer.App.Objects;
-using ESBackupServer.App.Objects.Net;
+﻿using ESBackupServer.App.Objects.Components.Net;
 using ESBackupServer.Database.Objects;
 using ESBackupServer.Database.Repositories;
 using System;
@@ -34,7 +33,7 @@ namespace ESBackupServer
                 //IP, UTC Time
                 LogRepository.GetInstance().Create(client, $"Invalid login: IP={ new NetInfoObtainer().GetClientIP().ToString() };UTCTime={ DateTime.UtcNow }", LogTypeNames.Warning);
                 return null;
-            } 
+            }
         }
         public bool Logout(Guid sessionID)
         {
@@ -48,6 +47,10 @@ namespace ESBackupServer
 
             return true;
         }
+        #endregion
+
+        #region Setting communication
+
         #endregion
 
         #region Debugging methods
