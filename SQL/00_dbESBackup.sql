@@ -107,14 +107,14 @@ BEGIN /* PK */
 	ALTER TABLE esbk_tbClientLogTypes ADD CONSTRAINT PK_esbk_tbClientLogTypes_ID PRIMARY KEY (ID);
 END
 BEGIN /* FK */
-	ALTER TABLE esbk_tbClientLogins ADD CONSTRAINT FK_esbk_tbClientLogins_IDesbk_tbClients FOREIGN KEY (IDesbk_tbClients) REFERENCES esbk_tbClients(ID);
-	ALTER TABLE esbk_tbBackups ADD CONSTRAINT FK_esbk_tbBackups_IDesbk_tbClients FOREIGN KEY (IDesbk_tbClients) REFERENCES esbk_tbClients(ID);
-	ALTER TABLE esbk_tbBackupDetails ADD CONSTRAINT FK_esbk_tbBackupDetails_IDesbk_tbBackups FOREIGN KEY (IDesbk_tbBackups) REFERENCES esbk_tbBackups(ID);
-	ALTER TABLE esbk_tbClientSetting ADD CONSTRAINT FK_esbk_tbClientSetting_IDesbk_tbClients FOREIGN KEY (IDesbk_tbClients) REFERENCES esbk_tbClients(ID);
-	ALTER TABLE esbk_tbClientSetting ADD CONSTRAINT FK_esbk_tbClientSetting_IDesbk_tbClientSettingTypes FOREIGN KEY (IDesbk_tbClientSettingTypes) REFERENCES esbk_tbClientSettingTypes(ID);
+	ALTER TABLE esbk_tbClientLogins ADD CONSTRAINT FK_esbk_tbClientLogins_IDesbk_tbClients FOREIGN KEY (IDesbk_tbClients) REFERENCES esbk_tbClients(ID) ON UPDATE CASCADE ON DELETE CASCADE;
+	ALTER TABLE esbk_tbBackups ADD CONSTRAINT FK_esbk_tbBackups_IDesbk_tbClients FOREIGN KEY (IDesbk_tbClients) REFERENCES esbk_tbClients(ID) ON UPDATE CASCADE ON DELETE CASCADE;
+	ALTER TABLE esbk_tbBackupDetails ADD CONSTRAINT FK_esbk_tbBackupDetails_IDesbk_tbBackups FOREIGN KEY (IDesbk_tbBackups) REFERENCES esbk_tbBackups(ID) ON UPDATE CASCADE ON DELETE CASCADE;
+	ALTER TABLE esbk_tbClientSetting ADD CONSTRAINT FK_esbk_tbClientSetting_IDesbk_tbClients FOREIGN KEY (IDesbk_tbClients) REFERENCES esbk_tbClients(ID) ON UPDATE CASCADE ON DELETE CASCADE;
+	ALTER TABLE esbk_tbClientSetting ADD CONSTRAINT FK_esbk_tbClientSetting_IDesbk_tbClientSettingTypes FOREIGN KEY (IDesbk_tbClientSettingTypes) REFERENCES esbk_tbClientSettingTypes(ID) ON UPDATE CASCADE ON DELETE CASCADE;
 	ALTER TABLE esbk_tbClientLogs ADD CONSTRAINT FK_esbk_tbClientLogs_IDesbk_tbClients FOREIGN KEY (IDesbk_tbClients) REFERENCES esbk_tbClients(ID);
-	ALTER TABLE esbk_tbClientLogs ADD CONSTRAINT FK_esbk_tbClientLogs_IDesbk_tbBackups FOREIGN KEY (IDesbk_tbBackups) REFERENCES esbk_tbBackups(ID);
-	ALTER TABLE esbk_tbClientLogs ADD CONSTRAINT FK_esbk_tbClientLogs_IDesbk_tbClientLogTypes FOREIGN KEY (IDesbk_tbClientLogTypes) REFERENCES esbk_tbClientLogTypes(ID);
+	ALTER TABLE esbk_tbClientLogs ADD CONSTRAINT FK_esbk_tbClientLogs_IDesbk_tbBackups FOREIGN KEY (IDesbk_tbBackups) REFERENCES esbk_tbBackups(ID) ON UPDATE CASCADE ON DELETE CASCADE;
+	ALTER TABLE esbk_tbClientLogs ADD CONSTRAINT FK_esbk_tbClientLogs_IDesbk_tbClientLogTypes FOREIGN KEY (IDesbk_tbClientLogTypes) REFERENCES esbk_tbClientLogTypes(ID) ON UPDATE CASCADE ON DELETE CASCADE;
 END
 BEGIN /* IX */
 	CREATE INDEX IX_esbk_tbClientLogins_ID ON esbk_tbClientLogins(ID);
