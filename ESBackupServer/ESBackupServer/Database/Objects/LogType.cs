@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ESBackupServer.Database.Objects
 {
-    [Table("esbk_tbClientLogTypes")]
+    [Table("esbk_tbLogTypes")]
     public class LogType
     {
         [Key, Column("ID")]
