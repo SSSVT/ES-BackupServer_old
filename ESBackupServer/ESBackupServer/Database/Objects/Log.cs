@@ -1,10 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace ESBackupServer.Database.Objects
 {
-    [Table("esbk_tbLogs")]
+    [Table("esbk_tbLogs"), DataContract]
     public class Log
     {
         #region Entity Framework

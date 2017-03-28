@@ -6,9 +6,9 @@ using System.Web;
 
 namespace ESBackupServer.App.Objects
 {
-    public class ConfigurationFactory
+    internal class ConfigurationFactory
     {
-        public Configuration Create(Client client)
+        internal Configuration Create(Client client)
         {
             Configuration config = new Configuration();
 

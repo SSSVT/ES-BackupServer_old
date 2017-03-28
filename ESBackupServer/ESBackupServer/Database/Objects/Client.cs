@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace ESBackupServer.Database.Objects
 {
-    [Table("esbk_tbClients")]
+    [Table("esbk_tbClients"), DataContract]
     public class Client
     {
         [Key, Column("ID")]
