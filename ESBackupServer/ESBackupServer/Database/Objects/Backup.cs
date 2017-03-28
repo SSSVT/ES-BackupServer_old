@@ -37,6 +37,9 @@ namespace ESBackupServer.Database.Objects
         #region Virtual properties
         [ForeignKey("IDClient"), DataMember]
         public virtual Client Client { get; set; }
+
+        [DataMember]
+        public virtual List<Log> Logs { get; set; }
         #endregion
         #endregion
     }

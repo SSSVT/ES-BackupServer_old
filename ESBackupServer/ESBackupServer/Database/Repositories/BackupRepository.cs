@@ -1,5 +1,7 @@
 ﻿using ESBackupServer.Database.Objects;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ESBackupServer.Database.Repositories
 {
@@ -27,6 +29,10 @@ namespace ESBackupServer.Database.Repositories
         internal override Backup Find(object id)
         {
             return this._Context.Backups.Find(id);
+        }
+        internal override List<Backup> FindAll()
+        {
+            return this._Context.Backups.ToList();
         }
         internal override void Remove(Backup item)
         {

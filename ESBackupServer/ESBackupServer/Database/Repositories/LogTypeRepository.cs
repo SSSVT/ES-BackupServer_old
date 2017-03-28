@@ -1,5 +1,7 @@
 ﻿using ESBackupServer.Database.Objects;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ESBackupServer.Database.Repositories
 {
@@ -27,6 +29,10 @@ namespace ESBackupServer.Database.Repositories
         internal override LogType Find(object id)
         {
             return this._Context.LogTypes.Find(id);
+        }
+        internal override List<LogType> FindAll()
+        {
+            return this._Context.LogTypes.ToList();
         }
         internal override void Remove(LogType item)
         {

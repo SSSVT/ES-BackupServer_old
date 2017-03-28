@@ -22,8 +22,8 @@ namespace ESBackupServer
         [OperationContract]
         List<Log> GetLogs(Client client);
 
-        [OperationContract]
-        List<Log> GetLogs(Backup backup);
+        //[OperationContract]
+        //List<Log> GetLogs(Backup backup);
 
         [OperationContract]
         Configuration GetConfiguration(Client client);

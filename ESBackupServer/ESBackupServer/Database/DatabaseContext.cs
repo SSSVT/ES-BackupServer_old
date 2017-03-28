@@ -24,7 +24,6 @@ namespace ESBackupServer.Database
         public DbSet<Log> Logs { get; set; }
         public DbSet<Login> Logins { get; set; }
         public DbSet<LogType> LogTypes { get; set; }
-        public DbSet<Setting> Settings { get; set; }
         public DbSet<SettingType> SettingsTypes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

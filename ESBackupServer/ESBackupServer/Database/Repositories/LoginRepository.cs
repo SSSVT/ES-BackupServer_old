@@ -1,5 +1,6 @@
 ﻿using ESBackupServer.Database.Objects;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ESBackupServer.Database.Repositories
@@ -28,6 +29,10 @@ namespace ESBackupServer.Database.Repositories
         internal override Login Find(object id)
         {
             return this._Context.Logins.Find(id);
+        }
+        internal override List<Login> FindAll()
+        {
+            return this._Context.Logins.ToList();
         }
         internal override void Remove(Login item)
         {

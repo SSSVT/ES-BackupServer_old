@@ -1,4 +1,6 @@
-﻿namespace ESBackupServer.Database.Repositories
+﻿using System.Collections.Generic;
+
+namespace ESBackupServer.Database.Repositories
 {
     internal abstract class AbRepository<T>
     {
@@ -9,6 +11,7 @@
         }
 
         internal abstract T Find(object id);
+        internal abstract List<T> FindAll();
         protected abstract void Add(T item);
         internal abstract void Remove(T item);
         internal abstract void Update(T item);

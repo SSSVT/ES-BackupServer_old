@@ -13,7 +13,8 @@ namespace ESBackupServer.Database.Objects
         [Column("TP_NAME")]
         public SettingTypeNames Name { get; set; }
 
-        public virtual List<Setting> Settings { get; set; }
+        //TODO: Remap
+        //public virtual List<Setting> Settings { get; set; }
     }
 
     public enum SettingTypeNames

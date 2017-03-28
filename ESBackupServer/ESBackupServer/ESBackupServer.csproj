@@ -80,11 +80,12 @@
     <Compile Include="App\Objects\Config\TimeSetting.cs" />
     <Compile Include="Database\DatabaseContext.cs" />
     <Compile Include="Database\Objects\Backup.cs" />
+    <Compile Include="Database\Objects\BackupTemplate.cs" />
+    <Compile Include="Database\Objects\BackupTemplateSetting.cs" />
     <Compile Include="Database\Objects\Client.cs" />
     <Compile Include="Database\Objects\Log.cs" />
     <Compile Include="Database\Objects\Login.cs" />
     <Compile Include="Database\Objects\LogType.cs" />
-    <Compile Include="Database\Objects\Setting.cs" />
     <Compile Include="Database\Objects\SettingType.cs" />
     <Compile Include="Database\Repositories\AbRepository.cs" />
     <Compile Include="Database\Repositories\BackupRepository.cs" />
@@ -93,7 +94,6 @@
     <Compile Include="Database\Repositories\LogRepository.cs" />
     <Compile Include="Database\Repositories\LogTypeRepository.cs" />
     <Compile Include="Database\Repositories\SettingTypeRepository.cs" />
-    <Compile Include="Database\Repositories\SettingRepository.cs" />
     <Compile Include="ESBackupServerAdminService.svc.cs">
       <DependentUpon>ESBackupServerAdminService.svc</DependentUpon>
     </Compile>

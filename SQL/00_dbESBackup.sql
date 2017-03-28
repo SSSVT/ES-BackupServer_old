@@ -24,14 +24,9 @@ CREATE TABLE esbk_tbClients(
 	CL_LOGIN_PSWD varchar(2048) not null, -- password
 	CL_LOGIN_SALT varchar(512) not null, -- salt
 
-	-- info o backupech (kvůli selectům a nastavení) - 
-	CL_LAST_BACKUP datetime, -- nemusel ještě proběhnout žádný
-
+	-- info o backupech
 	IDesbk_tbBackups_LAST_FULL bigint, -- new, long?
 	IDesbk_tbBackups_LAST_DIFF bigint, -- new, long?
-
-	--CL_BACKUP_AUTOREPEAT_TIME bigint, -- časová prodleva mezi backupy (v minutách)
-	--CL_BACKUP_ATTEMPTS int not null,
 	
 	CL_VERIFIED bit not null -- bool, autorizován
 ); /* Tabulka serverů (klientů), kteří se zálohují */
@@ -40,6 +35,7 @@ CREATE TABLE esbk_tbLogins(
 	IDesbk_tbClients int not null, -- int
 
 	LG_TIME_UTC datetime not null, -- datetime
+	LG_TIME_EXPIRATION datetime not null, -- datetime
 	LG_CLIENT_IP varbinary(128) not null, -- byte[]; IPv4 - 32 bitů, IPv6 - 128 bitů
 
 	LG_ACTIVE bit not null
@@ -52,15 +48,14 @@ CREATE TABLE esbk_tbBackupTemplates(
 	BK_NAME varchar(128), -- string
 	BK_DESCRIPTION varchar(512), -- string
 
-	BK_TYPE bit not null, -- 0 = full, 1 = differencial
+	BK_TYPE bit not null, -- 0 = full, 1 = differential
 
 	BK_EXPIRATION_DAYS int, -- int?
 	BK_COMPRESSION bit not null, -- 0 = do not compress; 1 = compress
 );
-/* CLIENT --> TEMPLATE */
 CREATE TABLE esbk_tbBackupTemplatesSetting(
 	ID uniqueidentifier not null, -- GUID
-	IDesbk_tbClients int not null, -- int
+	IDesbk_tbBackupTemplates bigint not null, -- int
 	IDesbk_tbBackupTemplatesSettingTypes int not null, -- int
 
 	-- DISABLED/TIME/BEFORE/AFTER BACKUP
@@ -92,8 +87,7 @@ CREATE TABLE esbk_tbBackups(
 	BK_EXPIRATION datetime, -- datetime?
 	BK_COMPRESSION bit not null, -- 0 = do not compress; 1 = compress
 
-	--BK_STATUS
-
+	BK_STATUS tinyint not null -- Competed, Failed
 ); /* Historie provedených záloh */
 
 CREATE TABLE esbk_tbLogs(
@@ -163,9 +157,6 @@ END
 BEGIN /* INSERT INTO esbk_tbBackupTemplatesSettingTypes */
 	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('Ignore'); -- ignorovat cestu, soubory, ...
 	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('Only'); -- pouze cestu, soubory, ...
-	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('PathSource'); -- cesta zdroj
-	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('PathDestination'); -- cesta cíl
-	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('Compression'); -- komprese zálohy (.zip)
 
 	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('Start'); -- Start backup
 	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('Resume'); -- Resume backup
@@ -178,7 +169,7 @@ BEGIN /* INSERT INTO esbk_tbBackupTemplatesSettingTypes */
 	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('Hibernate');
 	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('Lock');
 
-	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('Email');
+	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('Email'); -- send email
 	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('Notification'); -- notifikace na obrazovce
 END
 BEGIN /* INSERT INTO esbk_tbLogTypes */

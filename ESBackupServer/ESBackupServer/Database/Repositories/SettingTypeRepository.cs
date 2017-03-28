@@ -1,5 +1,7 @@
 ﻿using ESBackupServer.Database.Objects;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ESBackupServer.Database.Repositories
 {
@@ -27,6 +29,10 @@ namespace ESBackupServer.Database.Repositories
         internal override SettingType Find(object id)
         {
             return this._Context.SettingsTypes.Find(id);
+        }
+        internal override List<SettingType> FindAll()
+        {
+            return this._Context.SettingsTypes.ToList();
         }
         internal override void Remove(SettingType item)
         {

@@ -1,5 +1,6 @@
 ﻿using ESBackupServer.Database.Objects;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ESBackupServer.Database.Repositories
@@ -29,6 +30,10 @@ namespace ESBackupServer.Database.Repositories
         {
             return this._Context.Clients.Find(id);
         }
+        internal override List<Client> FindAll()
+        {
+            return this._Context.Clients.ToList();
+        }
         internal override void Remove(Client item)
         {
             this._Context.Clients.Remove(item);
@@ -50,5 +55,7 @@ namespace ESBackupServer.Database.Repositories
         {
             return this._Context.Clients.Where(x => x.Username == username).FirstOrDefault();
         }
+
+        
     }
 }
