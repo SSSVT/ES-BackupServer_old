@@ -9,6 +9,7 @@ namespace ESBackupServer.Database.Objects
     [Table("esbk_tbBackups"), DataContract]
     public class Backup
     {
+        #region Entity Framework
         [Key, Column("ID"), DataMember]
         public long ID { get; set; }
 
@@ -33,7 +34,10 @@ namespace ESBackupServer.Database.Objects
         [Column("BK_COMPRESSION"), DataMember]
         public bool Compressed { get; set; }
 
+        #region Virtual properties
         [ForeignKey("IDClient"), DataMember]
         public virtual Client Client { get; set; }
+        #endregion
+        #endregion
     }
 }

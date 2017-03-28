@@ -20,9 +20,6 @@ namespace ESBackupServer.Database.Objects
     {
         Ignore = 1,
         Only,
-        PathSource,
-        PathDestination,
-        Compression,
 
         Start,
         Resume,

@@ -25,13 +25,16 @@ namespace ESBackupServer.Database.Objects
         [Column("CL_LOGIN_NAME"), DataMember]
         public string Username { get; set; }
 
-        [Column("CL_LAST_BACKUP"), DataMember]
-        public DateTime? LastBackup { get; set; }
+        [Column("IDesbk_tbBackups_LAST_FULL"), DataMember]
+        public long? IDLastFullBackup { get; set; }
+
+        [Column("IDesbk_tbBackups_LAST_DIFF"), DataMember]
+        public long? IDLastDifferentialBackup { get; set; }
 
         [Column("CL_VERIFIED"), DataMember]
         public bool Verified { get; set; }
         #endregion
-
+        #region Not data member
         [Column("CL_HWID")]
         public string Hardware_ID { get; set; }
 
@@ -40,8 +43,14 @@ namespace ESBackupServer.Database.Objects
 
         [Column("CL_LOGIN_SALT")]
         public string Salt { get; set; }
+        #endregion
+        #region Virtual properties
+        [ForeignKey("IDLastFullBackup"), DataMember]
+        public virtual Backup LastFullBackup { get; set; }
 
-        #region Collections
+        [ForeignKey("IDLastDifferentialBackup"), DataMember]
+        public virtual Backup LastDifferentialBackup { get; set; }
+        #region Lists
         [DataMember]
         public virtual List<Backup> Backups { get; set; }
         [DataMember]
@@ -49,6 +58,28 @@ namespace ESBackupServer.Database.Objects
         [DataMember]
         public virtual List<Login> Logins { get; set; }
         #endregion
+        #endregion
+        #endregion
+
+        #region Methods
+        public override string ToString()
+        {
+            return this.Name;
+        }
+        #endregion
+
+        #region Getters
+        public DateTime? LastBackupTime
+        {
+            get
+            {
+                if (this.LastFullBackup == null)
+                    return null;
+                else if (this.LastDifferentialBackup != null)
+                    return this.LastDifferentialBackup.TimeEnd;
+                return this.LastFullBackup.TimeEnd;
+            }
+        }
         #endregion
     }
 }

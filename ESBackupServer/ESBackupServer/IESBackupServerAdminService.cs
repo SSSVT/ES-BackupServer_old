@@ -1,4 +1,5 @@
-﻿using ESBackupServer.Database.Objects;
+﻿using ESBackupServer.App.Objects;
+using ESBackupServer.Database.Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,5 +24,11 @@ namespace ESBackupServer
 
         [OperationContract]
         List<Log> GetLogs(Backup backup);
+
+        [OperationContract]
+        Configuration GetConfiguration(Client client);
+
+        [OperationContract]
+        bool SaveConfiguration(Client client, Configuration config);
     }
 }
