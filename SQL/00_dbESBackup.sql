@@ -44,9 +44,9 @@ CREATE TABLE esbk_tbClientSetting(
 	IDesbk_tbClientSettingTypes int not null, -- int
 
 	-- DISABLED/TIME/BEFORE/AFTER BACKUP
-	-- 0 = event (before/after);
-	-- 1 = time
 	-- null != event || time
+	-- 0 = event (before/after);
+	-- 1 = time	
 	ST_ACTION_TYPE bit, -- bool?
 	ST_EVENT bit, -- 0 = before backup, 1 = after backup
 	ST_TIME datetime, -- datetime?
@@ -69,19 +69,11 @@ CREATE TABLE esbk_tbBackups(
 	BK_TIME_END datetime, -- datetime?, null - updatem
 
 	BK_EXPIRATION datetime, -- datetime?
-	BK_COMPRESSION bit not null -- 0 = do not compress; 1 = compress
-); /* Historie provedených záloh */
-CREATE TABLE esbk_tbBackupDetails(
-	ID uniqueidentifier not null, -- GUID
-	IDesbk_tbBackups bigint not null, -- long
-	BK_PATH_SOURCE varchar(max), -- string
-	BK_PATH_DESTINATION varchar(max), -- string
+	BK_COMPRESSION bit not null, -- 0 = do not compress; 1 = compress
 
-	-- k ověření
-	BK_TIME datetime not null, -- datetime, čas provedení zálohy
-	BK_LAST_CHANGE datetime not null, -- datetime - získání ze souboru
-	BK_HASH varchar(4096), -- string
-); /* Info o jednotlivých zálohách (tbRozpisObjednávek) */
+	--BK_STATUS
+
+); /* Historie provedených záloh */
 
 CREATE TABLE esbk_tbClientLogs(
 	ID uniqueidentifier not null, -- GUID
@@ -100,7 +92,6 @@ BEGIN /* PK */
 	ALTER TABLE esbk_tbClients ADD CONSTRAINT PK_esbk_tbClients_ID PRIMARY KEY (ID);
 	ALTER TABLE esbk_tbClientLogins ADD CONSTRAINT PK_esbk_tbClientLogins_ID PRIMARY KEY NONCLUSTERED (ID);
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT PK_esbk_tbBackups_ID PRIMARY KEY (ID);
-	ALTER TABLE esbk_tbBackupDetails ADD CONSTRAINT PK_esbk_tbBackupDetails_ID PRIMARY KEY NONCLUSTERED (ID);
 	ALTER TABLE esbk_tbClientSetting ADD CONSTRAINT PK_esbk_tbClientSetting_ID PRIMARY KEY NONCLUSTERED (ID);
 	ALTER TABLE esbk_tbClientSettingTypes ADD CONSTRAINT PK_esbk_tbClientSettingTypes_ID PRIMARY KEY (ID);
 	ALTER TABLE esbk_tbClientLogs ADD CONSTRAINT PK_esbk_tbClientLogs_ID PRIMARY KEY NONCLUSTERED (ID);
@@ -109,7 +100,6 @@ END
 BEGIN /* FK */
 	ALTER TABLE esbk_tbClientLogins ADD CONSTRAINT FK_esbk_tbClientLogins_IDesbk_tbClients FOREIGN KEY (IDesbk_tbClients) REFERENCES esbk_tbClients(ID) ON UPDATE CASCADE ON DELETE CASCADE;
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT FK_esbk_tbBackups_IDesbk_tbClients FOREIGN KEY (IDesbk_tbClients) REFERENCES esbk_tbClients(ID) ON UPDATE CASCADE ON DELETE CASCADE;
-	ALTER TABLE esbk_tbBackupDetails ADD CONSTRAINT FK_esbk_tbBackupDetails_IDesbk_tbBackups FOREIGN KEY (IDesbk_tbBackups) REFERENCES esbk_tbBackups(ID) ON UPDATE CASCADE ON DELETE CASCADE;
 	ALTER TABLE esbk_tbClientSetting ADD CONSTRAINT FK_esbk_tbClientSetting_IDesbk_tbClients FOREIGN KEY (IDesbk_tbClients) REFERENCES esbk_tbClients(ID) ON UPDATE CASCADE ON DELETE CASCADE;
 	ALTER TABLE esbk_tbClientSetting ADD CONSTRAINT FK_esbk_tbClientSetting_IDesbk_tbClientSettingTypes FOREIGN KEY (IDesbk_tbClientSettingTypes) REFERENCES esbk_tbClientSettingTypes(ID) ON UPDATE CASCADE ON DELETE CASCADE;
 	ALTER TABLE esbk_tbClientLogs ADD CONSTRAINT FK_esbk_tbClientLogs_IDesbk_tbClients FOREIGN KEY (IDesbk_tbClients) REFERENCES esbk_tbClients(ID);
@@ -120,7 +110,6 @@ BEGIN /* IX */
 	CREATE INDEX IX_esbk_tbClientLogins_ID ON esbk_tbClientLogins(ID);
 	CREATE INDEX IX_esbk_tbClientLogins_IDesbk_tbClients_LG_TIME_UTC ON esbk_tbClientLogins(IDesbk_tbClients, LG_TIME_UTC);
 	CREATE INDEX IX_esbk_tbBackups_IDesbk_tbClients ON esbk_tbBackups(IDesbk_tbClients);
-	CREATE INDEX IX_esbk_tbBackupDetails_IDesbk_tbBackups ON esbk_tbBackupDetails(IDesbk_tbBackups);
 	CREATE INDEX IX_esbk_tbClientSetting_IDesbk_tbClients ON esbk_tbClientSetting(IDesbk_tbClients);
 	CREATE INDEX IX_esbk_tbClientSetting_IDesbk_tbClientSettingTypes ON esbk_tbClientSetting(IDesbk_tbClientSettingTypes);
 	CREATE INDEX IX_esbk_tbClientLogs_IDesbk_tbClients ON esbk_tbClientLogs(IDesbk_tbClients);
@@ -132,7 +121,6 @@ BEGIN /* DF */
 	ALTER TABLE esbk_tbClientLogins ADD CONSTRAINT DF_esbk_tbClientLogins_LG_TIME_UTC DEFAULT (GETDATE()) FOR LG_TIME_UTC;
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT DF_esbk_tbBackups_BK_TIME_BEGIN DEFAULT (GETDATE()) FOR BK_TIME_BEGIN;
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT DF_esbk_tbBackups_BK_COMPRESSION DEFAULT (0) FOR BK_COMPRESSION;
-	ALTER TABLE esbk_tbBackupDetails ADD CONSTRAINT DF_esbk_tbBackupDetails_BK_TIME DEFAULT (GETDATE()) FOR BK_TIME;
 	ALTER TABLE esbk_tbClientLogs ADD CONSTRAINT DF_esbk_tbClientLogs_LG_TIME_UTC DEFAULT (GETDATE()) FOR LG_TIME_UTC;
 END
 BEGIN /* CK */
@@ -142,8 +130,6 @@ BEGIN /* CK */
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT CK_esbk_tbBackups_BK_TIME_BEGIN CHECK (BK_TIME_BEGIN <= GETDATE());
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT CK_esbk_tbBackups_BK_TIME_END CHECK (BK_TIME_BEGIN <= BK_TIME_END AND BK_TIME_END <= GETDATE());
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT CK_esbk_tbBackups_BK_EXPIRATION CHECK (BK_EXPIRATION >= GETDATE());
-	ALTER TABLE esbk_tbBackupDetails ADD CONSTRAINT CK_esbk_tbBackupDetails_BK_TIME CHECK (BK_TIME <= GETDATE());
-	ALTER TABLE esbk_tbBackupDetails ADD CONSTRAINT CK_esbk_tbBackupDetails_BK_LAST_CHANGE CHECK (BK_LAST_CHANGE <= GETDATE());
 	ALTER TABLE esbk_tbClientLogs ADD CONSTRAINT CK_esbk_tbClientLogs_LG_TIME_UTC CHECK (LG_TIME_UTC <= GETDATE());
 END
 BEGIN /* UQ */
