@@ -20,7 +20,6 @@ namespace ESBackupServer.Database
         #endregion
 
         public DbSet<Backup> Backups { get; set; }
-        public DbSet<BackupDetail> BackupsDetails { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Log> Logs { get; set; }
         public DbSet<Login> Logins { get; set; }

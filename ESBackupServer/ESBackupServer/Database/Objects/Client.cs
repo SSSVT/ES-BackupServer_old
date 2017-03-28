@@ -9,20 +9,31 @@ namespace ESBackupServer.Database.Objects
     [Table("esbk_tbClients"), DataContract]
     public class Client
     {
-        [Key, Column("ID")]
+        //TODO: Add list of backup templates
+
+        #region Entity Framework
+        #region Data members
+        [Key, Column("ID"), DataMember]
         public int ID { get; set; }
 
-        [Column("CL_NAME")]
+        [Column("CL_NAME"), DataMember]
         public string Name { get; set; }
 
-        [Column("CL_DESCRIPTION")]
+        [Column("CL_DESCRIPTION"), DataMember]
         public string Description { get; set; }
+
+        [Column("CL_LOGIN_NAME"), DataMember]
+        public string Username { get; set; }
+
+        [Column("CL_LAST_BACKUP"), DataMember]
+        public DateTime? LastBackup { get; set; }
+
+        [Column("CL_VERIFIED"), DataMember]
+        public bool Verified { get; set; }
+        #endregion
 
         [Column("CL_HWID")]
         public string Hardware_ID { get; set; }
-
-        [Column("CL_LOGIN_NAME")]
-        public string Username { get; set; }
 
         [Column("CL_LOGIN_PSWD")]
         public string Password { get; set; }
@@ -30,15 +41,14 @@ namespace ESBackupServer.Database.Objects
         [Column("CL_LOGIN_SALT")]
         public string Salt { get; set; }
 
-        [Column("CL_LAST_BACKUP")]
-        public DateTime? LastBackup { get; set; }
-
-        [Column("CL_VERIFIED")]
-        public bool Verified { get; set; }
-
+        #region Collections
+        [DataMember]
         public virtual List<Backup> Backups { get; set; }
+        [DataMember]
         public virtual List<Log> Logs { get; set; }
+        [DataMember]
         public virtual List<Login> Logins { get; set; }
-        public virtual List<Setting> Settings { get; set; }
+        #endregion
+        #endregion
     }
 }

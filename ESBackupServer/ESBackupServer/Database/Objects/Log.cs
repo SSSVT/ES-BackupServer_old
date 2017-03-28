@@ -9,31 +9,31 @@ namespace ESBackupServer.Database.Objects
     public class Log
     {
         #region Entity Framework
-        [Key, Column("ID")]
+        [Key, Column("ID"), DataMember]
         public Guid ID { get; set; }
 
-        [Column("IDesbk_tbClients")]
+        [Column("IDesbk_tbClients"), DataMember]
         public int IDClient { get; set; }
 
-        [Column("IDesbk_tbBackups")]
+        [Column("IDesbk_tbBackups"), DataMember]
         public long? IDBackup { get; set; }
 
-        [Column("IDesbk_tbClientLogTypes")]
+        [Column("IDesbk_tbClientLogTypes"), DataMember]
         public byte IDLogType { get; set; }
 
-        [Column("LG_TIME")]
+        [Column("LG_TIME"), DataMember]
         public DateTime UTCTime { get; set; }
 
-        [Column("LG_VALUE")]
+        [Column("LG_VALUE"), DataMember]
         public string Value { get; set; }
 
-        [ForeignKey("IDClient")]
+        [ForeignKey("IDClient"), DataMember]
         public virtual Client Client { get; set; }
 
-        [ForeignKey("IDBackup")]
+        [ForeignKey("IDBackup"), DataMember]
         public virtual Backup Backup { get; set; }
 
-        [ForeignKey("IDLogType")]
+        [ForeignKey("IDLogType"), DataMember]
         public virtual LogType LogType { get; set; }
         #endregion
 

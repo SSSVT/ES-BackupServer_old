@@ -9,33 +9,31 @@ namespace ESBackupServer.Database.Objects
     [Table("esbk_tbBackups"), DataContract]
     public class Backup
     {
-        [Key, Column("ID")]
+        [Key, Column("ID"), DataMember]
         public long ID { get; set; }
 
-        [Column("IDesbk_tbClients")]
+        [Column("IDesbk_tbClients"), DataMember]
         public Client IDClient { get; set; }
 
-        [Column("BK_NAME")]
+        [Column("BK_NAME"), DataMember]
         public string Name { get; set; }
 
-        [Column("BK_DESCRIPTION")]
+        [Column("BK_DESCRIPTION"), DataMember]
         public string Description { get; set; }
 
-        [Column("BK_TIME_BEGIN")]
+        [Column("BK_TIME_BEGIN"), DataMember]
         public DateTime TimeStart { get; set; }
 
-        [Column("BK_TIME_END")]
+        [Column("BK_TIME_END"), DataMember]
         public DateTime? TimeEnd { get; set; }
 
-        [Column("BK_EXPIRATION")]
+        [Column("BK_EXPIRATION"), DataMember]
         public DateTime? ExpirationDate { get; set; }
 
-        [Column("BK_COMPRESSION")]
+        [Column("BK_COMPRESSION"), DataMember]
         public bool Compressed { get; set; }
 
-        [ForeignKey("IDClient")]
+        [ForeignKey("IDClient"), DataMember]
         public virtual Client Client { get; set; }
-
-        public virtual List<BackupDetail> Details { get; set; }
     }
 }
