@@ -6,9 +6,10 @@
     "\\ESBackupServer\\ESBackupServer\\App",
     "\\ESBackupServer\\ESBackupServer\\App\\Objects",
     "\\ESBackupServer\\ESBackupServer\\Database",
+    "\\ESBackupServer\\ESBackupServer\\Database\\Objects",
     "\\ESBackupServer\\ESBackupServer\\Database\\Repositories",
     "\\SQL"
   ],
-  "SelectedNode": "\\ESBackupServer\\ESBackupServer.sln",
+  "SelectedNode": "\\ESBackupServer\\ESBackupServer\\Database\\Objects\\Client.cs",
   "PreviewInSolutionExplorer": false
 }

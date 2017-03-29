@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ESBackupServer.Database.Repositories
 {
-    internal class SettingTypeRepository : AbRepository<SettingType>
+    internal class SettingTypeRepository : AbRepository<BackupTemplateSettingType>
     {
         #region Singleton
         private static SettingTypeRepository _Instance { get; set; }
@@ -21,25 +21,25 @@ namespace ESBackupServer.Database.Repositories
         }
         #endregion
         #region AbRepository
-        protected override void Add(SettingType item)
+        protected override void Add(BackupTemplateSettingType item)
         {
             this._Context.SettingsTypes.Add(item);
             this._Context.SaveChanges();
         }
-        internal override SettingType Find(object id)
+        internal override BackupTemplateSettingType Find(object id)
         {
             return this._Context.SettingsTypes.Find(id);
         }
-        internal override List<SettingType> FindAll()
+        internal override List<BackupTemplateSettingType> FindAll()
         {
             return this._Context.SettingsTypes.ToList();
         }
-        internal override void Remove(SettingType item)
+        internal override void Remove(BackupTemplateSettingType item)
         {
             this._Context.SettingsTypes.Remove(item);
             this._Context.SaveChanges();
         }
-        internal override void Update(SettingType item)
+        internal override void Update(BackupTemplateSettingType item)
         {
             //TODO: Implement
             throw new NotImplementedException();

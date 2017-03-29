@@ -86,7 +86,7 @@
     <Compile Include="Database\Objects\Log.cs" />
     <Compile Include="Database\Objects\Login.cs" />
     <Compile Include="Database\Objects\LogType.cs" />
-    <Compile Include="Database\Objects\SettingType.cs" />
+    <Compile Include="Database\Objects\BackupTemplateSettingType.cs" />
     <Compile Include="Database\Repositories\AbRepository.cs" />
     <Compile Include="Database\Repositories\BackupRepository.cs" />
     <Compile Include="Database\Repositories\LoginRepository.cs" />

@@ -8,8 +8,6 @@ END
 CREATE DATABASE [dbESBackup];
 GO
 
-/* EDIT CONSTRAINTS */
-
 USE [dbESBackup];
 
 CREATE TABLE esbk_tbClients(
@@ -32,7 +30,7 @@ CREATE TABLE esbk_tbLogins(
 	IDesbk_tbClients int not null, -- int
 
 	LG_TIME_UTC datetime not null, -- datetime
-	LG_TIME_EXPIRATION datetime not null, -- datetime; default - 15 minut; při dalším requestu obnovit na 15
+	LG_TIME_EXPIRATION_UTC datetime not null, -- datetime; default - 15 minut; při dalším requestu obnovit na 15
 	LG_CLIENT_IP varbinary(128) not null, -- byte[]; IPv4 - 32 bitů, IPv6 - 128 bitů
 ); /* Historie přihlášení klientů */
 
@@ -52,7 +50,7 @@ CREATE TABLE esbk_tbBackups(
 
 	BK_TIME_BEGIN datetime not null, -- datetime
 	BK_TIME_END datetime, -- datetime?, null - updatem
-	BK_STATUS tinyint not null -- Competed, Failed, ...
+	BK_STATUS tinyint not null -- Executing, Competed, Failed, ...
 ); /* Historie provedených záloh */
 CREATE TABLE esbk_tbBackupTemplates(
 	ID bigint identity(1,1) not null,
@@ -136,7 +134,7 @@ END
 BEGIN /* DF */
 	ALTER TABLE esbk_tbClients ADD CONSTRAINT DF_esbk_tbClients_CL_VERIFIED DEFAULT (0) FOR CL_VERIFIED;
 	ALTER TABLE esbk_tbLogins ADD CONSTRAINT DF_esbk_tbLogins_LG_TIME_UTC DEFAULT (GETDATE()) FOR LG_TIME_UTC;
-	ALTER TABLE esbk_tbLogins ADD CONSTRAINT DF_esbk_tbLogins_LG_TIME_EXPIRATION DEFAULT (DATEADD(minute, 15, GETDATE())) FOR LG_TIME_EXPIRATION;
+	ALTER TABLE esbk_tbLogins ADD CONSTRAINT DF_esbk_tbLogins_LG_TIME_EXPIRATION_UTC DEFAULT (DATEADD(minute, 15, GETDATE())) FOR LG_TIME_EXPIRATION_UTC;
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT DF_esbk_tbBackups_BK_TYPE DEFAULT (0) FOR BK_TYPE;
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT DF_esbk_tbBackups_BK_COMPRESSION DEFAULT (0) FOR BK_COMPRESSION;
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT DF_esbk_tbBackups_BK_TIME_BEGIN DEFAULT (GETDATE()) FOR BK_TIME_BEGIN;
@@ -148,7 +146,7 @@ END
 BEGIN /* CK */
 	ALTER TABLE esbk_tbClients ADD CONSTRAINT CK_esbk_tbClients_CL_LAST_BACKUP CHECK (CL_LAST_BACKUP <= GETDATE());
 	ALTER TABLE esbk_tbLogins ADD CONSTRAINT CK_esbk_tbLogins_LG_TIME_UTC CHECK (LG_TIME_UTC <= GETDATE());
-	ALTER TABLE esbk_tbLogins ADD CONSTRAINT CK_esbk_tbLogins_LG_TIME_EXPIRATION CHECK (LG_TIME_UTC <= LG_TIME_EXPIRATION);
+	ALTER TABLE esbk_tbLogins ADD CONSTRAINT CK_esbk_tbLogins_LG_TIME_EXPIRATION_UTC CHECK (LG_TIME_UTC <= LG_TIME_EXPIRATION_UTC);
 	ALTER TABLE esbk_tbLogins ADD CONSTRAINT CK_esbk_tbLogins_LG_CLIENT_IP CHECK (LEN(LG_CLIENT_IP) = 32 OR LEN(LG_CLIENT_IP) = 128); -- IPv4 || IPv6
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT CK_esbk_tbBackups_BK_EXPIRATION CHECK (BK_EXPIRATION >= GETDATE());
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT CK_esbk_tbBackups_BK_TIME_BEGIN CHECK (BK_TIME_BEGIN <= GETDATE());

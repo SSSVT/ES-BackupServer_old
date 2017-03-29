@@ -23,20 +23,31 @@ namespace ESBackupServer.Database.Objects
         [Column("BK_DESCRIPTION"), DataMember]
         public string Description { get; set; }
 
+        [Column("BK_SOURCE"), DataMember]
+        public string Source { get; set; }
+
+        [Column("BK_DESTINATION"), DataMember]
+        public string Destination { get; set; }
+
         [Column("BK_TYPE"), DataMember]
         public BackupTypes Type { get; set; }
 
         [Column("BK_EXPIRATION_DAYS"), DataMember]
-        public int? DaysToExpiration { get; set; }
+        public uint? DaysToExpiration { get; set; }
 
         [Column("BK_COMPRESSION"), DataMember]
         public Compression Compression { get; set; }
+
+        [DataMember]
+        public virtual List<BackupTemplateSetting> Settings { get; set; }
     }
 
     [DataContract]
     public enum BackupTypes
     {
+        [EnumMember]
         Full,
+        [EnumMember]
         Differential
     }
 

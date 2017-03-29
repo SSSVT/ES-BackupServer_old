@@ -22,17 +22,29 @@ namespace ESBackupServer.Database.Objects
         [Column("BK_DESCRIPTION"), DataMember]
         public string Description { get; set; }
 
-        [Column("BK_TIME_BEGIN"), DataMember]
-        public DateTime TimeStart { get; set; }
+        [Column("BK_SOURCE"), DataMember]
+        public string Source { get; set; }
 
-        [Column("BK_TIME_END"), DataMember]
-        public DateTime? TimeEnd { get; set; }
+        [Column("BK_DESTINATION"), DataMember]
+        public string Destination { get; set; }
+
+        [Column("BK_TYPE"), DataMember]
+        public BackupTypes Type { get; set; }
 
         [Column("BK_EXPIRATION"), DataMember]
-        public DateTime? ExpirationDate { get; set; }
+        public DateTime? Expiration { get; set; }
 
         [Column("BK_COMPRESSION"), DataMember]
         public bool Compressed { get; set; }
+
+        [Column("BK_TIME_BEGIN"), DataMember]
+        public DateTime Start { get; set; }
+
+        [Column("BK_TIME_END"), DataMember]
+        public DateTime? End { get; set; }
+
+        [Column("BK_STATUS"), DataMember]
+        public Statuses Status { get; set; }
 
         #region Virtual properties
         [ForeignKey("IDClient"), DataMember]
@@ -42,5 +54,16 @@ namespace ESBackupServer.Database.Objects
         public virtual List<Log> Logs { get; set; }
         #endregion
         #endregion
+
+        [DataContract]
+        public enum Statuses
+        {
+            [EnumMember]
+            Executing,
+            [EnumMember]
+            Completed,
+            [EnumMember]
+            Failed
+        }
     }
 }

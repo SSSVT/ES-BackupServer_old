@@ -18,14 +18,11 @@ namespace ESBackupServer.Database.Objects
         [Column("LG_TIME_UTC"), DataMember]
         public DateTime UTCTime { get; set; }
 
-        [Column("LG_TIME_EXPIRATION")]
+        [Column("LG_TIME_EXPIRATION_UTC")]
         public DateTime UTCExpiration { get; set; }
 
         [Column("LG_CLIENT_IP"), DataMember]
         public byte[] IP { get; set; } //IPv4 - 32; IPv6 - 128
-
-        [Column("LG_ACTIVE"), DataMember]
-        public bool Active { get; set; }
 
         [ForeignKey("IDClient"), DataMember]
         public virtual Client Client { get; set; }

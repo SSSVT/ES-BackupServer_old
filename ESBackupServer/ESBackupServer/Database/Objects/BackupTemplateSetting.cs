@@ -11,34 +11,33 @@ namespace ESBackupServer.Database.Objects
     [Table("esbk_tbBackupTemplatesSetting"), DataContract]
     public class BackupTemplateSetting
     {
-        [Key, Column("ID")]
+        [Key, Column("ID"), DataMember]
         public Guid ID { get; set; }
 
-        [Column("IDesbk_tbBackupTemplates")]
+        [Column("IDesbk_tbBackupTemplates"), DataMember]
         public long IDTemplate { get; set; }
 
-        //TODO: Is it possible to use enum instead of int?
-        [Column("IDesbk_tbBackupTemplatesSettingTypes")]
+        [Column("IDesbk_tbBackupTemplatesSettingTypes"), DataMember]
         public int IDSettingType { get; set; }
 
-        [Column("ST_ACTION_TYPE")]
+        [Column("ST_ACTION_TYPE"), DataMember]
         public bool? ActionType { get; set; }
 
-        [Column("ST_EVENT")]
+        [Column("ST_EVENT"), DataMember]
         public bool? Event { get; set; }
 
-        [Column("ST_TIME")]
+        [Column("ST_TIME"), DataMember]
         public DateTime? Time { get; set; }
 
-        [Column("ST_VALUE")]
+        [Column("ST_VALUE"), DataMember]
         public string Value { get; set; }
 
         #region Virtual properties
-        [ForeignKey("IDClient")]
+        [ForeignKey("IDClient"), DataMember]
         public virtual Client Client { get; set; }
 
-        [ForeignKey("IDSettingType")]
-        public virtual SettingType SettingType { get; set; }
+        [ForeignKey("IDSettingType"), DataMember]
+        public virtual BackupTemplateSettingType SettingType { get; set; }
         #endregion
     }
 }
