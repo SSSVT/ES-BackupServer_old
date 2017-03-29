@@ -14,7 +14,6 @@ namespace ESBackupServer.Database.Objects
         [Column("TP_NAME"), DataMember]
         public SettingTypeNames Name { get; set; }
 
-        [DataMember]
         public virtual List<BackupTemplateSetting> Settings { get; set; }
     }
 

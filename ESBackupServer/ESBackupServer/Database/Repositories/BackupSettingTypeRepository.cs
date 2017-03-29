@@ -5,19 +5,19 @@ using System.Linq;
 
 namespace ESBackupServer.Database.Repositories
 {
-    internal class SettingTypeRepository : AbRepository<BackupTemplateSettingType>
+    internal class BackupSettingTypeRepository : AbRepository<BackupTemplateSettingType>
     {
         #region Singleton
-        private static SettingTypeRepository _Instance { get; set; }
-        private SettingTypeRepository()
+        private BackupSettingTypeRepository()
         {
-        }
-        public static SettingTypeRepository GetInstance()
-        {
-            if (SettingTypeRepository._Instance == null)
-                SettingTypeRepository._Instance = new SettingTypeRepository();
 
-            return SettingTypeRepository._Instance;
+        }
+        private static BackupSettingTypeRepository _Instance { get; set; }
+        internal static BackupSettingTypeRepository GetInstance()
+        {
+            if (BackupSettingTypeRepository._Instance == null)
+                BackupSettingTypeRepository._Instance = new BackupSettingTypeRepository();
+            return BackupSettingTypeRepository._Instance;
         }
         #endregion
         #region AbRepository

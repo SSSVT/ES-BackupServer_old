@@ -38,7 +38,6 @@ namespace ESBackupServer.Database.Objects
         [Column("BK_COMPRESSION"), DataMember]
         public Compression Compression { get; set; }
 
-        [DataMember]
         public virtual List<BackupTemplateSetting> Settings { get; set; }
     }
 

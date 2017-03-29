@@ -75,9 +75,9 @@
   <ItemGroup>
     <Compile Include="App\Components\Net\NetInfoObtainer.cs" />
     <Compile Include="App\Objects\ConfigurationFactory.cs" />
-    <Compile Include="App\Objects\Config\BackupSetting.cs" />
     <Compile Include="App\Objects\Configuration.cs" />
-    <Compile Include="App\Objects\Config\TimeSetting.cs" />
+    <Compile Include="App\Objects\Config\EventDefinition.cs" />
+    <Compile Include="App\Objects\Config\TimeActionDefinition.cs" />
     <Compile Include="Database\DatabaseContext.cs" />
     <Compile Include="Database\Objects\Backup.cs" />
     <Compile Include="Database\Objects\BackupTemplate.cs" />
@@ -89,11 +89,13 @@
     <Compile Include="Database\Objects\BackupTemplateSettingType.cs" />
     <Compile Include="Database\Repositories\AbRepository.cs" />
     <Compile Include="Database\Repositories\BackupRepository.cs" />
+    <Compile Include="Database\Repositories\BackupTemplateRepository.cs" />
+    <Compile Include="Database\Repositories\BackupTemplateSettingRepository.cs" />
     <Compile Include="Database\Repositories\LoginRepository.cs" />
     <Compile Include="Database\Repositories\ClientRepository.cs" />
     <Compile Include="Database\Repositories\LogRepository.cs" />
     <Compile Include="Database\Repositories\LogTypeRepository.cs" />
-    <Compile Include="Database\Repositories\SettingTypeRepository.cs" />
+    <Compile Include="Database\Repositories\BackupSettingTypeRepository.cs" />
     <Compile Include="ESBackupServerAdminService.svc.cs">
       <DependentUpon>ESBackupServerAdminService.svc</DependentUpon>
     </Compile>

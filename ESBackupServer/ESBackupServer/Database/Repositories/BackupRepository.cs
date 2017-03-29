@@ -8,15 +8,15 @@ namespace ESBackupServer.Database.Repositories
     internal class BackupRepository : AbRepository<Backup>
     {
         #region Singleton
-        private static BackupRepository _Instance { get; set; }
         private BackupRepository()
         {
+
         }
-        public static BackupRepository GetInstance()
+        private static BackupRepository _Instance { get; set; }
+        internal static BackupRepository GetInstance()
         {
             if (BackupRepository._Instance == null)
                 BackupRepository._Instance = new BackupRepository();
-
             return BackupRepository._Instance;
         }
         #endregion

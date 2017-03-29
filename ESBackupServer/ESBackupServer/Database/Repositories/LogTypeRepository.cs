@@ -8,15 +8,15 @@ namespace ESBackupServer.Database.Repositories
     internal class LogTypeRepository : AbRepository<LogType>
     {
         #region Singleton
-        private static LogTypeRepository _Instance { get; set; }
         private LogTypeRepository()
         {
+
         }
-        public static LogTypeRepository GetInstance()
+        private static LogTypeRepository _Instance { get; set; }
+        internal static LogTypeRepository GetInstance()
         {
             if (LogTypeRepository._Instance == null)
                 LogTypeRepository._Instance = new LogTypeRepository();
-
             return LogTypeRepository._Instance;
         }
         #endregion
