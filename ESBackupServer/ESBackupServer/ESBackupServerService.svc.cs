@@ -41,7 +41,7 @@ namespace ESBackupServer
         {
             LoginRepository repo = LoginRepository.GetInstance();
             Login login = repo.Find(sessionID);
-            login.Active = false;
+            login.UTCExpiration = DateTime.UtcNow;
             repo.SaveChanges();
 
             //ID, UTC Time
@@ -56,7 +56,7 @@ namespace ESBackupServer
         {
             Login login = LoginRepository.GetInstance().Find(sessionID);
 
-            if (login.Active && new IPAddress(login.IP) == new NetInfoObtainer().GetClientIP())
+            if (login.UTCExpiration < DateTime.UtcNow && new IPAddress(login.IP) == new NetInfoObtainer().GetClientIP())
             {
                 return new ConfigurationFactory().Create(login.Client);
             }

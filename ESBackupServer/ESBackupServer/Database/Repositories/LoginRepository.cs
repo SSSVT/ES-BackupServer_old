@@ -46,17 +46,18 @@ namespace ESBackupServer.Database.Repositories
         }
         #endregion
 
-        internal Login Find(Client client, DateTime time, bool active)
+        internal Login Find(Client client)
         {
-            return this._Context.Logins.Where(x => x.IDClient == client.ID && x.UTCTime == time && x.Active == active).FirstOrDefault();
+            return this._Context.Logins.Where(x => x.IDClient == client.ID && x.UTCExpiration < DateTime.UtcNow).FirstOrDefault();
         }
 
         internal Login Create(Client client)
         {
+            //TODO: Check IP and Expiration
             LoginRepository repo = LoginRepository.GetInstance();
             DateTime time = DateTime.UtcNow;
             repo.Add(new Login(client, time));
-            return repo.Find(client, time, true);
+            return repo.Find(client);
         }
     }
 }
