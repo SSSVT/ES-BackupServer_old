@@ -46,5 +46,10 @@ namespace ESBackupServer.Database.Repositories
             throw new NotImplementedException();
         }
         #endregion
+
+        internal List<BackupTemplateSetting> Find(BackupTemplate template)
+        {
+            return this._Context.Settings.Where(x => x.IDTemplate == template.ID).ToList();
+        }
     }
 }

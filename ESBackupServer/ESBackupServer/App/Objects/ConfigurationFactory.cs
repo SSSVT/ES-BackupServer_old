@@ -15,8 +15,6 @@ namespace ESBackupServer.App.Objects
             {
                 Client = client,
                 Templates = BackupTemplateRepository.GetInstance().Find(client),
-                Events = null,
-                TimeActions = null
             };
 
             //TODO: Implement

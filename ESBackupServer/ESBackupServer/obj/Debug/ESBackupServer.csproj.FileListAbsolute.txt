@@ -8,3 +8,6 @@ D:\GitHub\C_SHARP\BackupMaster-Server\ESBackupServer\ESBackupServer\bin\EntityFr
 D:\GitHub\C_SHARP\BackupMaster-Server\ESBackupServer\ESBackupServer\obj\Debug\ESBackupServer.csprojResolveAssemblyReference.cache
 D:\GitHub\C_SHARP\BackupMaster-Server\ESBackupServer\ESBackupServer\obj\Debug\ESBackupServer.dll
 D:\GitHub\C_SHARP\BackupMaster-Server\ESBackupServer\ESBackupServer\obj\Debug\ESBackupServer.pdb
+X:\PROJECTS\ES-BackupServer\ESBackupServer\ESBackupServer\obj\Debug\ESBackupServer.csprojResolveAssemblyReference.cache
+X:\PROJECTS\ES-BackupServer\ESBackupServer\ESBackupServer\obj\Debug\ESBackupServer.dll
+X:\PROJECTS\ES-BackupServer\ESBackupServer\ESBackupServer\obj\Debug\ESBackupServer.pdb

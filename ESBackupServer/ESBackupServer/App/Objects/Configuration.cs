@@ -17,12 +17,9 @@ namespace ESBackupServer.App.Objects
         [DataMember]
         public List<BackupTemplate> Templates { get; set; }
 
-        //TODO: Move to backup template || add link to template in objects
-        #region Edit
+        #region Metadata
         [DataMember]
-        public List<EventDefinition> Events { get; set; }
-        [DataMember]
-        public List<TimeActionDefinition> TimeActions { get; set; }
+        public DateTime Generated { get; set; } = DateTime.UtcNow;
         #endregion
     }
 }

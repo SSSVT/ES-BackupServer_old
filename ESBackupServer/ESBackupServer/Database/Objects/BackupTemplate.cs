@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ESBackupServer.App.Objects.Config;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,6 +12,7 @@ namespace ESBackupServer.Database.Objects
     [Table("esbk_tbBackupTemplates"), DataContract]
     public class BackupTemplate
     {
+        #region Entity Framework
         [Key, Column("ID"), DataMember]
         public long ID { get; set; }
 
@@ -39,6 +41,15 @@ namespace ESBackupServer.Database.Objects
         public Compression Compression { get; set; }
 
         public virtual List<BackupTemplateSetting> Settings { get; set; }
+        #endregion
+
+        #region Local properties
+        [NotMapped]
+        public List<EventDefinition> Events { get; set; }
+
+        [NotMapped]
+        public List<TimeActionDefinition> TimeActions { get; set; }
+        #endregion
     }
 
     [DataContract]

@@ -41,6 +41,7 @@ namespace ESBackupServer.Database.Repositories
         }
         internal override void Update(Log item)
         {
+            Log log = this.Find(item.ID);
             //TODO: Implement
             throw new NotImplementedException();
         }

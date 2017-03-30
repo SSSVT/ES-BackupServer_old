@@ -41,8 +41,10 @@ namespace ESBackupServer.Database.Repositories
         }
         internal override void Update(LogType item)
         {
-            //TODO: Implement
-            throw new NotImplementedException();
+            LogType type = this.Find(item.ID);
+            type.Name = item.Name;
+            type.Logs = item.Logs;
+            this._Context.SaveChanges();
         }
         #endregion
     }

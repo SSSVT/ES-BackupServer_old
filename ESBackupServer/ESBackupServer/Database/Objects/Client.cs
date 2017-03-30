@@ -54,13 +54,5 @@ namespace ESBackupServer.Database.Objects
         public virtual List<BackupTemplate> Templates { get; set; }
         #endregion
         #endregion
-
-        #region Methods
-        //TODO: Require annotation?
-        public override string ToString()
-        {
-            return this.Name;
-        }
-        #endregion
     }
 }
