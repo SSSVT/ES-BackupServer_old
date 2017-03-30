@@ -24,7 +24,7 @@ namespace ESBackupServer.Database.Repositories
         protected override void Add(Client item)
         {
             this._Context.Clients.Add(item);
-            this._Context.SaveChanges();
+            this.SaveChanges();
         }
         internal override Client Find(object id)
         {
@@ -37,12 +37,20 @@ namespace ESBackupServer.Database.Repositories
         internal override void Remove(Client item)
         {
             this._Context.Clients.Remove(item);
-            this._Context.SaveChanges();
+            this.SaveChanges();
         }
         internal override void Update(Client item)
         {
-            //TODO: Implement
-            throw new NotImplementedException();
+            Client client = this.Find(item.ID);
+            client.Name = item.Name;
+            client.Description = item.Description;
+            client.Username = item.Username;
+            client.LastBackupTime = item.LastBackupTime;
+            client.Verified = item.Verified;
+            client.Hardware_ID = item.Hardware_ID;
+            client.Password = item.Password;
+            client.Salt = item.Salt;
+            this.SaveChanges();
         }
         #endregion
 
@@ -55,7 +63,5 @@ namespace ESBackupServer.Database.Repositories
         {
             return this._Context.Clients.Where(x => x.Username == username).FirstOrDefault();
         }
-
-        
     }
 }

@@ -24,7 +24,7 @@ namespace ESBackupServer.Database.Repositories
         protected override void Add(Backup item)
         {
             this._Context.Backups.Add(item);
-            this._Context.SaveChanges();
+            this.SaveChanges();
         }
         internal override Backup Find(object id)
         {
@@ -37,12 +37,23 @@ namespace ESBackupServer.Database.Repositories
         internal override void Remove(Backup item)
         {
             this._Context.Backups.Remove(item);
-            this._Context.SaveChanges();
+            this.SaveChanges();
         }
         internal override void Update(Backup item)
         {
-            //TODO: Implement
-            throw new NotImplementedException();
+            Backup backup = this.Find(item.ID);
+            backup.IDClient = item.IDClient;
+            backup.Name = item.Name;
+            backup.Description = item.Description;
+            backup.Source = item.Source;
+            backup.Destination = item.Destination;
+            backup.Type = item.Type;
+            backup.Expiration = item.Expiration;
+            backup.Compressed = item.Compressed;
+            backup.Start = item.Start;
+            backup.End = item.End;
+            backup.Status = item.Status;
+            this.SaveChanges();
         }
         #endregion
     }

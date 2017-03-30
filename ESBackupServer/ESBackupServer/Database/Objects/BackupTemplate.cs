@@ -49,6 +49,9 @@ namespace ESBackupServer.Database.Objects
 
         [NotMapped]
         public List<TimeActionDefinition> TimeActions { get; set; }
+
+        [NotMapped]
+        public List<CommandDefinition> Commands { get; set; }
         #endregion
     }
 

@@ -24,7 +24,7 @@ namespace ESBackupServer.Database.Repositories
         protected override void Add(LogType item)
         {
             this._Context.LogTypes.Add(item);
-            this._Context.SaveChanges();
+            this.SaveChanges();
         }
         internal override LogType Find(object id)
         {
@@ -37,14 +37,14 @@ namespace ESBackupServer.Database.Repositories
         internal override void Remove(LogType item)
         {
             this._Context.LogTypes.Remove(item);
-            this._Context.SaveChanges();
+            this.SaveChanges();
         }
         internal override void Update(LogType item)
         {
             LogType type = this.Find(item.ID);
             type.Name = item.Name;
             type.Logs = item.Logs;
-            this._Context.SaveChanges();
+            this.SaveChanges();
         }
         #endregion
     }

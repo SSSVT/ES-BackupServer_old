@@ -24,7 +24,7 @@ namespace ESBackupServer.Database.Repositories
         protected override void Add(Log item)
         {
             this._Context.Logs.Add(item);
-            this._Context.SaveChanges();
+            this.SaveChanges();
         }
         internal override Log Find(object id)
         {
@@ -37,13 +37,17 @@ namespace ESBackupServer.Database.Repositories
         internal override void Remove(Log item)
         {
             this._Context.Logs.Remove(item);
-            this._Context.SaveChanges();
+            this.SaveChanges();
         }
         internal override void Update(Log item)
         {
             Log log = this.Find(item.ID);
-            //TODO: Implement
-            throw new NotImplementedException();
+            log.IDClient = item.IDClient;
+            log.IDBackup = item.IDBackup;
+            log.IDLogType = item.IDLogType;
+            log.UTCTime = item.UTCTime;
+            log.Value = item.Value;
+            this.SaveChanges();
         }
         #endregion
 

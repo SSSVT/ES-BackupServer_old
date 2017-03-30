@@ -24,7 +24,7 @@ namespace ESBackupServer.Database.Repositories
         protected override void Add(Login item)
         {
             this._Context.Logins.Add(item);
-            this._Context.SaveChanges();
+            this.SaveChanges();
         }
         internal override Login Find(object id)
         {
@@ -37,12 +37,16 @@ namespace ESBackupServer.Database.Repositories
         internal override void Remove(Login item)
         {
             this._Context.Logins.Remove(item);
-            this._Context.SaveChanges();
+            this.SaveChanges();
         }
         internal override void Update(Login item)
         {
-            //TODO: Implement
-            throw new NotImplementedException();
+            Login login = this.Find(item.ID);
+            login.IDClient = item.IDClient;
+            login.UTCTime = item.UTCTime;
+            login.UTCExpiration = item.UTCExpiration;
+            login.IP = item.IP;
+            this.SaveChanges();
         }
         #endregion
 
@@ -51,9 +55,14 @@ namespace ESBackupServer.Database.Repositories
             return this._Context.Logins.Where(x => x.IDClient == client.ID && x.UTCExpiration < DateTime.UtcNow).FirstOrDefault();
         }
 
+        /// <summary>
+        /// Create, add to database and return
+        /// </summary>
+        /// <param name="client">Client instance</param>
+        /// <returns></returns>
         internal Login Create(Client client)
         {
-            //TODO: Check IP and Expiration
+            //TODO: Check IP and expiration
             LoginRepository repo = LoginRepository.GetInstance();
             DateTime time = DateTime.UtcNow;
             repo.Add(new Login(client, time));

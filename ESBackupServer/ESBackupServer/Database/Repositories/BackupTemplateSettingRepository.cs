@@ -24,7 +24,7 @@ namespace ESBackupServer.Database.Repositories
         protected override void Add(BackupTemplateSetting item)
         {
             this._Context.Settings.Add(item);
-            this._Context.SaveChanges();
+            this.SaveChanges();
         }
         internal override BackupTemplateSetting Find(object id)
         {
@@ -37,13 +37,19 @@ namespace ESBackupServer.Database.Repositories
         internal override void Remove(BackupTemplateSetting item)
         {
             this._Context.Settings.Remove(item);
-            this._Context.SaveChanges();
+            this.SaveChanges();
         }
 
         internal override void Update(BackupTemplateSetting item)
         {
-            //TODO: Implement
-            throw new NotImplementedException();
+            BackupTemplateSetting setting = this.Find(item.ID);
+            setting.IDTemplate = item.IDTemplate;
+            setting.IDSettingType = item.IDSettingType;
+            setting.ActionType = item.ActionType;
+            setting.Event = item.Event;
+            setting.Time = item.Time;
+            setting.Value = item.Value;
+            this.SaveChanges();
         }
         #endregion
 
