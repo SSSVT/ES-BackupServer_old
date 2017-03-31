@@ -14,7 +14,7 @@ namespace ESBackupServer.Database.Objects
         public long ID { get; set; }
 
         [Column("IDesbk_tbClients"), DataMember]
-        public Client IDClient { get; set; }
+        public int IDClient { get; set; }
 
         [Column("BK_NAME"), DataMember]
         public string Name { get; set; }
