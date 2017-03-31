@@ -17,7 +17,7 @@ namespace ESBackupServer.App.Objects.Factories
             {
                 list.Add(new TimeActionDefinition()
                 {
-                    //TODO: Implement factory
+                    //TODO: Implement factory (CRON)
                 });
             }
             return list;

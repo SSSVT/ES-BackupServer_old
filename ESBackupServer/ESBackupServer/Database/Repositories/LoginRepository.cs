@@ -68,5 +68,9 @@ namespace ESBackupServer.Database.Repositories
             repo.Add(new Login(client, time));
             return repo.Find(client);
         }
+        internal bool IsSessionIDValid(Login login)
+        {
+            return login.UTCExpiration < DateTime.UtcNow;
+        }
     }
 }
