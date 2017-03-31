@@ -33,8 +33,8 @@ namespace ESBackupServer.Database.Objects
         public string Value { get; set; }
 
         #region Virtual properties
-        [ForeignKey("IDClient")]
-        public virtual Client Client { get; set; }
+        [ForeignKey("IDTemplate")]
+        public virtual BackupTemplate Template { get; set; }
 
         [ForeignKey("IDSettingType")]
         public virtual BackupTemplateSettingType SettingType { get; set; }
