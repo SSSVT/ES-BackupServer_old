@@ -1,7 +1,9 @@
-﻿using ESBackupServer.Database.Objects;
+﻿using ESBackupServer.App.Objects.Components.Net;
+using ESBackupServer.Database.Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 
 namespace ESBackupServer.Database.Repositories
 {
@@ -20,6 +22,11 @@ namespace ESBackupServer.Database.Repositories
             return LoginRepository._Instance;
         }
         #endregion
+
+        #region Properties
+        private NetInfoObtainer _NetInfo { get; set; } = new NetInfoObtainer();
+        #endregion
+
         #region AbRepository
         protected override void Add(Login item)
         {
@@ -62,7 +69,13 @@ namespace ESBackupServer.Database.Repositories
         /// <returns></returns>
         internal Login Create(Client client)
         {
-            //TODO: Check IP and expiration
+            Login login = this.Find(client);
+
+            if (login != null && new IPAddress(login.IP) == this._NetInfo.GetClientIP())
+                return login;
+            else if (login != null && new IPAddress(login.IP) != this._NetInfo.GetClientIP())
+                login.UTCExpiration = DateTime.UtcNow;
+
             LoginRepository repo = LoginRepository.GetInstance();
             DateTime time = DateTime.UtcNow;
             repo.Add(new Login(client, time));
