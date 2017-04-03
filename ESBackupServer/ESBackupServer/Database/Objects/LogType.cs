@@ -8,13 +8,14 @@ namespace ESBackupServer.Database.Objects
     [Table("esbk_tbLogTypes"), DataContract]
     public class LogType
     {
+        #region DataMembers
         [Key, Column("ID"), DataMember]
         public byte ID { get; set; }
 
         [Column("TP_NAME"), DataMember]
         public LogTypeNames Name { get; set; }
+        #endregion
 
-        [DataMember]
         public virtual List<Log> Logs { get; set; }
     }
 

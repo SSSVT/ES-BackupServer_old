@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 namespace ESBackupServer.Database.Objects
 {
-    [Table("esbk_tbLogs"), DataContract]
+    [Table("esbk_tbLogs"), DataContract(IsReference = true)]
     public class Log
     {
         #region Entity Framework

@@ -9,7 +9,7 @@ using System.Web;
 
 namespace ESBackupServer.Database.Objects
 {
-    [Table("esbk_tbBackupTemplates"), DataContract]
+    [Table("esbk_tbBackupTemplates"), DataContract(IsReference = true)]
     public class BackupTemplate
     {
         #region Entity Framework
@@ -39,6 +39,9 @@ namespace ESBackupServer.Database.Objects
 
         [Column("BK_COMPRESSION"), DataMember]
         public Compression Compression { get; set; }
+
+        [ForeignKey("IDClient"), DataMember]
+        public virtual Client Client { get; set; }
 
         public virtual List<BackupTemplateSetting> Settings { get; set; }
         #endregion
