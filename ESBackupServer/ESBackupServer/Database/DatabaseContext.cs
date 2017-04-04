@@ -9,6 +9,7 @@ namespace ESBackupServer.Database
         private static DatabaseContext _Instance { get; set; }
         private DatabaseContext() : base("name=MSSQL")
         {
+            this.Configuration.ProxyCreationEnabled = false;
         }
         public static DatabaseContext GetInstance()
         {

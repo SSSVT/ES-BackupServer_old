@@ -9,6 +9,6 @@
     "\\ESBackupServer\\ESBackupServer\\App\\Objects\\Factories",
     "\\SQL"
   ],
-  "SelectedNode": "\\SQL\\00_dbESBackup.sql",
+  "SelectedNode": "\\ESBackupServer\\ESBackupServer\\ESBackupServerAdminService.svc.cs",
   "PreviewInSolutionExplorer": false
 }
