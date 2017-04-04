@@ -23,10 +23,6 @@ namespace ESBackupServer
         #endregion
 
         #region Get
-        //public List<Backup> GetBackups(Client client)
-        //{
-        //    return this._ClientRepository.Find(client.ID).Backups;
-        //}
         //TODO: Check
         public List<Backup> GetBackups(Client client)
         {
@@ -40,9 +36,10 @@ namespace ESBackupServer
         {
             return this._ConfigFactory.Create(client);
         }        
+        //TODO: Check
         public List<Log> GetLogsByClient(Client client)
         {
-            return this._ClientRepository.Find(client.ID).Logs;
+            return this._LogRepository.Find(client);
         }        
         public List<Log> GetLogsByBackup(Backup backup)
         {
@@ -57,3 +54,4 @@ namespace ESBackupServer
         #endregion
     }
 }
+ 
