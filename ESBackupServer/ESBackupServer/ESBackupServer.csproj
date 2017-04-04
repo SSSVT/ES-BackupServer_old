@@ -73,6 +73,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App\Components\Net\Mail\MailSender.cs" />
     <Compile Include="App\Components\Net\NetInfoObtainer.cs" />
     <Compile Include="App\Objects\Config\CommandDefinition.cs" />
     <Compile Include="App\Objects\Factories\CommandDefinitionFactory.cs" />
