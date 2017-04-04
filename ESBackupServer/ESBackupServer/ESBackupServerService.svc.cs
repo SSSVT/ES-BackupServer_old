@@ -12,6 +12,17 @@ namespace ESBackupServer
     // NOTE: In order to launch WCF Test Client for testing this service, please select ESBackupServerService.svc or ESBackupServerService.svc.cs at the Solution Explorer and start debugging.
     public class ESBackupServerService : IESBackupServerService
     {
+        #region Properties
+        #region Repos
+        private ClientRepository _ClientRepo { get; set; } = ClientRepository.GetInstance();
+        private LoginRepository _LoginRepo { get; set; } = LoginRepository.GetInstance();
+        private LogRepository _LogRepo { get; set; } = LogRepository.GetInstance();
+        #endregion
+        #region Factories
+        private ConfigurationFactory _ConfigFactory { get; set; } = new ConfigurationFactory();
+        #endregion
+        #endregion
+
         #region User authentication
         /// <summary>
         /// Returns session ID
@@ -21,32 +32,30 @@ namespace ESBackupServer
         /// <returns></returns>
         public Guid? Login(string username, string password)
         {
-            ClientRepository ClientRepo = ClientRepository.GetInstance();
-            Client client = ClientRepo.FindByUsername(username);
+            Client client = this._ClientRepo.FindByUsername(username);
 
-            if (ClientRepo.IsLoginValid(client, password))
+            if (this._ClientRepo.IsLoginValid(client, password))
             {
-                Guid sessionID = LoginRepository.GetInstance().Create(client).ID;
+                Guid sessionID = this._LoginRepo.Create(client).ID;
                 //ID, IP, UTC Time
-                LogRepository.GetInstance().Create(client, $"Session start: ID={ sessionID };IP={ new NetInfoObtainer().GetClientIP().ToString() };UTCTime={ DateTime.UtcNow }", LogTypeNames.Message);
+                this._LogRepo.Create(client, $"Session start: ID={ sessionID };IP={ new NetInfoObtainer().GetClientIP().ToString() };UTCTime={ DateTime.UtcNow }", LogTypeNames.Message);
                 return sessionID;
             }
             else
             {
                 //IP, UTC Time
-                LogRepository.GetInstance().Create(client, $"Invalid login: IP={ new NetInfoObtainer().GetClientIP().ToString() };UTCTime={ DateTime.UtcNow }", LogTypeNames.Warning);
+                this._LogRepo.Create(client, $"Invalid login: IP={ new NetInfoObtainer().GetClientIP().ToString() };UTCTime={ DateTime.UtcNow }", LogTypeNames.Warning);
                 return null;
             }
         }
         public bool Logout(Guid sessionID)
         {
-            LoginRepository repo = LoginRepository.GetInstance();
-            Login login = repo.Find(sessionID);
+            Login login = this._LoginRepo.Find(sessionID);
             login.UTCExpiration = DateTime.UtcNow;
-            repo.SaveChanges();
+            this._LoginRepo.SaveChanges();
 
             //ID, UTC Time
-            LogRepository.GetInstance().Create(login.Client, $"Session end: ID={ sessionID };UTCTime={ DateTime.UtcNow }", LogTypeNames.Message);
+            this._LogRepo.Create(login.Client, $"Session end: ID={ sessionID };UTCTime={ DateTime.UtcNow }", LogTypeNames.Message);
 
             return true;
         }
@@ -55,11 +64,11 @@ namespace ESBackupServer
         #region Backup
         public Configuration GetConfiguration(Guid sessionID)
         {
-            Login login = LoginRepository.GetInstance().Find(sessionID);
+            Login login = this._LoginRepo.Find(sessionID);  
 
             if (login.UTCExpiration < DateTime.UtcNow && new IPAddress(login.IP) == new NetInfoObtainer().GetClientIP())
             {
-                return new ConfigurationFactory().Create(login.Client);
+                return this._ConfigFactory.Create(login.Client);
             }
             return null;            
         }
