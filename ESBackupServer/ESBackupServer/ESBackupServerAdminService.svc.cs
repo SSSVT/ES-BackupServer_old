@@ -22,6 +22,8 @@ namespace ESBackupServer
         private BackupRepository _BackupRepository { get; set; } = BackupRepository.GetInstance();
         private ClientRepository _ClientRepository { get; set; } = ClientRepository.GetInstance();
         private LogRepository _LogRepository { get; set; } = LogRepository.GetInstance();
+
+        private ConfigurationFactory _ConfigFactory { get; set; } = new ConfigurationFactory();
         #endregion
 
         #region Get
@@ -35,24 +37,21 @@ namespace ESBackupServer
         }
         public Configuration GetConfiguration(Client client)
         {
-            return new ConfigurationFactory().Create(client);
-        }
-        
+            return this._ConfigFactory.Create(client);
+        }        
         public List<Log> GetLogsByClient(Client client)
         {
             return this._ClientRepository.Find(client.ID).Logs;
-        }
-        
+        }        
         public List<Log> GetLogsByBackup(Backup backup)
         {
             return this._LogRepository.Find(backup);
         }
         #endregion
         #region Set
-        public bool SaveConfiguration(Client client, Configuration config)
+        public bool SaveConfiguration(Configuration config)
         {
-            //TODO: Implement
-            throw new NotImplementedException();
+            return this._ConfigFactory.Save(config);
         }
         #endregion
     }
