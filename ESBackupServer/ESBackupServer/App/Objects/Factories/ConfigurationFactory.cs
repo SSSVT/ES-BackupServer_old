@@ -9,7 +9,7 @@ namespace ESBackupServer.App.Objects.Factories
         internal Configuration Create(Client client)
         {
             EventDefinitionFactory EventFactory = new EventDefinitionFactory();
-            TimeActionFactory TAFactory = new TimeActionFactory();
+            CRONFactory TAFactory = new CRONFactory();
 
             Configuration config = new Configuration()
             {
@@ -20,12 +20,11 @@ namespace ESBackupServer.App.Objects.Factories
             foreach (BackupTemplate item in config.Templates)
             {
                 item.Events = new EventDefinitionFactory().Create(item);
-                item.TimeActions = new TimeActionFactory().Create(item);
+                item.TimeActions = new CRONFactory().Create(item);
                 item.Commands = new CommandDefinitionFactory().Create(item);
             }
 
-            //TODO: Implement
-            throw new NotImplementedException();
+            return config;
         }
     }
 }

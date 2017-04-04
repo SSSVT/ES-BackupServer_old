@@ -3,8 +3,8 @@
 namespace ESBackupServer.App.Objects.Config
 {
     [DataContract]
-    public class TimeActionDefinition
+    public class CRONDefinition
     {
-        //TODO: Define using CRON (Schweika dával odkaz)
+        public string Value { get; set; }
     }
 }

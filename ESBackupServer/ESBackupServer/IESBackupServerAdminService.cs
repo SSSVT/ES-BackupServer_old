@@ -13,8 +13,6 @@ namespace ESBackupServer
     [ServiceContract]
     public interface IESBackupServerAdminService
     {
-        //TODO: Implement https://www.codeproject.com/Articles/763271/Common-issues-in-WCF
-
         #region Get
         [OperationContract]
         List<Client> GetClients();
@@ -25,11 +23,11 @@ namespace ESBackupServer
 
         //potřeba?
         [OperationContract]
-        List<Log> GetLogs(Client client);
+        List<Log> GetLogsByClient(Client client);
 
         //potřeba?
         [OperationContract]
-        List<Log> GetLogs(Backup backup);
+        List<Log> GetLogsByBackup(Backup backup);
 
         [OperationContract]
         Configuration GetConfiguration(Client client);

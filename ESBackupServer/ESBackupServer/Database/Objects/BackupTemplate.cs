@@ -51,7 +51,7 @@ namespace ESBackupServer.Database.Objects
         public List<EventDefinition> Events { get; set; }
 
         [NotMapped]
-        public List<TimeActionDefinition> TimeActions { get; set; }
+        public List<CRONDefinition> TimeActions { get; set; }
 
         [NotMapped]
         public List<CommandDefinition> Commands { get; set; }

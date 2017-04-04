@@ -15,7 +15,8 @@ namespace ESBackupServer
     // NOTE: In order to launch WCF Test Client for testing this service, please select ESBackupServerAdminService.svc or ESBackupServerAdminService.svc.cs at the Solution Explorer and start debugging.
     public class ESBackupServerAdminService : IESBackupServerAdminService
     {
-        //TODO: Fix bug - metadata obtaining (https://msdn.microsoft.com/en-us/library/aa751951.aspx)
+        //TODO: Optional - Fix bug - metadata obtaining (https://msdn.microsoft.com/en-us/library/aa751951.aspx)
+        //TODO: Optional - Implement https://www.codeproject.com/Articles/763271/Common-issues-in-WCF
 
         #region Properties
         private BackupRepository _BackupRepository { get; set; } = BackupRepository.GetInstance();
@@ -36,13 +37,13 @@ namespace ESBackupServer
         {
             return new ConfigurationFactory().Create(client);
         }
-        [OperationContract(Name = "GetLogsByClient")]
-        public List<Log> GetLogs(Client client)
+        
+        public List<Log> GetLogsByClient(Client client)
         {
             return this._ClientRepository.Find(client.ID).Logs;
         }
-        [OperationContract(Name = "GetLogsByBackup")]
-        public List<Log> GetLogs(Backup backup)
+        
+        public List<Log> GetLogsByBackup(Backup backup)
         {
             return this._LogRepository.Find(backup);
         }

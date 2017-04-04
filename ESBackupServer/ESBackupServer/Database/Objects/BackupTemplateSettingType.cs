@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 namespace ESBackupServer.Database.Objects
 {
-    [Table("esbk_tbClientSettingTypes"), DataContract]
+    [Table("esbk_tbClientSettingTypes"), DataContract(IsReference = true)]
     public class BackupTemplateSettingType
     {
         [Key, Column("ID"), DataMember]

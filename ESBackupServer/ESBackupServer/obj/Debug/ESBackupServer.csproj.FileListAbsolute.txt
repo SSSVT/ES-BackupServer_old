@@ -11,3 +11,10 @@ D:\GitHub\C_SHARP\BackupMaster-Server\ESBackupServer\ESBackupServer\obj\Debug\ES
 X:\PROJECTS\ES-BackupServer\ESBackupServer\ESBackupServer\obj\Debug\ESBackupServer.csprojResolveAssemblyReference.cache
 X:\PROJECTS\ES-BackupServer\ESBackupServer\ESBackupServer\obj\Debug\ESBackupServer.dll
 X:\PROJECTS\ES-BackupServer\ESBackupServer\ESBackupServer\obj\Debug\ESBackupServer.pdb
+X:\PROJECTS\ES-BackupServer\ESBackupServer\ESBackupServer\bin\ESBackupServer.dll.config
+X:\PROJECTS\ES-BackupServer\ESBackupServer\ESBackupServer\bin\ESBackupServer.dll
+X:\PROJECTS\ES-BackupServer\ESBackupServer\ESBackupServer\bin\ESBackupServer.pdb
+X:\PROJECTS\ES-BackupServer\ESBackupServer\ESBackupServer\bin\EntityFramework.dll
+X:\PROJECTS\ES-BackupServer\ESBackupServer\ESBackupServer\bin\EntityFramework.SqlServer.dll
+X:\PROJECTS\ES-BackupServer\ESBackupServer\ESBackupServer\bin\EntityFramework.xml
+X:\PROJECTS\ES-BackupServer\ESBackupServer\ESBackupServer\bin\EntityFramework.SqlServer.xml

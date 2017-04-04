@@ -6,18 +6,16 @@ using System.Linq;
 
 namespace ESBackupServer.App.Objects.Factories
 {
-    public class TimeActionFactory
+    public class CRONFactory
     {
-        public List<TimeActionDefinition> Create(BackupTemplate template)
+        public List<CRONDefinition> Create(BackupTemplate template)
         {
-            throw new NotImplementedException();
-
-            List<TimeActionDefinition> list = new List<TimeActionDefinition>();
+            List<CRONDefinition> list = new List<CRONDefinition>();
             foreach (BackupTemplateSetting item in template.Settings.Where(x => x.ActionType == true))
             {
-                list.Add(new TimeActionDefinition()
+                list.Add(new CRONDefinition()
                 {
-                    //TODO: Implement factory (CRON)
+                    Value = item.Value
                 });
             }
             return list;
