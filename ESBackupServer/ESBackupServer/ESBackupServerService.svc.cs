@@ -64,13 +64,8 @@ namespace ESBackupServer
         #region Backup
         public Configuration GetConfiguration(Guid sessionID)
         {
-            Login login = this._LoginRepo.Find(sessionID);  
-
-            if (login.UTCExpiration < DateTime.UtcNow && new IPAddress(login.IP) == new NetInfoObtainer().GetClientIP())
-            {
-                return this._ConfigFactory.Create(login.Client);
-            }
-            return null;            
+            Login login = this._LoginRepo.Find(sessionID);
+            return (this._LoginRepo.IsSessionIDValid(login)) ? this._ConfigFactory.Create(login.Client) : null;        
         }
         #endregion
 

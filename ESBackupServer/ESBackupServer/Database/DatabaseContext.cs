@@ -9,7 +9,10 @@ namespace ESBackupServer.Database
         private static DatabaseContext _Instance { get; set; }
         private DatabaseContext() : base("name=MSSQL")
         {
-            this.Configuration.ProxyCreationEnabled = false;
+            this.Configuration.AutoDetectChangesEnabled = true;
+            this.Configuration.LazyLoadingEnabled = true;
+            this.Configuration.ProxyCreationEnabled = true;
+            this.Configuration.ValidateOnSaveEnabled = true;
         }
         public static DatabaseContext GetInstance()
         {
@@ -35,6 +38,14 @@ namespace ESBackupServer.Database
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Conventions.Remove<System.Data.Entity.ModelConfiguration.Conventions.PluralizingTableNameConvention>();
+
+
+        }
+        protected override void Dispose(bool disposing)
+        {
+            //TODO: Possible bug because of Singleton
+            this.Configuration.LazyLoadingEnabled = false;
+            base.Dispose(disposing);
         }
     }
 }

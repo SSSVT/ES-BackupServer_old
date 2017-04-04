@@ -76,14 +76,17 @@ namespace ESBackupServer.Database.Repositories
             else if (login != null && new IPAddress(login.IP) != this._NetInfo.GetClientIP())
                 login.UTCExpiration = DateTime.UtcNow;
 
-            LoginRepository repo = LoginRepository.GetInstance();
-            DateTime time = DateTime.UtcNow;
-            repo.Add(new Login(client, time));
-            return repo.Find(client);
+            this.Add(new Login(client, DateTime.UtcNow));
+            return this.Find(client);
         }
         internal bool IsSessionIDValid(Login login)
         {
-            return login.UTCExpiration < DateTime.UtcNow;
+            if (login.UTCExpiration < DateTime.UtcNow && new IPAddress(login.IP) == this._NetInfo.GetClientIP())
+            {
+                login.UTCExpiration = DateTime.UtcNow.AddMinutes(15);
+                return true;
+            }
+            return false;
         }
     }
 }
