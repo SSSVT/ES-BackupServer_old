@@ -35,11 +35,10 @@ namespace ESBackupServer.Database
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            //TODO: Need to implement? https://blog.rsuter.com/using-entity-framework-code-first-proxies-with-wcf-web-services/
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Conventions.Remove<System.Data.Entity.ModelConfiguration.Conventions.PluralizingTableNameConvention>();
-
-
         }
         protected override void Dispose(bool disposing)
         {
