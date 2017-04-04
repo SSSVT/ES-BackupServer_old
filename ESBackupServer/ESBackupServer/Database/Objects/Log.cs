@@ -18,10 +18,11 @@ namespace ESBackupServer.Database.Objects
         [Column("IDesbk_tbBackups"), DataMember]
         public long? IDBackup { get; set; }
 
-        [Column("IDesbk_tbClientLogTypes"), DataMember]
+        //TODO: Check
+        [Column("IDesbk_tbLogTypes"), DataMember]
         public byte IDLogType { get; set; }
 
-        [Column("LG_TIME"), DataMember]
+        [Column("LG_TIME_UTC"), DataMember]
         public DateTime UTCTime { get; set; }
 
         [Column("LG_VALUE"), DataMember]
@@ -60,6 +61,11 @@ namespace ESBackupServer.Database.Objects
         public Log(Client client, Backup backup, DateTime UTCtime, string value, LogTypeNames logtype) : this(client, UTCtime, value, logtype)
         {
             this.IDBackup = backup.ID;
+        }
+        //TODO: Check
+        public Log()
+        {
+
         }
     }
 }

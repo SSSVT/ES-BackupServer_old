@@ -18,12 +18,19 @@ namespace ESBackupServer
         private LogRepository _LogRepository { get; set; } = LogRepository.GetInstance();
 
         private ConfigurationFactory _ConfigFactory { get; set; } = new ConfigurationFactory();
+        //TODO: Check
+        private BackupRepository _BackupRepository { get; set; } = BackupRepository.GetInstance();
         #endregion
 
         #region Get
+        //public List<Backup> GetBackups(Client client)
+        //{
+        //    return this._ClientRepository.Find(client.ID).Backups;
+        //}
+        //TODO: Check
         public List<Backup> GetBackups(Client client)
         {
-            return this._ClientRepository.Find(client.ID).Backups;
+            return this._BackupRepository.Find(client);
         }
         public List<Client> GetClients()
         {
