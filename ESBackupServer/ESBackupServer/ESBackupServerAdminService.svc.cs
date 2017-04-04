@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.Text;
-using ESBackupServer.App.Objects;
+﻿using ESBackupServer.App.Objects;
+using ESBackupServer.App.Objects.Factories;
 using ESBackupServer.Database.Objects;
 using ESBackupServer.Database.Repositories;
-using ESBackupServer.App.Objects.Factories;
+using System.Collections.Generic;
 
 namespace ESBackupServer
 {
@@ -19,7 +14,6 @@ namespace ESBackupServer
         //TODO: Optional - Implement https://www.codeproject.com/Articles/763271/Common-issues-in-WCF
 
         #region Properties
-        private BackupRepository _BackupRepository { get; set; } = BackupRepository.GetInstance();
         private ClientRepository _ClientRepository { get; set; } = ClientRepository.GetInstance();
         private LogRepository _LogRepository { get; set; } = LogRepository.GetInstance();
 

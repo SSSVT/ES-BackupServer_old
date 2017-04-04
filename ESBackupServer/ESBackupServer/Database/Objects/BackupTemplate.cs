@@ -32,13 +32,13 @@ namespace ESBackupServer.Database.Objects
         public string Destination { get; set; }
 
         [Column("BK_TYPE"), DataMember]
-        public BackupTypes Type { get; set; }
+        public bool Type { get; set; }
 
         [Column("BK_EXPIRATION_DAYS"), DataMember]
         public uint? DaysToExpiration { get; set; }
 
         [Column("BK_COMPRESSION"), DataMember]
-        public Compression Compression { get; set; }
+        public bool Compression { get; set; }
 
         [ForeignKey("IDClient"), DataMember]
         public virtual Client Client { get; set; }
@@ -56,21 +56,5 @@ namespace ESBackupServer.Database.Objects
         [NotMapped]
         public List<CommandDefinition> Commands { get; set; }
         #endregion
-    }
-
-    [DataContract]
-    public enum BackupTypes
-    {
-        [EnumMember]
-        Full,
-        [EnumMember]
-        Differential
-    }
-
-    [DataContract]
-    public enum Compression
-    {
-        Disabled,
-        Enabled
     }
 }
