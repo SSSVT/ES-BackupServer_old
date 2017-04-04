@@ -28,6 +28,18 @@ namespace ESBackupServer.Database.Objects
 
         [Column("CL_VERIFIED"), DataMember]
         public bool Verified { get; set; }
+
+        [Column("CL_AUTO_STATUS_REPORT_ENABLED"), DataMember]
+        public bool StatusReportEnabled { get; set; }
+
+        /// <summary>
+        /// In milisecond
+        /// </summary>
+        [Column("CL_AUTO_STATUS_REPORT_INTERVAL"), DataMember]
+        public int? ReportInterval { get; set; }
+
+        [Column("CL_LAST_STATUS_REPORT"), DataMember]
+        public DateTime? LastReportTime { get; set; }
         #endregion
         #region Not data member
         [Column("CL_HWID")]

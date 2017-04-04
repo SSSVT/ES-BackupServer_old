@@ -23,7 +23,12 @@ CREATE TABLE esbk_tbClients(
 
 	CL_LAST_BACKUP datetime, -- datetime?
 	
-	CL_VERIFIED bit not null -- bool, autorizován
+	CL_VERIFIED bit not null, -- bool, autorizován
+
+	CL_AUTO_STATUS_REPORT_ENABLED bit not null,
+	CL_AUTO_STATUS_REPORT_INTERVAL int,
+	CL_LAST_STATUS_REPORT datetime,
+
 ); /* Tabulka serverů (klientů), kteří se zálohují */
 CREATE TABLE esbk_tbLogins(
 	ID uniqueidentifier not null, -- GUID
@@ -65,6 +70,8 @@ CREATE TABLE esbk_tbBackupTemplates(
 
 	BK_EXPIRATION_DAYS int, -- int?
 	BK_COMPRESSION bit not null, -- 0 = do not compress; 1 = compress
+
+	BK_ENABLED bit not null -- zda je template aktivní
 );
 CREATE TABLE esbk_tbBackupTemplatesSetting(
 	ID uniqueidentifier not null, -- GUID
@@ -141,6 +148,7 @@ BEGIN /* DF */
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT DF_esbk_tbBackups_BK_STATUS DEFAULT (0) FOR BK_STATUS;
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_TYPE DEFAULT (0) FOR BK_TYPE;
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_COMPRESSION DEFAULT (0) FOR BK_COMPRESSION;
+	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_ACTIVE DEFAULT (0) FOR BK_ACTIVE;
 	ALTER TABLE esbk_tbLogs ADD CONSTRAINT DF_esbk_tbLogs_LG_TIME_UTC DEFAULT (GETDATE()) FOR LG_TIME_UTC;
 END
 BEGIN /* CK */

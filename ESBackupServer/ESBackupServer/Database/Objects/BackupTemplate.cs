@@ -40,6 +40,9 @@ namespace ESBackupServer.Database.Objects
         [Column("BK_COMPRESSION"), DataMember]
         public bool Compression { get; set; }
 
+        [Column("BK_ENABLED"), DataMember]
+        public bool Enabled { get; set; }
+
         [ForeignKey("IDClient"), DataMember]
         public virtual Client Client { get; set; }
 
