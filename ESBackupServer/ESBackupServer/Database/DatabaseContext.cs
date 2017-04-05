@@ -9,10 +9,7 @@ namespace ESBackupServer.Database
         private static DatabaseContext _Instance { get; set; }
         private DatabaseContext() : base("name=MSSQL")
         {
-            this.Configuration.AutoDetectChangesEnabled = true;
-            this.Configuration.LazyLoadingEnabled = true;
-            this.Configuration.ProxyCreationEnabled = true;
-            this.Configuration.ValidateOnSaveEnabled = true;
+            
         }
         public static DatabaseContext GetInstance()
         {
@@ -23,6 +20,7 @@ namespace ESBackupServer.Database
         }
         #endregion
 
+        #region DbSets
         public DbSet<Backup> Backups { get; set; }
         public DbSet<BackupTemplate> Templates { get; set; }
         public DbSet<BackupTemplateSetting> Settings { get; set; }
@@ -31,20 +29,13 @@ namespace ESBackupServer.Database
         public DbSet<Log> Logs { get; set; }
         public DbSet<Login> Logins { get; set; }
         public DbSet<LogType> LogTypes { get; set; }
-        
+        #endregion
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            //TODO: Need to implement? https://blog.rsuter.com/using-entity-framework-code-first-proxies-with-wcf-web-services/
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Conventions.Remove<System.Data.Entity.ModelConfiguration.Conventions.PluralizingTableNameConvention>();
-        }
-        protected override void Dispose(bool disposing)
-        {
-            //TODO: Possible bug because of Singleton
-            this.Configuration.LazyLoadingEnabled = false;
-            base.Dispose(disposing);
         }
     }
 }
