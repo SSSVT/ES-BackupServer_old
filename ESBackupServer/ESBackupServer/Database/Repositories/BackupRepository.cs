@@ -26,7 +26,6 @@ namespace ESBackupServer.Database.Repositories
             this._Context.Backups.Add(item);
             this.SaveChanges();
         }
-        //TODO: Check
         internal override Backup Find(object id)
         {
             return this._Context.Backups.Find(id);
@@ -57,7 +56,7 @@ namespace ESBackupServer.Database.Repositories
             this.SaveChanges();
         }
         #endregion
-        //TODO: Check
+        
         internal List<Backup> Find(Client client)
         {
             return this._Context.Backups.Where(x => x.IDClient == client.ID).ToList();

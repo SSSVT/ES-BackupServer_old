@@ -55,7 +55,6 @@ namespace ESBackupServer.Database.Repositories
         {
             return this._Context.Logs.Where(x => x.IDBackup == backup.ID).ToList();
         }
-        //TODO: Check
         internal List<Log> Find(Client client)
         {
             return this._Context.Logs.Where(x => x.IDClient == client.ID).ToList();
