@@ -23,7 +23,7 @@ CREATE TABLE esbk_tbClients(
 
 	CL_LAST_BACKUP datetime, -- datetime?
 	
-	CL_VERIFIED bit not null, -- bool, autorizován
+	CL_STATUS tinyint not null, -- byte, autorizován/request registration/banned
 
 	CL_AUTO_STATUS_REPORT_ENABLED bit not null,
 	CL_AUTO_STATUS_REPORT_INTERVAL int,

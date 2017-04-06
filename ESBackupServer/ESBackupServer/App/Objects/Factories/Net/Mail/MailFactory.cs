@@ -9,11 +9,13 @@ namespace ESBackupServer.App.Objects.Factories.Net.Mail
     {
         public string CreateBody()
         {
+            //TODO: Implement
             throw new NotImplementedException();
         }
 
         public string CreateSubject()
         {
+            //TODO: Implement
             throw new NotImplementedException();
         }
     }

@@ -26,8 +26,8 @@ namespace ESBackupServer.Database.Objects
         [Column("CL_LAST_BACKUP"), DataMember]
         public DateTime? LastBackupTime { get; set; }
 
-        [Column("CL_VERIFIED"), DataMember]
-        public bool Verified { get; set; }
+        [Column("CL_STATUS"), DataMember]
+        public byte Status { get; set; }
 
         [Column("CL_AUTO_STATUS_REPORT_ENABLED"), DataMember]
         public bool StatusReportEnabled { get; set; }
