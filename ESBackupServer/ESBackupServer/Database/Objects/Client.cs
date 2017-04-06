@@ -67,4 +67,15 @@ namespace ESBackupServer.Database.Objects
         #endregion
         #endregion
     }
+
+    [DataContract]
+    public enum ClientStatus
+    {
+        [EnumMember]
+        Unverified,
+        [EnumMember]
+        Verified,
+        [EnumMember]
+        Banned
+    }
 }

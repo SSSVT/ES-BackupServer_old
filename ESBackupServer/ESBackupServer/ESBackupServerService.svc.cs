@@ -59,6 +59,11 @@ namespace ESBackupServer
 
             return true;
         }
+
+        public ClientStatus RequestRegistration()
+        {
+            throw new NotImplementedException();
+        }
         #endregion
 
         #region Backup
