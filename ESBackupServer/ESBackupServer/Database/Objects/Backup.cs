@@ -16,6 +16,9 @@ namespace ESBackupServer.Database.Objects
         [Column("IDesbk_tbClients"), DataMember]
         public int IDClient { get; set; }
 
+        [Column("IDesbk_tbBackupTemplates"), DataMember]
+        public long IDBackupTemplate { get; set; }
+
         [Column("BK_NAME"), DataMember]
         public string Name { get; set; }
 
@@ -49,6 +52,9 @@ namespace ESBackupServer.Database.Objects
         #region Virtual properties
         [ForeignKey("IDClient"), DataMember]
         public virtual Client Client { get; set; }
+
+        [ForeignKey("IDBackupTemplate"), DataMember]
+        public virtual BackupTemplate Template { get; set; }
 
         [DataMember]
         public virtual List<Log> Logs { get; set; }
