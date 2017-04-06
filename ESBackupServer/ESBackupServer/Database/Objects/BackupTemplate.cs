@@ -46,6 +46,9 @@ namespace ESBackupServer.Database.Objects
         [ForeignKey("IDClient"), DataMember]
         public virtual Client Client { get; set; }
 
+        [DataMember]
+        public virtual List<Backup> Backups { get; set; }
+
         public virtual List<BackupTemplateSetting> Settings { get; set; }
         #endregion
 

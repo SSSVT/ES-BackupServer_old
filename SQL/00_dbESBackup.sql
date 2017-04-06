@@ -42,6 +42,7 @@ CREATE TABLE esbk_tbLogins(
 CREATE TABLE esbk_tbBackups(
 	ID bigint identity(1,1) not null, -- long
 	IDesbk_tbClients int not null, -- int
+	IDesbk_tbBackupTemplates bigint not null,
 	BK_NAME varchar(128), -- string
 	BK_DESCRIPTION varchar(512), -- string
 	
@@ -118,7 +119,8 @@ BEGIN /* PK */
 END
 BEGIN /* FK */
 	ALTER TABLE esbk_tbLogins ADD CONSTRAINT FK_esbk_tbLogins_IDesbk_tbClients FOREIGN KEY (IDesbk_tbClients) REFERENCES esbk_tbClients(ID) ON UPDATE CASCADE ON DELETE CASCADE;
-	ALTER TABLE esbk_tbBackups ADD CONSTRAINT FK_esbk_tbBackups_IDesbk_tbClients FOREIGN KEY (IDesbk_tbClients) REFERENCES esbk_tbClients(ID) ON UPDATE CASCADE ON DELETE CASCADE;
+	ALTER TABLE esbk_tbBackups ADD CONSTRAINT FK_esbk_tbBackups_IDesbk_tbClients FOREIGN KEY (IDesbk_tbClients) REFERENCES esbk_tbClients(ID);
+	ALTER TABLE esbk_tbBackups ADD CONSTRAINT FK_esbk_tbBackups_IDesbk_tbBackupTemplates FOREIGN KEY (IDesbk_tbBackupTemplates) REFERENCES esbk_tbBackupTemplates(ID) ON UPDATE CASCADE ON DELETE CASCADE;
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT FK_esbk_tbBackupTemplates_IDesbk_tbClients FOREIGN KEY (IDesbk_tbClients) REFERENCES esbk_tbClients(ID) ON UPDATE CASCADE ON DELETE CASCADE;
 	ALTER TABLE esbk_tbBackupTemplatesSetting ADD CONSTRAINT FK_esbk_tbBackupTemplatesSetting_IDesbk_tbBackupTemplates FOREIGN KEY (IDesbk_tbBackupTemplates) REFERENCES esbk_tbBackupTemplates(ID) ON UPDATE CASCADE ON DELETE CASCADE;
 	ALTER TABLE esbk_tbBackupTemplatesSetting ADD CONSTRAINT FK_esbk_tbBackupTemplatesSetting_IDesbk_tbBackupTemplatesSettingTypes FOREIGN KEY (IDesbk_tbBackupTemplatesSettingTypes) REFERENCES esbk_tbBackupTemplatesSettingTypes(ID); -- nechceme zrušit uživatelům nastavení
@@ -139,7 +141,7 @@ BEGIN /* IX */
 	CREATE INDEX IX_esbk_tbLogs_IDesbk_tbLogTypes ON esbk_tbLogs(IDesbk_tbLogTypes);
 END
 BEGIN /* DF */
-	ALTER TABLE esbk_tbClients ADD CONSTRAINT DF_esbk_tbClients_CL_VERIFIED DEFAULT (0) FOR CL_VERIFIED;
+	ALTER TABLE esbk_tbClients ADD CONSTRAINT DF_esbk_tbClients_CL_STATUS DEFAULT (0) FOR CL_STATUS;
 	ALTER TABLE esbk_tbLogins ADD CONSTRAINT DF_esbk_tbLogins_LG_TIME_UTC DEFAULT (GETDATE()) FOR LG_TIME_UTC;
 	ALTER TABLE esbk_tbLogins ADD CONSTRAINT DF_esbk_tbLogins_LG_TIME_EXPIRATION_UTC DEFAULT (DATEADD(minute, 15, GETDATE())) FOR LG_TIME_EXPIRATION_UTC;
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT DF_esbk_tbBackups_BK_TYPE DEFAULT (0) FOR BK_TYPE;
