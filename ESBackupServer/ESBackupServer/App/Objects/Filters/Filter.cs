@@ -10,13 +10,13 @@ namespace ESBackupServer.App.Objects.Filters
     public enum Filter
     {
         [EnumMember]
-        All,
-        [EnumMember]
         Verified,
         [EnumMember]
         Unverified,
         [EnumMember]
-        Banned
+        Banned,
+        [EnumMember]
+        All
     }
 
     public enum Sort

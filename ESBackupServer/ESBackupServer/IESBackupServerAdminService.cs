@@ -18,17 +18,17 @@ namespace ESBackupServer
         [OperationContract]
         List<Client> GetClients(Filter filter, Sort sort);
 
-        //potřeba?
         [OperationContract]
-        List<Backup> GetBackups(Client client);
+        List<Backup> GetBackupsByClientID(int id);
 
-        //potřeba?
         [OperationContract]
-        List<Log> GetLogsByClient(Client client);
+        Backup GetBackupByID(long id);
 
-        //potřeba?
         [OperationContract]
-        List<Log> GetLogsByBackup(Backup backup);
+        List<Log> GetLogsByClientID(int id);
+
+        [OperationContract]
+        List<Log> GetLogsByBackupID(long id);
 
         [OperationContract]
         Configuration GetConfiguration(Client client);

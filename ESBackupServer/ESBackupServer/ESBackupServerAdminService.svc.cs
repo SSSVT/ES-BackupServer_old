@@ -3,6 +3,7 @@ using ESBackupServer.App.Objects.Factories;
 using ESBackupServer.App.Objects.Filters;
 using ESBackupServer.Database.Objects;
 using ESBackupServer.Database.Repositories;
+using System;
 using System.Collections.Generic;
 
 namespace ESBackupServer
@@ -22,9 +23,13 @@ namespace ESBackupServer
         #endregion
 
         #region Get
-        public List<Backup> GetBackups(Client client)
+        public List<Backup> GetBackupsByClientID(int id)
         {
-            return this._BackupRepository.Find(client);
+            return this._BackupRepository.FindByClientID(id);
+        }
+        public Backup GetBackupByID(long id)
+        {
+            return this._BackupRepository.Find(id);
         }
         public List<Client> GetClients(Filter filter, Sort sort)
         {
@@ -34,13 +39,13 @@ namespace ESBackupServer
         {
             return this._ConfigFactory.Create(client);
         }        
-        public List<Log> GetLogsByClient(Client client)
+        public List<Log> GetLogsByClientID(int id)
         {
-            return this._LogRepository.Find(client);
+            return this._LogRepository.FindByClientID(id);
         }        
-        public List<Log> GetLogsByBackup(Backup backup)
+        public List<Log> GetLogsByBackupID(long id)
         {
-            return this._LogRepository.Find(backup);
+            return this._LogRepository.FindByBackupID(id);
         }
         #endregion
         #region Set

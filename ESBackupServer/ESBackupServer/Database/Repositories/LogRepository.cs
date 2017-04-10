@@ -51,13 +51,13 @@ namespace ESBackupServer.Database.Repositories
         }
         #endregion
 
-        internal List<Log> Find(Backup backup)
+        internal List<Log> FindByBackupID(long ID)
         {
-            return this._Context.Logs.Where(x => x.IDBackup == backup.ID).ToList();
+            return this._Context.Logs.Where(x => x.IDBackup == ID).ToList();
         }
-        internal List<Log> Find(Client client)
+        internal List<Log> FindByClientID(int ID)
         {
-            return this._Context.Logs.Where(x => x.IDClient == client.ID).ToList();
+            return this._Context.Logs.Where(x => x.IDClient == ID).ToList();
         }
         internal void Create(Client client, string message, LogTypeNames type)
         {

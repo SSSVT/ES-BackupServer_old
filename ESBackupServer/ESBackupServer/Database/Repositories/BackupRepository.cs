@@ -57,9 +57,9 @@ namespace ESBackupServer.Database.Repositories
         }
         #endregion
         
-        internal List<Backup> Find(Client client)
+        internal List<Backup> FindByClientID(int ID)
         {
-            return this._Context.Backups.Where(x => x.IDClient == client.ID).ToList();
+            return this._Context.Backups.Where(x => x.IDClient == ID).ToList();
         }
     }
 }

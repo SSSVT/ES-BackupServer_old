@@ -69,13 +69,21 @@ namespace ESBackupServer.Database.Repositories
             switch (filter)
             {
                 case Filter.Verified:
-                    break;
+                    return (sort == Sort.Asc)
+                        ? this._Context.Clients.Where(x => x.Status == 0).OrderBy(x => x.LastReportTime).ToList()
+                        : this._Context.Clients.Where(x => x.Status == 0).OrderByDescending(x => x.LastReportTime).ToList();
                 case Filter.Unverified:
-                    break;
+                    return (sort == Sort.Asc)
+                        ? this._Context.Clients.Where(x => x.Status == 1).OrderBy(x => x.LastReportTime).ToList()
+                        : this._Context.Clients.Where(x => x.Status == 1).OrderByDescending(x => x.LastReportTime).ToList();
                 case Filter.Banned:
-                    break;
+                    return (sort == Sort.Asc)
+                        ? this._Context.Clients.Where(x => x.Status == 2).OrderBy(x => x.LastReportTime).ToList()
+                        : this._Context.Clients.Where(x => x.Status == 2).OrderByDescending(x => x.LastReportTime).ToList();
                 default:
-                    break;
+                    return (sort == Sort.Asc)
+                        ? this._Context.Clients.OrderBy(x => x.LastReportTime).ToList()
+                        : this._Context.Clients.OrderByDescending(x => x.LastReportTime).ToList();
             }
         }
     }
