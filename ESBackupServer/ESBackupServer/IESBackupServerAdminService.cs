@@ -1,4 +1,5 @@
 ﻿using ESBackupServer.App.Objects;
+using ESBackupServer.App.Objects.Filters;
 using ESBackupServer.Database.Objects;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace ESBackupServer
     {
         #region Get
         [OperationContract]
-        List<Client> GetClients();
+        List<Client> GetClients(Filter filter, Sort sort);
 
         //potřeba?
         [OperationContract]

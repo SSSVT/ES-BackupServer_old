@@ -84,6 +84,7 @@
     <Compile Include="App\Objects\Factories\EventDefinitionFactory.cs" />
     <Compile Include="App\Objects\Factories\CRONFactory.cs" />
     <Compile Include="App\Objects\Factories\Net\Mail\MailFactory.cs" />
+    <Compile Include="App\Objects\Filters\Filter.cs" />
     <Compile Include="Database\DatabaseContext.cs" />
     <Compile Include="Database\Objects\Backup.cs" />
     <Compile Include="Database\Objects\BackupTemplate.cs" />

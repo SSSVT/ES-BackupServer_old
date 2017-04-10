@@ -1,4 +1,5 @@
-﻿using ESBackupServer.Database.Objects;
+﻿using ESBackupServer.App.Objects.Filters;
+using ESBackupServer.Database.Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,6 +63,20 @@ namespace ESBackupServer.Database.Repositories
         internal Client FindByUsername(string username)
         {
             return this._Context.Clients.Where(x => x.Username == username).FirstOrDefault();
+        }
+        internal List<Client> Find(Filter filter, Sort sort)
+        {
+            switch (filter)
+            {
+                case Filter.Verified:
+                    break;
+                case Filter.Unverified:
+                    break;
+                case Filter.Banned:
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

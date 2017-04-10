@@ -1,5 +1,6 @@
 ﻿using ESBackupServer.App.Objects;
 using ESBackupServer.App.Objects.Factories;
+using ESBackupServer.App.Objects.Filters;
 using ESBackupServer.Database.Objects;
 using ESBackupServer.Database.Repositories;
 using System.Collections.Generic;
@@ -25,9 +26,9 @@ namespace ESBackupServer
         {
             return this._BackupRepository.Find(client);
         }
-        public List<Client> GetClients()
+        public List<Client> GetClients(Filter filter, Sort sort)
         {
-            return this._ClientRepository.FindAll();
+            return this._ClientRepository.Find(filter, sort);
         }
         public Configuration GetConfiguration(Client client)
         {
