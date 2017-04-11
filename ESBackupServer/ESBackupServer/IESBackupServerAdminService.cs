@@ -31,7 +31,7 @@ namespace ESBackupServer
         List<Log> GetLogsByBackupID(long id);
 
         [OperationContract]
-        Configuration GetConfiguration(Client client);
+        Configuration GetConfigurationByClientID(int id);
         #endregion
         #region Set
         [OperationContract]

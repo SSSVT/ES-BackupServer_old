@@ -86,5 +86,10 @@ namespace ESBackupServer.Database.Repositories
                         : this._Context.Clients.OrderByDescending(x => x.LastReportTime).ToList();
             }
         }
+
+        internal Client Find(string name, string hwid)
+        {
+            return this._Context.Clients.Where(x => x.Name == name && x.Hardware_ID == hwid).FirstOrDefault();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ESBackupServer.App.Objects;
+using ESBackupServer.Database.Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,10 @@ namespace ESBackupServer
     {
         [OperationContract]
         string TestConnection();
+
+        #region Registration
+        ClientStatus RequestRegistration(string name, string hwid);
+        #endregion
 
         #region User authentication
         [OperationContract]

@@ -23,6 +23,14 @@ namespace ESBackupServer
         #endregion
         #endregion
 
+        #region Registration
+        public ClientStatus RequestRegistration(string name, string hwid)
+        {
+            //TODO: Login - username, password
+            throw new NotImplementedException();
+        }
+        #endregion
+
         #region User authentication
         /// <summary>
         /// Returns session ID

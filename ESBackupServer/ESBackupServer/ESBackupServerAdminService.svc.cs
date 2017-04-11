@@ -35,9 +35,9 @@ namespace ESBackupServer
         {
             return this._ClientRepository.Find(filter, sort);
         }
-        public Configuration GetConfiguration(Client client)
+        public Configuration GetConfigurationByClientID(int id)
         {
-            return this._ConfigFactory.Create(client);
+            return this._ConfigFactory.Create(this._ClientRepository.Find(id));
         }        
         public List<Log> GetLogsByClientID(int id)
         {
