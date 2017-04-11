@@ -97,6 +97,7 @@
     <Compile Include="App\Objects\Factories\CRONFactory.cs" />
     <Compile Include="App\Objects\Factories\Net\Mail\MailFactory.cs" />
     <Compile Include="App\Objects\Filters\Filter.cs" />
+    <Compile Include="App\Objects\Registration\UserDefinition.cs" />
     <Compile Include="Database\DatabaseContext.cs" />
     <Compile Include="Database\Objects\Backup.cs" />
     <Compile Include="Database\Objects\BackupTemplate.cs" />
@@ -132,7 +133,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App\Interfaces\" />
-    <Folder Include="App\Objects\Registration\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>

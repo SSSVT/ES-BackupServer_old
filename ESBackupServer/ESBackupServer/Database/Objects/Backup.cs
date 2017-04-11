@@ -34,6 +34,9 @@ namespace ESBackupServer.Database.Objects
         [Column("BK_TYPE"), DataMember]
         public bool Type { get; set; }
 
+        [Column("IDesbk_tbBackups_BASE"), DataMember]
+        public long? BaseFullBackupID { get; set; }
+
         [Column("BK_EXPIRATION"), DataMember]
         public DateTime? Expiration { get; set; }
 
@@ -55,6 +58,9 @@ namespace ESBackupServer.Database.Objects
 
         [ForeignKey("IDBackupTemplate"), DataMember]
         public virtual BackupTemplate Template { get; set; }
+
+        [ForeignKey("BaseFullBackupID"), DataMember]
+        public virtual Backup BaseFullBackup { get; set; }
 
         [DataMember]
         public virtual List<Log> Logs { get; set; }

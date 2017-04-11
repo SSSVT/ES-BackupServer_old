@@ -50,6 +50,7 @@ CREATE TABLE esbk_tbBackups(
 	BK_DESTINATION varchar(max) not null, -- new
 
 	BK_TYPE bit not null, -- 0 = full, 1 = differential
+	IDesbk_tbBackups_BASE bigint,
 
 	BK_EXPIRATION datetime, -- datetime?; new here
 	BK_COMPRESSION bit not null, -- 0 = do not compress; 1 = compress; new here
@@ -121,6 +122,7 @@ BEGIN /* FK */
 	ALTER TABLE esbk_tbLogins ADD CONSTRAINT FK_esbk_tbLogins_IDesbk_tbClients FOREIGN KEY (IDesbk_tbClients) REFERENCES esbk_tbClients(ID) ON UPDATE CASCADE ON DELETE CASCADE;
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT FK_esbk_tbBackups_IDesbk_tbClients FOREIGN KEY (IDesbk_tbClients) REFERENCES esbk_tbClients(ID);
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT FK_esbk_tbBackups_IDesbk_tbBackupTemplates FOREIGN KEY (IDesbk_tbBackupTemplates) REFERENCES esbk_tbBackupTemplates(ID) ON UPDATE CASCADE ON DELETE CASCADE;
+	ALTER TABLE esbk_tbBackups ADD CONSTRAINT FK_esbk_tbBackups_IDesbk_IDesbk_tbBackups_BASE FOREIGN KEY (IDesbk_tbBackups_BASE) REFERENCES esbk_tbBackups(ID);
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT FK_esbk_tbBackupTemplates_IDesbk_tbClients FOREIGN KEY (IDesbk_tbClients) REFERENCES esbk_tbClients(ID) ON UPDATE CASCADE ON DELETE CASCADE;
 	ALTER TABLE esbk_tbBackupTemplatesSetting ADD CONSTRAINT FK_esbk_tbBackupTemplatesSetting_IDesbk_tbBackupTemplates FOREIGN KEY (IDesbk_tbBackupTemplates) REFERENCES esbk_tbBackupTemplates(ID) ON UPDATE CASCADE ON DELETE CASCADE;
 	ALTER TABLE esbk_tbBackupTemplatesSetting ADD CONSTRAINT FK_esbk_tbBackupTemplatesSetting_IDesbk_tbBackupTemplatesSettingTypes FOREIGN KEY (IDesbk_tbBackupTemplatesSettingTypes) REFERENCES esbk_tbBackupTemplatesSettingTypes(ID); -- nechceme zrušit uživatelům nastavení
@@ -133,6 +135,7 @@ BEGIN /* IX */
 	CREATE INDEX IX_esbk_tbLogins_ID ON esbk_tbLogins(ID);
 	CREATE INDEX IX_esbk_tbLogins_IDesbk_tbClients_LG_TIME_UTC ON esbk_tbLogins(IDesbk_tbClients, LG_TIME_UTC);
 	CREATE INDEX IX_esbk_tbBackups_IDesbk_tbClients ON esbk_tbBackups(IDesbk_tbClients);
+	CREATE INDEX IX_esbk_tbBackups_IDesbk_tbBackups_BASE ON esbk_tbBackups(IDesbk_tbBackups_BASE) WHERE BK_TYPE = 1;
 	CREATE INDEX IX_esbk_tbBackupTemplates_IDesbk_tbClients ON esbk_tbBackupTemplates(IDesbk_tbClients);
 	CREATE INDEX IX_esbk_tbBackupTemplatesSetting_IDesbk_tbBackupTemplates ON esbk_tbBackupTemplatesSetting(IDesbk_tbBackupTemplates);
 	CREATE INDEX IX_esbk_tbBackupTemplatesSetting_IDesbk_tbBackupTemplatesSettingTypes ON esbk_tbBackupTemplatesSetting(IDesbk_tbBackupTemplatesSettingTypes);

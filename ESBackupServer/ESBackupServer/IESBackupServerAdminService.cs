@@ -36,6 +36,9 @@ namespace ESBackupServer
         #region Set
         [OperationContract]
         bool SaveConfiguration(Configuration config);
+
+        [OperationContract]
+        void UpdateClient(Client client);
         #endregion
     }
 }

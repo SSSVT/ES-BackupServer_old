@@ -1,10 +1,10 @@
 ﻿using ESBackupServer.App.Objects;
 using ESBackupServer.App.Objects.Components.Net;
 using ESBackupServer.App.Objects.Factories;
+using ESBackupServer.App.Objects.Registration;
 using ESBackupServer.Database.Objects;
 using ESBackupServer.Database.Repositories;
 using System;
-using System.Net;
 
 namespace ESBackupServer
 {
@@ -24,7 +24,7 @@ namespace ESBackupServer
         #endregion
 
         #region Registration
-        public ClientStatus RequestRegistration(string name, string hwid)
+        public UserDefinition RequestRegistration(string name, string hwid)
         {
             //TODO: Login - username, password
             throw new NotImplementedException();

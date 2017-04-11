@@ -1,12 +1,7 @@
 ﻿using ESBackupServer.App.Objects;
-using ESBackupServer.Database.Objects;
+using ESBackupServer.App.Objects.Registration;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
 using System.ServiceModel;
-using System.ServiceModel.Web;
-using System.Text;
 
 namespace ESBackupServer
 {
@@ -18,7 +13,7 @@ namespace ESBackupServer
         string TestConnection();
 
         #region Registration
-        ClientStatus RequestRegistration(string name, string hwid);
+        UserDefinition RequestRegistration(string name, string hwid);
         #endregion
 
         #region User authentication

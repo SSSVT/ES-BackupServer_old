@@ -53,6 +53,10 @@ namespace ESBackupServer
         {
             return this._ConfigFactory.Save(config);
         }
+        public void UpdateClient(Client client)
+        {
+            this._ClientRepository.Update(client);
+        }
         #endregion
     }
 }
