@@ -6,26 +6,46 @@ namespace ESBackupServer.App.Components.Net.Mail
 {
     internal class MailSender
     {
-        public void Send(string server, string recipient, string subject, string message, bool EnableSSL = false)
+        #region Without security protocol
+        public void Send(string server, string recipient, string subject, string message)
         {
-            this.Send(
-                new SmtpClient(server)
-                {
-                    EnableSsl = EnableSSL
-                },
-                new MailMessage(Properties.Settings.Default.MailSender, recipient, subject, message));
+            this.Send(new SmtpClient(server), new MailMessage(Properties.Settings.Default.MailSender, recipient, subject, message));
         }
-        public void Send(string server, string username, string password, string recipient, string subject, string message, bool EnableSSL = false)
+        public void Send(string server, string username, string password, string recipient, string subject, string message)
         {
             this.Send(
                 new SmtpClient(server)
                 {
-                    EnableSsl = EnableSSL,
                     UseDefaultCredentials = false,
                     Credentials = new NetworkCredential(username, password)
                 },
                 new MailMessage(Properties.Settings.Default.MailSender, recipient, subject, message));
         }
+        #endregion
+        #region With security protocol
+        public void Send(string server, string recipient, string subject, string message, SecurityProtocolType protocol)
+        {
+            ServicePointManager.SecurityProtocol = protocol;
+            this.Send(
+                new SmtpClient(server)
+                {
+                    EnableSsl = true
+                },
+                new MailMessage(Properties.Settings.Default.MailSender, recipient, subject, message));
+        }
+        public void Send(string server, string username, string password, string recipient, string subject, string message, SecurityProtocolType protocol)
+        {
+            ServicePointManager.SecurityProtocol = protocol;
+            this.Send(
+                new SmtpClient(server)
+                {
+                    EnableSsl = true,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(username, password)
+                },
+                new MailMessage(Properties.Settings.Default.MailSender, recipient, subject, message));
+        }
+        #endregion
 
         private void Send(SmtpClient client, MailMessage message)
         {

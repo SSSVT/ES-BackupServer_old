@@ -1,19 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using ESBackupServer.Database.Objects;
+using ESBackupServer.Database.Repositories;
+using System;
 
 namespace ESBackupServer.App.Objects.Factories.Net.Mail
 {
     public class MailFactory
     {
-        public string CreateBody()
+        private ClientRepository _ClientRepo { get; set; } = ClientRepository.GetInstance();
+
+        public string CreateBody(Client client)
         {
             //TODO: Implement
             throw new NotImplementedException();
         }
 
-        public string CreateSubject()
+        public string CreateSubject(Client client)
         {
             //TODO: Implement
             throw new NotImplementedException();

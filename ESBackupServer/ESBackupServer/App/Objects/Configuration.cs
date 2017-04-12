@@ -9,9 +9,6 @@ namespace ESBackupServer.App.Objects
     public class Configuration
     {
         [DataMember]
-        public Client Client { get; set; }
-
-        [DataMember]
         public List<BackupTemplate> Templates { get; set; }
 
         #region Metadata

@@ -6,6 +6,8 @@ namespace ESBackupServer.App.Objects.Factories.Config
 {
     internal class ConfigurationFactory
     {
+        private BackupTemplateSettingRepository _BackupTemplateRepo { get; set; } = BackupTemplateSettingRepository.GetInstance();
+
         internal Configuration Create(Client client)
         {
             EventDefinitionFactory EventFactory = new EventDefinitionFactory();
@@ -13,7 +15,6 @@ namespace ESBackupServer.App.Objects.Factories.Config
 
             Configuration config = new Configuration()
             {
-                Client = client,
                 Templates = BackupTemplateRepository.GetInstance().Find(client)
             };
 
@@ -29,6 +30,12 @@ namespace ESBackupServer.App.Objects.Factories.Config
 
         internal bool Save(Configuration config)
         {
+            foreach (BackupTemplate item in config.Templates)
+            {
+                //events
+                //timeactions
+                //commands
+            }
             //TODO: Implement
             throw new NotImplementedException();
         }

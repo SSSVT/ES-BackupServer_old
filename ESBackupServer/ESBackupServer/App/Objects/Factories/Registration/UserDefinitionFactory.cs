@@ -6,12 +6,10 @@ namespace ESBackupServer.App.Objects.Factories.Registration
 {
     internal class UserDefinitionFactory
     {
-        private ClientRepository _ClientRepository { get; set; } = ClientRepository.GetInstance();
-
         internal UserDefinition Create(Client client)
         {
-            this._ClientRepository.Update(client);
-            return (client.Status == (int)ClientStatus.Verified)
+            ClientRepository.GetInstance().Update(client);
+            return (client.Status == (int)ClientStatus.Verified && client.Username == null)
                 ? new UserDefinition()
                 {
                     //TODO: Create username, password and salt
