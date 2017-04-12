@@ -17,9 +17,9 @@ CREATE TABLE esbk_tbClients(
 	CL_HWID varchar(512), -- HWID
 
 	-- return true/false = login failed
-	CL_LOGIN_NAME varchar(128) not null, -- username
-	CL_LOGIN_PSWD varchar(2048) not null, -- password
-	CL_LOGIN_SALT varchar(512) not null, -- salt
+	CL_LOGIN_NAME varchar(128), -- username
+	CL_LOGIN_PSWD varchar(2048), -- password
+	CL_LOGIN_SALT varchar(512), -- salt
 
 	CL_LAST_BACKUP datetime, -- datetime?
 	
