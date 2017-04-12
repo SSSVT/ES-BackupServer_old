@@ -72,9 +72,9 @@ namespace ESBackupServer.Database.Objects
     public enum ClientStatus
     {
         [EnumMember]
-        Unverified,
-        [EnumMember]
         Verified,
+        [EnumMember]
+        Unverified,        
         [EnumMember]
         Banned
     }

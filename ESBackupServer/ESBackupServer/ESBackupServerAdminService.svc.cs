@@ -1,9 +1,8 @@
 ﻿using ESBackupServer.App.Objects;
-using ESBackupServer.App.Objects.Factories;
+using ESBackupServer.App.Objects.Factories.Config;
 using ESBackupServer.App.Objects.Filters;
 using ESBackupServer.Database.Objects;
 using ESBackupServer.Database.Repositories;
-using System;
 using System.Collections.Generic;
 
 namespace ESBackupServer

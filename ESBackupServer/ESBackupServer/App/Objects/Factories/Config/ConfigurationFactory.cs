@@ -2,7 +2,7 @@
 using ESBackupServer.Database.Repositories;
 using System;
 
-namespace ESBackupServer.App.Objects.Factories
+namespace ESBackupServer.App.Objects.Factories.Config
 {
     internal class ConfigurationFactory
     {

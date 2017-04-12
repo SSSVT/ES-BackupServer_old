@@ -1,6 +1,5 @@
 ﻿using ESBackupServer.App.Objects.Filters;
 using ESBackupServer.Database.Objects;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -90,6 +89,16 @@ namespace ESBackupServer.Database.Repositories
         internal Client Find(string name, string hwid)
         {
             return this._Context.Clients.Where(x => x.Name == name && x.Hardware_ID == hwid).FirstOrDefault();
+        }
+
+        internal Client CreateClient(string name, string hwid)
+        {
+            this.Add(new Client()
+            {
+                Name = name,
+                Hardware_ID = hwid
+            });
+            return this.Find(name, hwid);
         }
     }
 }

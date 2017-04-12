@@ -3,7 +3,7 @@ using ESBackupServer.Database.Objects;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ESBackupServer.App.Objects.Factories
+namespace ESBackupServer.App.Objects.Factories.Config
 {
     public class EventDefinitionFactory
     {

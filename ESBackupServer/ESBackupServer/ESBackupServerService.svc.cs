@@ -1,6 +1,7 @@
 ﻿using ESBackupServer.App.Objects;
 using ESBackupServer.App.Objects.Components.Net;
-using ESBackupServer.App.Objects.Factories;
+using ESBackupServer.App.Objects.Factories.Config;
+using ESBackupServer.App.Objects.Factories.Registration;
 using ESBackupServer.App.Objects.Registration;
 using ESBackupServer.Database.Objects;
 using ESBackupServer.Database.Repositories;
@@ -26,8 +27,10 @@ namespace ESBackupServer
         #region Registration
         public UserDefinition RequestRegistration(string name, string hwid)
         {
-            //TODO: Login - username, password
-            throw new NotImplementedException();
+            Client item = this._ClientRepo.Find(name, hwid);
+            if (item == null)
+                item = this._ClientRepo.CreateClient(name, hwid);
+            return new UserDefinitionFactory().Create(item);
         }
         #endregion
 
@@ -78,7 +81,7 @@ namespace ESBackupServer
         public Configuration GetConfiguration(Guid sessionID)
         {
             Login login = this._LoginRepo.Find(sessionID);
-            return (this._LoginRepo.IsSessionIDValid(login)) ? this._ConfigFactory.Create(login.Client) : null;        
+            return (this._LoginRepo.IsSessionIDValid(login)) ? this._ConfigFactory.Create(login.Client) : null;  
         }
         #endregion
 
