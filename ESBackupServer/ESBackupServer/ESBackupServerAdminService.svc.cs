@@ -11,6 +11,11 @@ namespace ESBackupServer
     // NOTE: In order to launch WCF Test Client for testing this service, please select ESBackupServerAdminService.svc or ESBackupServerAdminService.svc.cs at the Solution Explorer and start debugging.
     public class ESBackupServerAdminService : IESBackupServerAdminService
     {
+        public ESBackupServerAdminService()
+        {
+            //TODO: Possible to start timer
+        }
+
         #region Properties
         #region Repositories
         private ClientRepository _ClientRepository { get; set; } = ClientRepository.GetInstance();
