@@ -13,7 +13,11 @@ namespace ESBackupServer
     {
         public ESBackupServerAdminService()
         {
-            //TODO: Possible to start timer
+            //onStart
+        }
+        ~ESBackupServerAdminService()
+        {
+            //onStop
         }
 
         #region Properties
@@ -53,13 +57,17 @@ namespace ESBackupServer
         }
         #endregion
         #region Set
-        public bool SaveConfiguration(Configuration config)
+        public void SaveConfiguration(Configuration config)
         {
-            return this._ConfigFactory.Save(config);
+            this._ConfigFactory.Save(config);
         }
         public void UpdateClient(Client client)
         {
             this._ClientRepository.Update(client);
+        }
+        public void RemoveBackup(long id)
+        {
+            this._BackupRepository.Remove(id);
         }
         #endregion
     }

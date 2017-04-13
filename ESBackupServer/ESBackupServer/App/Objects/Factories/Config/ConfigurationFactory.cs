@@ -28,7 +28,7 @@ namespace ESBackupServer.App.Objects.Factories.Config
             return config;
         }
 
-        internal bool Save(Configuration config)
+        internal void Save(Configuration config)
         {
             foreach (BackupTemplate item in config.Templates)
             {

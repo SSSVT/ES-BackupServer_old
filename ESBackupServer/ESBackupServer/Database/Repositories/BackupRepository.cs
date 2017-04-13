@@ -36,6 +36,11 @@ namespace ESBackupServer.Database.Repositories
         }
         internal override void Remove(Backup item)
         {
+            if (!item.IsDifferential)
+            {
+                foreach (Backup diff in this._Context.Backups.Where(x => x.BaseFullBackupID == item.ID).ToList())
+                    this._Context.Backups.Remove(diff);
+            }
             this._Context.Backups.Remove(item);
             this.SaveChanges();
         }
@@ -47,7 +52,7 @@ namespace ESBackupServer.Database.Repositories
             backup.Description = item.Description;
             backup.Source = item.Source;
             backup.Destination = item.Destination;
-            backup.Type = item.Type;
+            backup.IsDifferential = item.IsDifferential;
             backup.Expiration = item.Expiration;
             backup.Compressed = item.Compressed;
             backup.Start = item.Start;
@@ -60,6 +65,10 @@ namespace ESBackupServer.Database.Repositories
         internal List<Backup> FindByClientID(int ID)
         {
             return this._Context.Backups.Where(x => x.IDClient == ID).ToList();
+        }
+        internal void Remove(long id)
+        {
+            this.Remove(this.Find(id));
         }
     }
 }

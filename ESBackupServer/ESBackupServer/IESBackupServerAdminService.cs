@@ -31,10 +31,13 @@ namespace ESBackupServer
         #endregion
         #region Set
         [OperationContract]
-        bool SaveConfiguration(Configuration config);
+        void SaveConfiguration(Configuration config);
 
         [OperationContract]
         void UpdateClient(Client client);
+
+        [OperationContract]
+        void RemoveBackup(long id);
         #endregion
     }
 }

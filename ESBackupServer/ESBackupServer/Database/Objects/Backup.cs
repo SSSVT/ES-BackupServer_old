@@ -32,7 +32,7 @@ namespace ESBackupServer.Database.Objects
         public string Destination { get; set; }
 
         [Column("BK_TYPE"), DataMember]
-        public bool Type { get; set; }
+        public bool IsDifferential { get; set; }
 
         [Column("IDesbk_tbBackups_BASE"), DataMember]
         public long? BaseFullBackupID { get; set; }
