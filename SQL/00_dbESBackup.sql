@@ -51,7 +51,7 @@ CREATE TABLE esbk_tbBackups(
 	BK_DESTINATION varchar(max) not null, -- new
 
 	BK_TYPE bit not null, -- 0 = full, 1 = differential
-	--IDesbk_tbBackups_BASE bigint,
+	IDesbk_tbBackups_BASE bigint,
 
 	BK_EXPIRATION datetime, -- datetime?; new here
 	BK_COMPRESSION bit not null, -- 0 = do not compress; 1 = compress; new here

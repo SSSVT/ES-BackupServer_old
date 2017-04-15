@@ -25,9 +25,8 @@ namespace ESBackupServer
 
         [OperationContract]
         List<Log> GetLogsByBackupID(long id);
-
         [OperationContract]
-        void SaveClientEmails(int clientID, List<ClientEmail> list);
+        void UpdateBackup(Backup backup);        
         //TODO: Remake
         /*
         [OperationContract]

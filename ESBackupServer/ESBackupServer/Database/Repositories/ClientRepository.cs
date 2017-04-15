@@ -52,9 +52,17 @@ namespace ESBackupServer.Database.Repositories
             client.Password = item.Password;
             client.Salt = item.Salt;
             this.SaveChanges();
-        }
+        }    
         #endregion
-
+        internal void Update(Client item, bool overload)
+        {
+            Client client = this.Find(item.ID);
+            client.Name = item.Name;
+            client.Description = item.Description;
+            client.Emails = item.Emails;
+            client.Status = item.Status;
+            this.SaveChanges();
+        }
         internal bool IsLoginValid(Client client, string password)
         {
             //TODO: Osolit heslo
@@ -100,21 +108,6 @@ namespace ESBackupServer.Database.Repositories
                 Hardware_ID = hwid
             });
             return this.Find(name, hwid);
-        }
-
-        internal void SaveEmails(int clientID, List<ClientEmail> list)
-        {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < list.Count - 1; i++)
-            {
-                sb.Append(list[i].Value);
-
-                if (i != list.Count - 1)
-                    sb.Append(";");
-            }
-
-            this._Context.Clients.Where(x => x.ID == clientID).FirstOrDefault().Emails = sb.ToString();
-            this.SaveChanges();
         }
     }
 }

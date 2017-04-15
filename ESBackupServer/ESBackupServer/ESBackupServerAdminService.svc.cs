@@ -69,16 +69,15 @@ namespace ESBackupServer
         */
         public void UpdateClient(Client client)
         {
-            this._ClientRepository.Update(client);
+            this._ClientRepository.Update(client,true);
         }
         public void RemoveBackup(long id)
         {
             this._BackupRepository.Remove(id);
         }
-
-        public void SaveClientEmails(int clientID, List<ClientEmail> list)
+        public void UpdateBackup(Backup backup)
         {
-            this._ClientRepository.SaveEmails(clientID,list);
+            this._BackupRepository.Update(backup,true);
         }
         #endregion
     }
