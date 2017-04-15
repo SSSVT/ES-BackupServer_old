@@ -1,9 +1,9 @@
 ﻿using ESBackupServer.App.Objects;
-using ESBackupServer.App.Objects.Factories.Config;
 using ESBackupServer.App.Objects.Filters;
 using ESBackupServer.Database.Objects;
 using ESBackupServer.Database.Repositories;
 using System.Collections.Generic;
+using System;
 
 namespace ESBackupServer
 {
@@ -26,8 +26,8 @@ namespace ESBackupServer
         private LogRepository _LogRepository { get; set; } = LogRepository.GetInstance();
         private BackupRepository _BackupRepository { get; set; } = BackupRepository.GetInstance();
         #endregion
-
-        private ConfigurationFactory _ConfigFactory { get; set; } = new ConfigurationFactory();
+        //TODO: Remake
+        //private ConfigurationFactory _ConfigFactory { get; set; } = new ConfigurationFactory();
         #endregion
 
         #region Get
@@ -43,10 +43,13 @@ namespace ESBackupServer
         {
             return this._ClientRepository.Find(filter, sort);
         }
+        //TODO: Remake
+        /*
         public Configuration GetConfigurationByClientID(int id)
         {
             return this._ConfigFactory.Create(this._ClientRepository.Find(id));
         }        
+        */
         public List<Log> GetLogsByClientID(int id)
         {
             return this._LogRepository.FindByClientID(id);
@@ -57,10 +60,13 @@ namespace ESBackupServer
         }
         #endregion
         #region Set
+        //TODO: Remake
+        /*        
         public void SaveConfiguration(Configuration config)
         {
             this._ConfigFactory.Save(config);
         }
+        */
         public void UpdateClient(Client client)
         {
             this._ClientRepository.Update(client);
@@ -68,6 +74,11 @@ namespace ESBackupServer
         public void RemoveBackup(long id)
         {
             this._BackupRepository.Remove(id);
+        }
+
+        public void SaveClientEmails(int clientID, List<ClientEmail> list)
+        {
+            this._ClientRepository.SaveEmails(clientID,list);
         }
         #endregion
     }

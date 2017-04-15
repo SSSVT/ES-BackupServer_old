@@ -1,6 +1,5 @@
 ﻿using ESBackupServer.App.Objects;
 using ESBackupServer.App.Objects.Components.Net;
-using ESBackupServer.App.Objects.Factories.Config;
 using ESBackupServer.App.Objects.Factories.Registration;
 using ESBackupServer.App.Objects.Registration;
 using ESBackupServer.Database.Objects;
@@ -20,7 +19,8 @@ namespace ESBackupServer
         private LogRepository _LogRepo { get; set; } = LogRepository.GetInstance();
         #endregion
         #region Factories
-        private ConfigurationFactory _ConfigFactory { get; set; } = new ConfigurationFactory();
+        //TODO: Remake
+        //private ConfigurationFactory _ConfigFactory { get; set; } = new ConfigurationFactory();
         #endregion
         #endregion
 
@@ -78,11 +78,14 @@ namespace ESBackupServer
         #endregion
 
         #region Backup
+        //TODO: Remake
+        /*
         public Configuration GetConfiguration(Guid sessionID)
         {
             Login login = this._LoginRepo.Find(sessionID);
             return (this._LoginRepo.IsSessionIDValid(login)) ? this._ConfigFactory.Create(login.Client) : null;  
         }
+        */
         #endregion
 
         #region Debugging methods

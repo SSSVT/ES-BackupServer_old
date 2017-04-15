@@ -2,6 +2,7 @@
 using ESBackupServer.Database.Objects;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace ESBackupServer.Database.Repositories
 {
@@ -99,6 +100,21 @@ namespace ESBackupServer.Database.Repositories
                 Hardware_ID = hwid
             });
             return this.Find(name, hwid);
+        }
+
+        internal void SaveEmails(int clientID, List<ClientEmail> list)
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < list.Count - 1; i++)
+            {
+                sb.Append(list[i].Value);
+
+                if (i != list.Count - 1)
+                    sb.Append(";");
+            }
+
+            this._Context.Clients.Where(x => x.ID == clientID).FirstOrDefault().Emails = sb.ToString();
+            this.SaveChanges();
         }
     }
 }

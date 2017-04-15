@@ -27,11 +27,19 @@ namespace ESBackupServer
         List<Log> GetLogsByBackupID(long id);
 
         [OperationContract]
+        void SaveClientEmails(int clientID, List<ClientEmail> list);
+        //TODO: Remake
+        /*
+        [OperationContract]
         Configuration GetConfigurationByClientID(int id);
+        */
         #endregion
         #region Set
+        //TODO: Remake
+        /*
         [OperationContract]
         void SaveConfiguration(Configuration config);
+        */
 
         [OperationContract]
         void UpdateClient(Client client);

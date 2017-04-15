@@ -1,5 +1,4 @@
-﻿using ESBackupServer.App.Objects.Config;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -48,19 +47,10 @@ namespace ESBackupServer.Database.Objects
 
         [DataMember]
         public virtual List<Backup> Backups { get; set; }
-
-        public virtual List<BackupTemplateSetting> Settings { get; set; }
         #endregion
 
         #region Local properties
-        [NotMapped]
-        public List<EventDefinition> Events { get; set; }
-
-        [NotMapped]
-        public List<CRONDefinition> TimeActions { get; set; }
-
-        [NotMapped]
-        public List<CommandDefinition> Commands { get; set; }
+        //TODO: Remake Command-PathInfo-TimeSetting
         #endregion
     }
 }
