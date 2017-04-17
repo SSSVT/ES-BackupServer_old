@@ -2,10 +2,10 @@
 
 use dbESBackup;
 
-insert into esbk_tbClients (CL_NAME,CL_EMAILS, CL_LOGIN_NAME, CL_LOGIN_PSWD, CL_LOGIN_SALT, CL_STATUS,CL_AUTO_STATUS_REPORT_ENABLED) values ('SRV-Pepa','spravce@gmail.com', 'Hl. admin', 'test', 'salt', 1,0);
-insert into esbk_tbClients (CL_NAME,CL_EMAILS, CL_LOGIN_NAME, CL_LOGIN_PSWD, CL_LOGIN_SALT, CL_STATUS,CL_AUTO_STATUS_REPORT_ENABLED) values ('SRV-Franta','skladnik@gmail.com;frantik@seznam.cz', 'Skladnik', 'test', 'salt', 1,0);
+insert into esbk_tbClients (CL_NAME,CL_EMAILS, CL_LOGIN_NAME, CL_LOGIN_PSWD, CL_LOGIN_SALT, CL_STATUS,CL_AUTO_STATUS_REPORT_ENABLED) values ('SRV-Pepa','spravce@gmail.com', 'Hl. admin', 'test', 'salt', 0,0);
+insert into esbk_tbClients (CL_NAME,CL_EMAILS, CL_LOGIN_NAME, CL_LOGIN_PSWD, CL_LOGIN_SALT, CL_STATUS,CL_AUTO_STATUS_REPORT_ENABLED) values ('SRV-Franta','skladnik@gmail.com;frantik@seznam.cz', 'Skladnik', 'test', 'salt', 0,0);
 insert into esbk_tbClients (CL_NAME,CL_EMAILS, CL_LOGIN_NAME, CL_LOGIN_PSWD, CL_LOGIN_SALT, CL_STATUS,CL_AUTO_STATUS_REPORT_ENABLED) values ('ST-PC_STANICE','stanicnipc@email.cz', 'PC v interieru', 'test', 'salt', 1,0);
-insert into esbk_tbClients (CL_NAME,CL_EMAILS, CL_LOGIN_NAME, CL_LOGIN_PSWD, CL_LOGIN_SALT, CL_STATUS,CL_AUTO_STATUS_REPORT_ENABLED) values ('ST-PC_Sklad','sklad@evostudio.cz;skladprivate@evostudio.cz;skladfiremni@evostudio.cz', 'PC ve skladu', 'test', 'salt', 1,0);
+insert into esbk_tbClients (CL_NAME,CL_EMAILS, CL_LOGIN_NAME, CL_LOGIN_PSWD, CL_LOGIN_SALT, CL_STATUS,CL_AUTO_STATUS_REPORT_ENABLED) values ('ST-PC_Sklad','sklad@evostudio.cz;skladprivate@evostudio.cz;skladfiremni@evostudio.cz', 'PC ve skladu', 'test', 'salt', 2,0);
 select * from esbk_tbClients
 
 insert into esbk_tbBackupTemplates (IDesbk_tbClients,BK_NAME,BK_TYPE, BK_COMPRESSION) values (1,'Full Backup Immediate', 0, 0);
