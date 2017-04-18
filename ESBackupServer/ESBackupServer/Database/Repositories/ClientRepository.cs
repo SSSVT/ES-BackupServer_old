@@ -2,7 +2,6 @@
 using ESBackupServer.Database.Objects;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ESBackupServer.Database.Repositories
 {
@@ -52,17 +51,9 @@ namespace ESBackupServer.Database.Repositories
             client.Password = item.Password;
             client.Salt = item.Salt;
             this.SaveChanges();
-        }    
-        #endregion
-        internal void Update(Client item, bool overload)
-        {
-            Client client = this.Find(item.ID);
-            client.Name = item.Name;
-            client.Description = item.Description;
-            client.Emails = item.Emails;
-            client.Status = item.Status;
-            this.SaveChanges();
         }
+        #endregion
+
         internal bool IsLoginValid(Client client, string password)
         {
             //TODO: Osolit heslo

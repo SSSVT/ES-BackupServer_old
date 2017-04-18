@@ -87,7 +87,14 @@
   <ItemGroup>
     <Compile Include="App\Components\Net\Mail\MailSender.cs" />
     <Compile Include="App\Components\Net\NetInfoObtainer.cs" />
+    <Compile Include="App\Objects\Config\CommandDefinition.cs" />
+    <Compile Include="App\Objects\Factories\Config\CommandDefinitionFactory.cs" />
+    <Compile Include="App\Objects\Factories\Config\ConfigurationFactory.cs" />
     <Compile Include="App\Objects\Configuration.cs" />
+    <Compile Include="App\Objects\Config\EventDefinition.cs" />
+    <Compile Include="App\Objects\Config\CRONDefinition.cs" />
+    <Compile Include="App\Objects\Factories\Config\EventDefinitionFactory.cs" />
+    <Compile Include="App\Objects\Factories\Config\CRONFactory.cs" />
     <Compile Include="App\Objects\Factories\Net\Mail\MailFactory.cs" />
     <Compile Include="App\Objects\Factories\Registration\UserDefinitionFactory.cs" />
     <Compile Include="App\Objects\Filters\Filter.cs" />
@@ -95,23 +102,21 @@
     <Compile Include="Database\DatabaseContext.cs" />
     <Compile Include="Database\Objects\Backup.cs" />
     <Compile Include="Database\Objects\BackupTemplate.cs" />
-    <Compile Include="Database\Objects\BackupTemplateCommand.cs" />
-    <Compile Include="Database\Objects\BackupTemplatePathInfo.cs" />
-    <Compile Include="Database\Objects\BackupTemplateTimeSetting.cs" />
+    <Compile Include="Database\Objects\BackupTemplateSetting.cs" />
     <Compile Include="Database\Objects\Client.cs" />
     <Compile Include="Database\Objects\Log.cs" />
     <Compile Include="Database\Objects\Login.cs" />
     <Compile Include="Database\Objects\LogType.cs" />
+    <Compile Include="Database\Objects\BackupTemplateSettingType.cs" />
     <Compile Include="Database\Repositories\AbRepository.cs" />
     <Compile Include="Database\Repositories\BackupRepository.cs" />
     <Compile Include="Database\Repositories\BackupTemplateRepository.cs" />
+    <Compile Include="Database\Repositories\BackupTemplateSettingRepository.cs" />
     <Compile Include="Database\Repositories\LoginRepository.cs" />
     <Compile Include="Database\Repositories\ClientRepository.cs" />
     <Compile Include="Database\Repositories\LogRepository.cs" />
     <Compile Include="Database\Repositories\LogTypeRepository.cs" />
-    <Compile Include="Database\Repositories\BackupTemplateCommandRepository.cs" />
-    <Compile Include="Database\Repositories\BackupTemplatePathInfoRepository.cs" />
-    <Compile Include="Database\Repositories\BackupTemplateTimeSettingRepository.cs" />
+    <Compile Include="Database\Repositories\BackupSettingTypeRepository.cs" />
     <Compile Include="ESBackupServerAdminService.svc.cs">
       <DependentUpon>ESBackupServerAdminService.svc</DependentUpon>
     </Compile>
@@ -129,8 +134,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App\Interfaces\" />
-    <Folder Include="App\Objects\Config\" />
-    <Folder Include="App\Objects\Factories\Config\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>

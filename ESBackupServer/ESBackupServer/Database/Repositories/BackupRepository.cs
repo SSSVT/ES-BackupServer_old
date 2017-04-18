@@ -60,14 +60,6 @@ namespace ESBackupServer.Database.Repositories
             backup.Status = item.Status;
             this.SaveChanges();
         }
-        internal void Update(Backup item, bool overload)
-        {
-            Backup backup = this.Find(item.ID);
-            backup.Name = item.Name;
-            backup.Description = item.Description;
-            backup.Expiration = item.Expiration;
-            this.SaveChanges();
-        }
         #endregion
         
         internal List<Backup> FindByClientID(int ID)

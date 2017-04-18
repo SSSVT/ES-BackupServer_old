@@ -25,20 +25,13 @@ namespace ESBackupServer
 
         [OperationContract]
         List<Log> GetLogsByBackupID(long id);
-        [OperationContract]
-        void UpdateBackup(Backup backup);        
-        //TODO: Remake
-        /*
+
         [OperationContract]
         Configuration GetConfigurationByClientID(int id);
-        */
         #endregion
         #region Set
-        //TODO: Remake
-        /*
         [OperationContract]
         void SaveConfiguration(Configuration config);
-        */
 
         [OperationContract]
         void UpdateClient(Client client);

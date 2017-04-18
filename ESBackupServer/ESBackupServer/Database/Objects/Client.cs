@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using System.ServiceModel;
 
 namespace ESBackupServer.Database.Objects
 {
@@ -23,8 +22,6 @@ namespace ESBackupServer.Database.Objects
 
         [Column("CL_LOGIN_NAME"), DataMember]
         public string Username { get; set; }
-        [Column("CL_EMAILS"), DataMember]
-        public string Emails { get; set; }
 
         [Column("CL_LAST_BACKUP"), DataMember]
         public DateTime? LastBackupTime { get; set; }
@@ -80,12 +77,5 @@ namespace ESBackupServer.Database.Objects
         Unverified,        
         [EnumMember]
         Banned
-    }
-
-    [DataContract]
-    public struct ClientEmail
-    {        
-        [DataMember]
-        public string Value { get; set; }
     }
 }

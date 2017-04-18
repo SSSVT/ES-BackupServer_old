@@ -25,11 +25,8 @@ namespace ESBackupServer
         #endregion
 
         #region Backup
-        //TODO: Remake
-        /*
         [OperationContract]
         Configuration GetConfiguration(Guid sessionID);
-        */
         #endregion
     }
 }
