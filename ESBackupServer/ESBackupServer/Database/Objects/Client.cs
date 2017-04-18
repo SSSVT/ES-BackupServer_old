@@ -80,5 +80,12 @@ namespace ESBackupServer.Database.Objects
         Unverified,        
         [EnumMember]
         Banned
-    }    
+    }
+
+    [DataContract]
+    public struct ClientEmail
+    {        
+        [DataMember]
+        public string Value { get; set; }
+    }
 }
