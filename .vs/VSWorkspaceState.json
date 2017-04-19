@@ -9,9 +9,8 @@
     "\\ESBackupServer\\ESBackupServer\\App\\Objects\\Factories",
     "\\ESBackupServer\\ESBackupServer\\App\\Objects\\Factories\\Config",
     "\\ESBackupServer\\ESBackupServer\\Database",
-    "\\ESBackupServer\\ESBackupServer\\Database\\Objects",
-    "\\ESBackupServer\\ESBackupServer\\Database\\Repositories"
+    "\\SQL"
   ],
-  "SelectedNode": "\\ESBackupServer\\ESBackupServer\\Database\\Objects\\BackupTemplate.cs",
+  "SelectedNode": "\\SQL\\00_dbESBackup.sql",
   "PreviewInSolutionExplorer": false
 }

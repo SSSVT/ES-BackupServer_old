@@ -9,6 +9,7 @@ namespace ESBackupServer.App.Objects.Factories.Config
     {
         public List<CRONDefinition> Create(BackupTemplate template)
         {
+            //TODO: remake
             List<CRONDefinition> list = new List<CRONDefinition>();
             foreach (BackupTemplateSetting item in template.Settings.Where(x => x.ActionType == true))
             {

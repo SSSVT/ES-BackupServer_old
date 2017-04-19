@@ -116,7 +116,7 @@
     <Compile Include="Database\Repositories\ClientRepository.cs" />
     <Compile Include="Database\Repositories\LogRepository.cs" />
     <Compile Include="Database\Repositories\LogTypeRepository.cs" />
-    <Compile Include="Database\Repositories\BackupSettingTypeRepository.cs" />
+    <Compile Include="Database\Repositories\BackupTemplateSettingTypeRepository.cs" />
     <Compile Include="ESBackupServerAdminService.svc.cs">
       <DependentUpon>ESBackupServerAdminService.svc</DependentUpon>
     </Compile>

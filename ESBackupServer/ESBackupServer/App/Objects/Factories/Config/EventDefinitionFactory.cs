@@ -9,6 +9,7 @@ namespace ESBackupServer.App.Objects.Factories.Config
     {
         public List<EventDefinition> Create(BackupTemplate template)
         {
+            //TODO: remake
             List<EventDefinition> list = new List<EventDefinition>();
             foreach (BackupTemplateSetting item in template.Settings.Where(x => x.ActionType == false))
             {
