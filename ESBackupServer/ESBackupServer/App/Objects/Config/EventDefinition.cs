@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using ESBackupServer.Database.Objects;
+using System.Runtime.Serialization;
 
 namespace ESBackupServer.App.Objects.Config
 {
@@ -38,6 +39,9 @@ namespace ESBackupServer.App.Objects.Config
             }
         }
         #endregion
+
+        [DataMember]
+        public SettingTypeNames CommandType { get; set; }
 
         [DataMember]
         public string Value { get; set; }
