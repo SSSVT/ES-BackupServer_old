@@ -86,7 +86,7 @@ CREATE TABLE esbk_tbBackupTemplatesSetting(
 	-- 1 = time	
 	ST_ACTION_TYPE bit, -- bool?
 	ST_EVENT bit, -- 0 = before backup, 1 = after backup
-	ST_TIME datetime, -- datetime?
+	ST_CRON varchar(512), -- string
 
 	ST_VALUE varchar(max) -- string
 );

@@ -1,5 +1,6 @@
 ﻿using ESBackupServer.App.Objects.Config;
 using ESBackupServer.Database.Objects;
+using ESBackupServer.Database.Repositories;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,16 +10,24 @@ namespace ESBackupServer.App.Objects.Factories.Config
     {
         public List<CRONDefinition> Create(BackupTemplate template)
         {
-            //TODO: remake
+            BackupTemplateSettingTypeRepository settingtyperepo = BackupTemplateSettingTypeRepository.GetInstance();
             List<CRONDefinition> list = new List<CRONDefinition>();
-            foreach (BackupTemplateSetting item in template.Settings.Where(x => x.ActionType == true))
+            foreach (BackupTemplateSetting item in template.Settings.Where(x => x.ActionType == true && settingtyperepo.Find(x.IDSettingType).Name != SettingTypeNames.Email))
             {
                 list.Add(new CRONDefinition()
                 {
-                    Value = item.Value
+                    Value = item.Value,
+                    CRON = item.CRON,
+                    CommandType = settingtyperepo.Find(item.IDSettingType).Name
                 });
             }
             return list;
+        }
+
+        public List<BackupTemplateSetting> Save(BackupTemplate template)
+        {
+            //TODO: Implement
+            throw new System.NotImplementedException();
         }
     }
 }

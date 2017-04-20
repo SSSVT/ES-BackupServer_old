@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 
 namespace ESBackupServer.App.Objects.Config
 {
+    [DataContract]
     public class CommandDefinition
     {
         [DataMember]

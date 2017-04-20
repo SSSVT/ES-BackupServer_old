@@ -47,7 +47,7 @@ namespace ESBackupServer.Database.Repositories
             setting.IDSettingType = item.IDSettingType;
             setting.ActionType = item.ActionType;
             setting.Event = item.Event;
-            setting.Time = item.Time;
+            setting.CRON = item.CRON;
             setting.Value = item.Value;
             this.SaveChanges();
         }

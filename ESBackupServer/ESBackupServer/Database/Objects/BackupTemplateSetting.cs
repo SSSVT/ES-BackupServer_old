@@ -26,8 +26,8 @@ namespace ESBackupServer.Database.Objects
         [Column("ST_EVENT")]
         public bool? Event { get; set; }
 
-        [Column("ST_TIME")]
-        public DateTime? Time { get; set; }
+        [Column("ST_CRON")]
+        public string CRON { get; set; }
 
         [Column("ST_VALUE")]
         public string Value { get; set; }

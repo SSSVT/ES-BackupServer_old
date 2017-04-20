@@ -10,7 +10,6 @@ namespace ESBackupServer.App.Objects.Factories.Config
 
         internal Configuration Create(Client client)
         {
-            //TODO: remake
             EventDefinitionFactory EventFactory = new EventDefinitionFactory();
             CRONFactory TAFactory = new CRONFactory();
 

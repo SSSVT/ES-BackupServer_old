@@ -46,3 +46,12 @@ D:\GitHub\C_SHARP\ES-BackupServer\ESBackupServer\ESBackupServer\bin\EntityFramew
 D:\GitHub\C_SHARP\ES-BackupServer\ESBackupServer\ESBackupServer\bin\EntityFramework.SqlServer.xml
 D:\GitHub\C_SHARP\ES-BackupServer\ESBackupServer\ESBackupServer\bin\Quartz.pdb
 D:\GitHub\C_SHARP\ES-BackupServer\ESBackupServer\ESBackupServer\bin\Quartz.xml
+X:\PROJECTS\ES-BackupServer\ESBackupServer\ESBackupServer\bin\Common.Logging.Core.dll
+X:\PROJECTS\ES-BackupServer\ESBackupServer\ESBackupServer\bin\Common.Logging.dll
+X:\PROJECTS\ES-BackupServer\ESBackupServer\ESBackupServer\bin\Quartz.dll
+X:\PROJECTS\ES-BackupServer\ESBackupServer\ESBackupServer\bin\Common.Logging.pdb
+X:\PROJECTS\ES-BackupServer\ESBackupServer\ESBackupServer\bin\Common.Logging.xml
+X:\PROJECTS\ES-BackupServer\ESBackupServer\ESBackupServer\bin\Common.Logging.Core.pdb
+X:\PROJECTS\ES-BackupServer\ESBackupServer\ESBackupServer\bin\Common.Logging.Core.xml
+X:\PROJECTS\ES-BackupServer\ESBackupServer\ESBackupServer\bin\Quartz.pdb
+X:\PROJECTS\ES-BackupServer\ESBackupServer\ESBackupServer\bin\Quartz.xml
