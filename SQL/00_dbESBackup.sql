@@ -10,8 +10,27 @@ GO
 
 USE [dbESBackup];
 
+CREATE TABLE esbk_tbAdministrators(
+	ID bigint identity(1,1) not null,
+	AD_FIRST_NAME nvarchar(50) not null,
+	AD_LAST_NAME nvarchar(50) not null,
+
+	AD_LOGIN_NAME varchar(128) not null, -- username
+	AD_LOGIN_PSWD varchar(2048) not null, -- password
+	AD_LOGIN_SALT varchar(512) not null, -- salt
+
+	AD_REGISTRATION_DATE datetime not null
+);
+CREATE TABLE esbk_tbEmails(
+	ID uniqueidentifier not null,
+	EMAIL varchar(256) not null,
+
+	-- SSL, TSL, ...
+);
+
 CREATE TABLE esbk_tbClients(
 	ID int identity(1,1) not null, -- int
+	IDesbk_tbAdministrators bigint not null, -- long
 	CL_NAME varchar(64) not null, -- string
 	CL_DESCRIPTION varchar(512), -- string
 	CL_HWID varchar(512), -- HWID
