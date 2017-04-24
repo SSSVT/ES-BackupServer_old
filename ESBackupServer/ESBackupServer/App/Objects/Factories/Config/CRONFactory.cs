@@ -8,18 +8,33 @@ namespace ESBackupServer.App.Objects.Factories.Config
 {
     public class CRONFactory
     {
-        public List<CRONDefinition> Create(BackupTemplate template)
+        public List<CRONDefinition> Create(BackupTemplate template, bool withEmail)
         {
             BackupTemplateSettingTypeRepository settingtyperepo = BackupTemplateSettingTypeRepository.GetInstance();
             List<CRONDefinition> list = new List<CRONDefinition>();
-            foreach (BackupTemplateSetting item in template.Settings.Where(x => x.ActionType == true && settingtyperepo.Find(x.IDSettingType).Name != SettingTypeNames.Email))
+            if (withEmail)
             {
-                list.Add(new CRONDefinition()
+                foreach (BackupTemplateSetting item in template.Settings.Where(x => x.ActionType == true))
                 {
-                    Value = item.Value,
-                    CRON = item.CRON,
-                    CommandType = settingtyperepo.Find(item.IDSettingType).Name
-                });
+                    list.Add(new CRONDefinition()
+                    {
+                        Value = item.Value,
+                        CRON = item.CRON,
+                        CommandType = settingtyperepo.Find(item.IDSettingType).Name
+                    });
+                }
+            }
+            else
+            {
+                foreach (BackupTemplateSetting item in template.Settings.Where(x => x.ActionType == true && settingtyperepo.Find(x.IDSettingType).Name != SettingTypeNames.Email))
+                {
+                    list.Add(new CRONDefinition()
+                    {
+                        Value = item.Value,
+                        CRON = item.CRON,
+                        CommandType = settingtyperepo.Find(item.IDSettingType).Name
+                    });
+                }
             }
             return list;
         }

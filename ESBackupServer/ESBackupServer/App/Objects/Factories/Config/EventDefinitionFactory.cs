@@ -8,18 +8,33 @@ namespace ESBackupServer.App.Objects.Factories.Config
 {
     public class EventDefinitionFactory
     {
-        public List<EventDefinition> Create(BackupTemplate template)
+        public List<EventDefinition> Create(BackupTemplate template, bool withEmail)
         {
             BackupTemplateSettingTypeRepository settingtyperepo = BackupTemplateSettingTypeRepository.GetInstance();
             List<EventDefinition> list = new List<EventDefinition>();
-            foreach (BackupTemplateSetting item in template.Settings.Where(x => x.ActionType == false && settingtyperepo.Find(x.IDSettingType).Name != SettingTypeNames.Email))
+            if (withEmail)
             {
-                list.Add(new EventDefinition()
+                foreach (BackupTemplateSetting item in template.Settings.Where(x => x.ActionType == false))
                 {
-                    IsBeforeEvent = (item.Event == false) ? true : false,
-                    Value = item.Value,
-                    CommandType = settingtyperepo.Find(item.IDSettingType).Name
-                });
+                    list.Add(new EventDefinition()
+                    {
+                        IsBeforeEvent = (item.Event == false) ? true : false,
+                        Value = item.Value,
+                        CommandType = settingtyperepo.Find(item.IDSettingType).Name
+                    });
+                }
+            }
+            else
+            {
+                foreach (BackupTemplateSetting item in template.Settings.Where(x => x.ActionType == false && settingtyperepo.Find(x.IDSettingType).Name != SettingTypeNames.Email))
+                {
+                    list.Add(new EventDefinition()
+                    {
+                        IsBeforeEvent = (item.Event == false) ? true : false,
+                        Value = item.Value,
+                        CommandType = settingtyperepo.Find(item.IDSettingType).Name
+                    });
+                }
             }
             return list;
         }

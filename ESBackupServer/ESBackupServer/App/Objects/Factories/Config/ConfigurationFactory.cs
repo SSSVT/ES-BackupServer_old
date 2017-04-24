@@ -8,7 +8,7 @@ namespace ESBackupServer.App.Objects.Factories.Config
     {
         private BackupTemplateSettingRepository _BackupTemplateRepo { get; set; } = BackupTemplateSettingRepository.GetInstance();
 
-        internal Configuration Create(Client client)
+        internal Configuration Create(Client client, bool withEmail = false)
         {
             EventDefinitionFactory EventFactory = new EventDefinitionFactory();
             CRONFactory TAFactory = new CRONFactory();
@@ -20,9 +20,9 @@ namespace ESBackupServer.App.Objects.Factories.Config
 
             foreach (BackupTemplate item in config.Templates)
             {
-                item.Events = new EventDefinitionFactory().Create(item);
-                item.TimeActions = new CRONFactory().Create(item);
-                item.Commands = new CommandDefinitionFactory().Create(item);
+                item.Events = new EventDefinitionFactory().Create(item, withEmail);
+                item.TimeActions = new CRONFactory().Create(item, withEmail);
+                item.Commands = new CommandDefinitionFactory().Create(item, withEmail);
             }
 
             return config;

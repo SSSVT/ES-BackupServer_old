@@ -8,17 +8,31 @@ namespace ESBackupServer.App.Objects.Factories.Config
 {
     public class CommandDefinitionFactory
     {
-        public List<CommandDefinition> Create(BackupTemplate template)
+        public List<CommandDefinition> Create(BackupTemplate template, bool withEmail)
         {
             BackupTemplateSettingTypeRepository settingtyperepo = BackupTemplateSettingTypeRepository.GetInstance();
             List<CommandDefinition> list = new List<CommandDefinition>();
-            foreach (BackupTemplateSetting item in template.Settings.Where(x => x.ActionType == null && settingtyperepo.Find(x.IDSettingType).Name != SettingTypeNames.Email))
+            if (withEmail)
             {
-                list.Add(new CommandDefinition()
+                foreach (BackupTemplateSetting item in template.Settings.Where(x => x.ActionType == null))
                 {
-                    Value = item.Value,
-                    CommandType = settingtyperepo.Find(item.IDSettingType).Name
-                });
+                    list.Add(new CommandDefinition()
+                    {
+                        Value = item.Value,
+                        CommandType = settingtyperepo.Find(item.IDSettingType).Name
+                    });
+                }
+            }
+            else
+            {
+                foreach (BackupTemplateSetting item in template.Settings.Where(x => x.ActionType == null && settingtyperepo.Find(x.IDSettingType).Name != SettingTypeNames.Email))
+                {
+                    list.Add(new CommandDefinition()
+                    {
+                        Value = item.Value,
+                        CommandType = settingtyperepo.Find(item.IDSettingType).Name
+                    });
+                }
             }
             return list;
         }
