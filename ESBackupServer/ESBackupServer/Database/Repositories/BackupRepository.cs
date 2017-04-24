@@ -48,11 +48,13 @@ namespace ESBackupServer.Database.Repositories
         {
             Backup backup = this.Find(item.ID);
             backup.IDClient = item.IDClient;
+            backup.IDBackupTemplate = item.IDBackupTemplate;
             backup.Name = item.Name;
             backup.Description = item.Description;
             backup.Source = item.Source;
             backup.Destination = item.Destination;
             backup.IsDifferential = item.IsDifferential;
+            backup.BaseFullBackupID = item.BaseFullBackupID;
             backup.Expiration = item.Expiration;
             backup.Compressed = item.Compressed;
             backup.Start = item.Start;

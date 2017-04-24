@@ -4,6 +4,7 @@ using ESBackupServer.App.Objects.Filters;
 using ESBackupServer.Database.Objects;
 using ESBackupServer.Database.Repositories;
 using System.Collections.Generic;
+using System;
 
 namespace ESBackupServer
 {
@@ -68,6 +69,11 @@ namespace ESBackupServer
         public void RemoveBackup(long id)
         {
             this._BackupRepository.Remove(id);
+        }
+
+        public void UpdateBackup(Backup backup)
+        {
+            this._BackupRepository.Update(backup);
         }
         #endregion
     }

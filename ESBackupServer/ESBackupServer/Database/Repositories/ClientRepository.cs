@@ -47,6 +47,11 @@ namespace ESBackupServer.Database.Repositories
             client.Username = item.Username;
             client.LastBackupTime = item.LastBackupTime;
             client.Status = item.Status;
+
+            client.StatusReportEnabled = item.StatusReportEnabled;
+            client.ReportInterval = item.ReportInterval;
+            client.LastReportTime = item.LastReportTime;
+
             client.Hardware_ID = item.Hardware_ID;
             client.Password = item.Password;
             client.Salt = item.Salt;

@@ -38,6 +38,9 @@ namespace ESBackupServer
 
         [OperationContract]
         void RemoveBackup(long id);
+
+        [OperationContract]
+        void UpdateBackup(Backup backup);
         #endregion
     }
 }
