@@ -26,6 +26,7 @@ namespace ESBackupServer
         private ClientRepository _ClientRepository { get; set; } = ClientRepository.GetInstance();
         private LogRepository _LogRepository { get; set; } = LogRepository.GetInstance();
         private BackupRepository _BackupRepository { get; set; } = BackupRepository.GetInstance();
+        private BackupTemplateRepository _BackupTemplateRepository { get; set; } = BackupTemplateRepository.GetInstance();
         #endregion
 
         private ConfigurationFactory _ConfigFactory { get; set; } = new ConfigurationFactory();
@@ -55,6 +56,10 @@ namespace ESBackupServer
         public List<Log> GetLogsByBackupID(long id)
         {
             return this._LogRepository.FindByBackupID(id);
+        }
+        public BackupTemplate GetTemplateByID(int id)
+        {
+            return this._BackupTemplateRepository.Find(id);
         }
         #endregion
         #region Set

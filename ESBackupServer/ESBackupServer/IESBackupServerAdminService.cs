@@ -28,6 +28,9 @@ namespace ESBackupServer
 
         [OperationContract]
         Configuration GetConfigurationByClientID(int id);
+
+        [OperationContract]
+        BackupTemplate GetTemplateByID(int id);
         #endregion
         #region Set
         [OperationContract]
