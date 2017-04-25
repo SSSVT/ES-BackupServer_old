@@ -44,7 +44,6 @@ namespace ESBackupServer.Database.Repositories
         {
             BackupTemplateSetting setting = this.Find(item.ID);
             setting.IDTemplate = item.IDTemplate;
-            setting.IDSettingType = item.IDSettingType;
             setting.ActionType = item.ActionType;
             setting.Event = item.Event;
             setting.CRON = item.CRON;

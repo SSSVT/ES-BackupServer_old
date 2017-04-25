@@ -26,7 +26,6 @@ namespace ESBackupServer.Database
         public DbSet<Backup> Backups { get; set; }
         public DbSet<BackupTemplate> Templates { get; set; }
         public DbSet<BackupTemplateSetting> Settings { get; set; }
-        public DbSet<BackupTemplateSettingType> SettingsTypes { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Log> Logs { get; set; }
         public DbSet<Login> Logins { get; set; }

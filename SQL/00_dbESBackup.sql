@@ -76,7 +76,9 @@ CREATE TABLE esbk_tbBackups(
 
 	BK_TIME_BEGIN datetime not null, -- datetime
 	BK_TIME_END datetime, -- datetime?, null - updatem
-	BK_STATUS tinyint not null -- Executing, Competed, Failed, ...
+	BK_STATUS tinyint not null, -- Executing, Competed, Failed, ...
+
+	BK_META_ORDER int not null -- pořadí cesty
 ); /* Historie provedených záloh */
 CREATE TABLE esbk_tbBackupTemplates(
 	ID bigint identity(1,1) not null,
@@ -114,10 +116,6 @@ CREATE TABLE esbk_tbBackupTemplatesSetting(
 
 	ST_VALUE varchar(max) -- string
 );
-CREATE TABLE esbk_tbBackupTemplatesSettingTypes(
-	ID int identity(1,1) not null,
-	TP_NAME varchar(64) not null
-);
 
 CREATE TABLE esbk_tbLogs(
 	ID uniqueidentifier not null, -- GUID
@@ -141,7 +139,6 @@ BEGIN /* PK */
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT PK_esbk_tbBackups_ID PRIMARY KEY (ID);
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT PK_esbk_tbBackupTemplates_ID PRIMARY KEY (ID);
 	ALTER TABLE esbk_tbBackupTemplatesSetting ADD CONSTRAINT PK_esbk_tbBackupTemplatesSetting_ID PRIMARY KEY NONCLUSTERED (ID);
-	ALTER TABLE esbk_tbBackupTemplatesSettingTypes ADD CONSTRAINT PK_esbk_tbBackupTemplatesSettingTypes_ID PRIMARY KEY (ID);
 	ALTER TABLE esbk_tbLogs ADD CONSTRAINT PK_esbk_tbLogs_ID PRIMARY KEY NONCLUSTERED (ID);
 	ALTER TABLE esbk_tbLogTypes ADD CONSTRAINT PK_esbk_tbLogTypes_ID PRIMARY KEY (ID);
 END
@@ -154,7 +151,6 @@ BEGIN /* FK */
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT FK_esbk_tbBackups_IDesbk_IDesbk_tbBackups_BASE FOREIGN KEY (IDesbk_tbBackups_BASE) REFERENCES esbk_tbBackups(ID);
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT FK_esbk_tbBackupTemplates_IDesbk_tbClients FOREIGN KEY (IDesbk_tbClients) REFERENCES esbk_tbClients(ID) ON UPDATE CASCADE ON DELETE CASCADE;
 	ALTER TABLE esbk_tbBackupTemplatesSetting ADD CONSTRAINT FK_esbk_tbBackupTemplatesSetting_IDesbk_tbBackupTemplates FOREIGN KEY (IDesbk_tbBackupTemplates) REFERENCES esbk_tbBackupTemplates(ID) ON UPDATE CASCADE ON DELETE CASCADE;
-	ALTER TABLE esbk_tbBackupTemplatesSetting ADD CONSTRAINT FK_esbk_tbBackupTemplatesSetting_IDesbk_tbBackupTemplatesSettingTypes FOREIGN KEY (IDesbk_tbBackupTemplatesSettingTypes) REFERENCES esbk_tbBackupTemplatesSettingTypes(ID); -- nechceme zrušit uživatelům nastavení
 	ALTER TABLE esbk_tbLogs ADD CONSTRAINT FK_esbk_tbLogs_IDesbk_tbClients FOREIGN KEY (IDesbk_tbClients) REFERENCES esbk_tbClients(ID); -- zůstanou logy, které nepatří k backupu - klienti se tak často odstraňovat nebudou
 	ALTER TABLE esbk_tbLogs ADD CONSTRAINT FK_esbk_tbLogs_IDesbk_tbBackups FOREIGN KEY (IDesbk_tbBackups) REFERENCES esbk_tbBackups(ID) ON UPDATE CASCADE ON DELETE CASCADE;
 	ALTER TABLE esbk_tbLogs ADD CONSTRAINT FK_esbk_tbLogs_IDesbk_tbLogTypes FOREIGN KEY (IDesbk_tbLogTypes) REFERENCES esbk_tbLogTypes(ID); -- Typy logů odstraňovat nebudeme, dostačující
@@ -204,17 +200,9 @@ BEGIN /* CK */
 END
 BEGIN /* UQ */
 	ALTER TABLE esbk_tbEmails ADD CONSTRAINT UQ_esbk_tbEmails_EMAIL UNIQUE (EMAIL);
-	ALTER TABLE esbk_tbBackupTemplatesSettingTypes ADD CONSTRAINT UQ_esbk_tbBackupTemplatesSettingTypes_TP_NAME UNIQUE (TP_NAME);
 	ALTER TABLE esbk_tbLogTypes ADD CONSTRAINT UQ_esbk_tbLogTypes_TP_NAME UNIQUE (TP_NAME);
 END
 
-BEGIN /* INSERT INTO esbk_tbBackupTemplatesSettingTypes */
-	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('ShutDown');
-	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('Restart');
-	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('Sleep');
-	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('Hibernate');
-	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('Lock');
-END
 BEGIN /* INSERT INTO esbk_tbLogTypes */
 	INSERT INTO esbk_tbLogTypes VALUES ('Error'); -- exceptions
 	INSERT INTO esbk_tbLogTypes VALUES ('Warning'); -- Špatné přihlašovací údaje, ...

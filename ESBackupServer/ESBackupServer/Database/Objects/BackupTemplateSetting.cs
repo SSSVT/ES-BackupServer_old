@@ -17,9 +17,6 @@ namespace ESBackupServer.Database.Objects
         [Column("IDesbk_tbBackupTemplates")]
         public long IDTemplate { get; set; }
 
-        [Column("IDesbk_tbBackupTemplatesSettingTypes")]
-        public int IDSettingType { get; set; }
-
         [Column("ST_ACTION_TYPE")]
         public bool? ActionType { get; set; }
 
@@ -35,9 +32,6 @@ namespace ESBackupServer.Database.Objects
         #region Virtual properties
         [ForeignKey("IDTemplate")]
         public virtual BackupTemplate Template { get; set; }
-
-        [ForeignKey("IDSettingType")]
-        public virtual BackupTemplateSettingType SettingType { get; set; }
         #endregion
     }
 }

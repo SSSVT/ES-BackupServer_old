@@ -1,5 +1,4 @@
-﻿using ESBackupServer.App.Objects.Config;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -56,17 +55,6 @@ namespace ESBackupServer.Database.Objects
         public virtual List<Backup> Backups { get; set; }
 
         public virtual List<BackupTemplateSetting> Settings { get; set; }
-        #endregion
-
-        #region Local properties
-        [NotMapped, DataMember]
-        public List<EventDefinition> Events { get; set; }
-
-        [NotMapped, DataMember]
-        public List<CRONDefinition> TimeActions { get; set; }
-
-        [NotMapped, DataMember]
-        public List<CommandDefinition> Commands { get; set; }
         #endregion
     }
 }

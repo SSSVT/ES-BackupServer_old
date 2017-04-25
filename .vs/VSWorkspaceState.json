@@ -5,7 +5,6 @@
     "\\ESBackupServer\\ESBackupServer",
     "\\ESBackupServer\\ESBackupServer\\App",
     "\\ESBackupServer\\ESBackupServer\\App\\Objects",
-    "\\ESBackupServer\\ESBackupServer\\App\\Objects\\Config",
     "\\ESBackupServer\\ESBackupServer\\App\\Objects\\Factories",
     "\\ESBackupServer\\ESBackupServer\\App\\Objects\\Factories\\Config",
     "\\ESBackupServer\\ESBackupServer\\Database",
