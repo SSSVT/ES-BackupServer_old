@@ -1,11 +1,8 @@
 ﻿using ESBackupServer.App.Objects.Config;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Web;
 
 namespace ESBackupServer.Database.Objects
 {
@@ -43,6 +40,15 @@ namespace ESBackupServer.Database.Objects
         [Column("BK_ENABLED"), DataMember]
         public bool Enabled { get; set; }
 
+        [Column("BK_NOTIFICATION_ENABLED"), DataMember]
+        public bool IsNotificationEnabled { get; set; }
+
+        [Column("BK_REPEAT_INTERVAL_CRON"), DataMember]
+        public string CRONRepeatInterval { get; set; }
+
+        [Column("BK_SEARCH_PATTERN"), DataMember]
+        public string SearchPattern { get; set; }
+
         [ForeignKey("IDClient"), DataMember]
         public virtual Client Client { get; set; }
 
@@ -53,13 +59,13 @@ namespace ESBackupServer.Database.Objects
         #endregion
 
         #region Local properties
-        [NotMapped]
+        [NotMapped, DataMember]
         public List<EventDefinition> Events { get; set; }
 
-        [NotMapped]
+        [NotMapped, DataMember]
         public List<CRONDefinition> TimeActions { get; set; }
 
-        [NotMapped]
+        [NotMapped, DataMember]
         public List<CommandDefinition> Commands { get; set; }
         #endregion
     }

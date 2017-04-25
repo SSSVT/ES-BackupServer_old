@@ -15,17 +15,17 @@ CREATE TABLE esbk_tbAdministrators(
 	AD_FIRST_NAME nvarchar(50) not null,
 	AD_LAST_NAME nvarchar(50) not null,
 
-	AD_LOGIN_NAME varchar(128) not null, -- username
-	AD_LOGIN_PSWD varchar(2048) not null, -- password
-	AD_LOGIN_SALT varchar(512) not null, -- salt
+	--AD_LOGIN_NAME varchar(128) not null, -- username
+	--AD_LOGIN_PSWD varchar(2048) not null, -- password
+	--AD_LOGIN_SALT varchar(512) not null, -- salt
 
 	AD_REGISTRATION_DATE datetime not null
 );
 CREATE TABLE esbk_tbEmails(
 	ID uniqueidentifier not null,
+	IDesbk_tbAdministrators bigint not null,
 	EMAIL varchar(256) not null,
-
-	-- SSL, TSL, ...
+	ISDEFAULT bit not null
 );
 
 CREATE TABLE esbk_tbClients(
@@ -38,7 +38,7 @@ CREATE TABLE esbk_tbClients(
 	-- return true/false = login failed
 	CL_LOGIN_NAME varchar(128), -- username
 	CL_LOGIN_PSWD varchar(2048), -- password
-	CL_LOGIN_SALT varchar(512), -- salt
+	-- CL_LOGIN_SALT varchar(512), -- salt
 
 	CL_LAST_BACKUP datetime, -- datetime?
 	
@@ -92,7 +92,12 @@ CREATE TABLE esbk_tbBackupTemplates(
 	BK_EXPIRATION_DAYS int, -- int?
 	BK_COMPRESSION bit not null, -- 0 = do not compress; 1 = compress
 
-	BK_ENABLED bit not null -- zda je template aktivní
+	BK_ENABLED bit not null, -- zda je template aktivní
+
+	BK_NOTIFICATION_ENABLED bit not null,
+	BK_REPEAT_INTERVAL_CRON varchar(64) not null,
+
+	BK_SEARCH_PATTERN varchar(256) not null
 );
 CREATE TABLE esbk_tbBackupTemplatesSetting(
 	ID uniqueidentifier not null, -- GUID
@@ -128,6 +133,9 @@ CREATE TABLE esbk_tbLogTypes(
 ); /* Typy logů */
 
 BEGIN /* PK */
+	ALTER TABLE esbk_tbAdministrators ADD CONSTRAINT PK_esbk_tbAdministrators_ID PRIMARY KEY (ID);
+	ALTER TABLE esbk_tbEmails ADD CONSTRAINT PK_esbk_tbEmails_ID PRIMARY KEY NONCLUSTERED (ID);
+
 	ALTER TABLE esbk_tbClients ADD CONSTRAINT PK_esbk_tbClients_ID PRIMARY KEY (ID);
 	ALTER TABLE esbk_tbLogins ADD CONSTRAINT PK_esbk_tbLogins_ID PRIMARY KEY NONCLUSTERED (ID);
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT PK_esbk_tbBackups_ID PRIMARY KEY (ID);
@@ -138,6 +146,8 @@ BEGIN /* PK */
 	ALTER TABLE esbk_tbLogTypes ADD CONSTRAINT PK_esbk_tbLogTypes_ID PRIMARY KEY (ID);
 END
 BEGIN /* FK */
+	ALTER TABLE esbk_tbEmails ADD CONSTRAINT FK_esbk_tbEmails_IDesbk_tbAdministrators FOREIGN KEY (IDesbk_tbAdministrators) REFERENCES esbk_tbAdministrators(ID) ON UPDATE CASCADE ON DELETE CASCADE;
+	ALTER TABLE esbk_tbClients ADD CONSTRAINT FK_esbk_tbClients_IDesbk_tbAdministrators FOREIGN KEY (IDesbk_tbAdministrators) REFERENCES esbk_tbAdministrators(ID) ON UPDATE CASCADE ON DELETE CASCADE;
 	ALTER TABLE esbk_tbLogins ADD CONSTRAINT FK_esbk_tbLogins_IDesbk_tbClients FOREIGN KEY (IDesbk_tbClients) REFERENCES esbk_tbClients(ID) ON UPDATE CASCADE ON DELETE CASCADE;
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT FK_esbk_tbBackups_IDesbk_tbClients FOREIGN KEY (IDesbk_tbClients) REFERENCES esbk_tbClients(ID);
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT FK_esbk_tbBackups_IDesbk_tbBackupTemplates FOREIGN KEY (IDesbk_tbBackupTemplates) REFERENCES esbk_tbBackupTemplates(ID) ON UPDATE CASCADE ON DELETE CASCADE;
@@ -150,6 +160,8 @@ BEGIN /* FK */
 	ALTER TABLE esbk_tbLogs ADD CONSTRAINT FK_esbk_tbLogs_IDesbk_tbLogTypes FOREIGN KEY (IDesbk_tbLogTypes) REFERENCES esbk_tbLogTypes(ID); -- Typy logů odstraňovat nebudeme, dostačující
 END
 BEGIN /* IX */
+	CREATE INDEX IX_esbk_tbClients_IDesbk_tbAdministrators ON esbk_tbClients(IDesbk_tbAdministrators);
+	CREATE INDEX IX_esbk_tbEmails_IDesbk_tbAdministrators ON esbk_tbEmails(IDesbk_tbAdministrators);
 	CREATE UNIQUE INDEX IX_UQ_esbk_tbClients ON esbk_tbClients(CL_LOGIN_NAME);
 	CREATE INDEX IX_esbk_tbLogins_ID ON esbk_tbLogins(ID);
 	CREATE INDEX IX_esbk_tbLogins_IDesbk_tbClients_LG_TIME_UTC ON esbk_tbLogins(IDesbk_tbClients, LG_TIME_UTC);
@@ -163,6 +175,8 @@ BEGIN /* IX */
 	CREATE INDEX IX_esbk_tbLogs_IDesbk_tbLogTypes ON esbk_tbLogs(IDesbk_tbLogTypes);
 END
 BEGIN /* DF */
+	ALTER TABLE esbk_tbAdministrators ADD CONSTRAINT DF_esbk_tbAdministrators_AD_REGISTRATION_DATE DEFAULT (GETDATE()) FOR AD_REGISTRATION_DATE;
+	ALTER TABLE esbk_tbEmails ADD CONSTRAINT DF_esbk_tbEmails_ISDEFAULT DEFAULT (0) FOR ISDEFAULT;
 	ALTER TABLE esbk_tbClients ADD CONSTRAINT DF_esbk_tbClients_CL_STATUS DEFAULT (0) FOR CL_STATUS;
 	ALTER TABLE esbk_tbLogins ADD CONSTRAINT DF_esbk_tbLogins_LG_TIME_UTC DEFAULT (GETDATE()) FOR LG_TIME_UTC;
 	ALTER TABLE esbk_tbLogins ADD CONSTRAINT DF_esbk_tbLogins_LG_TIME_EXPIRATION_UTC DEFAULT (DATEADD(minute, 15, GETDATE())) FOR LG_TIME_EXPIRATION_UTC;
@@ -173,9 +187,11 @@ BEGIN /* DF */
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_TYPE DEFAULT (0) FOR BK_TYPE;
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_COMPRESSION DEFAULT (0) FOR BK_COMPRESSION;
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_ENABLED DEFAULT (0) FOR BK_ENABLED;
+	-- TODO - ADD PROPERTIES
 	ALTER TABLE esbk_tbLogs ADD CONSTRAINT DF_esbk_tbLogs_LG_TIME_UTC DEFAULT (GETDATE()) FOR LG_TIME_UTC;
 END
 BEGIN /* CK */
+	ALTER TABLE esbk_tbAdministrators ADD CONSTRAINT CK_esbk_tbAdministrators_AD_REGISTRATION_DATE CHECK (AD_REGISTRATION_DATE <= GETDATE());
 	ALTER TABLE esbk_tbClients ADD CONSTRAINT CK_esbk_tbClients_CL_LAST_BACKUP CHECK (CL_LAST_BACKUP <= GETDATE());
 	ALTER TABLE esbk_tbLogins ADD CONSTRAINT CK_esbk_tbLogins_LG_TIME_UTC CHECK (LG_TIME_UTC <= GETDATE());
 	ALTER TABLE esbk_tbLogins ADD CONSTRAINT CK_esbk_tbLogins_LG_TIME_EXPIRATION_UTC CHECK (LG_TIME_UTC <= LG_TIME_EXPIRATION_UTC);
@@ -187,27 +203,17 @@ BEGIN /* CK */
 	ALTER TABLE esbk_tbLogs ADD CONSTRAINT CK_esbk_tbLogs_LG_TIME_UTC CHECK (LG_TIME_UTC <= GETDATE());
 END
 BEGIN /* UQ */
+	ALTER TABLE esbk_tbEmails ADD CONSTRAINT UQ_esbk_tbEmails_EMAIL UNIQUE (EMAIL);
 	ALTER TABLE esbk_tbBackupTemplatesSettingTypes ADD CONSTRAINT UQ_esbk_tbBackupTemplatesSettingTypes_TP_NAME UNIQUE (TP_NAME);
 	ALTER TABLE esbk_tbLogTypes ADD CONSTRAINT UQ_esbk_tbLogTypes_TP_NAME UNIQUE (TP_NAME);
 END
 
 BEGIN /* INSERT INTO esbk_tbBackupTemplatesSettingTypes */
-	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('Ignore'); -- ignorovat cestu, soubory, ...
-	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('Only'); -- pouze cestu, soubory, ...
-
-	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('Start'); -- Start backup
-	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('Resume'); -- Resume backup
-	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('Pause'); -- Pause backup
-	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('Stop'); -- Stop backup
-
 	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('ShutDown');
 	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('Restart');
 	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('Sleep');
 	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('Hibernate');
 	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('Lock');
-
-	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('Email'); -- send email
-	INSERT INTO esbk_tbBackupTemplatesSettingTypes VALUES ('Notification'); -- notifikace na obrazovce
 END
 BEGIN /* INSERT INTO esbk_tbLogTypes */
 	INSERT INTO esbk_tbLogTypes VALUES ('Error'); -- exceptions

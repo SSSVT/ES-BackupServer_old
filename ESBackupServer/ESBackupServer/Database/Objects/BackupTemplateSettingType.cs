@@ -26,15 +26,6 @@ namespace ESBackupServer.Database.Objects
         Only,
 
         [EnumMember]
-        Start,
-        [EnumMember]
-        Resume,
-        [EnumMember]
-        Pause,
-        [EnumMember]
-        Stop,
-
-        [EnumMember]
         ShutDown,
         [EnumMember]
         Restart,
@@ -43,11 +34,6 @@ namespace ESBackupServer.Database.Objects
         [EnumMember]
         Hibernate,
         [EnumMember]
-        Lock,
-
-        [EnumMember]
-        Email,
-        [EnumMember]
-        Notification
+        Lock
     }
 }

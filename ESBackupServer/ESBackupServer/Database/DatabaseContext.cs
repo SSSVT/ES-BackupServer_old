@@ -21,6 +21,8 @@ namespace ESBackupServer.Database
         #endregion
 
         #region DbSets
+        public DbSet<Administrator> Administrators { get; set; }
+        public DbSet<Email> Emails { get; set; }
         public DbSet<Backup> Backups { get; set; }
         public DbSet<BackupTemplate> Templates { get; set; }
         public DbSet<BackupTemplateSetting> Settings { get; set; }

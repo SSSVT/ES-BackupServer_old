@@ -30,6 +30,7 @@ namespace ESBackupServer.App.Objects.Factories.Config
 
         internal void Save(Configuration config)
         {
+            //ADD/SAVE
             foreach (BackupTemplate item in config.Templates)
             {
                 //events

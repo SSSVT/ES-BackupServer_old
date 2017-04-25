@@ -70,11 +70,6 @@ namespace ESBackupServer
 
             return true;
         }
-
-        public ClientStatus RequestRegistration()
-        {
-            throw new NotImplementedException();
-        }
         #endregion
 
         #region Backup
@@ -82,13 +77,6 @@ namespace ESBackupServer
         {
             Login login = this._LoginRepo.Find(sessionID);
             return (this._LoginRepo.IsSessionIDValid(login)) ? this._ConfigFactory.Create(login.Client) : null;  
-        }
-        #endregion
-
-        #region Debugging methods
-        public string TestConnection()
-        {
-            return "Connection OK";
         }
         #endregion
     }

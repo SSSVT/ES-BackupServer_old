@@ -9,9 +9,6 @@ namespace ESBackupServer
     [ServiceContract]
     public interface IESBackupServerService
     {
-        [OperationContract]
-        string TestConnection();
-
         #region Registration
         UserDefinition RequestRegistration(string name, string hwid);
         #endregion

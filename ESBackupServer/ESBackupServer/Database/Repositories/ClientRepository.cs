@@ -42,6 +42,7 @@ namespace ESBackupServer.Database.Repositories
         internal override void Update(Client item)
         {
             Client client = this.Find(item.ID);
+            client.IDAdministrator = item.IDAdministrator;
             client.Name = item.Name;
             client.Description = item.Description;
             client.Username = item.Username;
@@ -54,7 +55,7 @@ namespace ESBackupServer.Database.Repositories
 
             client.Hardware_ID = item.Hardware_ID;
             client.Password = item.Password;
-            client.Salt = item.Salt;
+            //client.Salt = item.Salt; //TODO: v2.0.0 salt
             this.SaveChanges();
         }
         #endregion

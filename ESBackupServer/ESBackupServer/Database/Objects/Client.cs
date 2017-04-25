@@ -14,6 +14,9 @@ namespace ESBackupServer.Database.Objects
         [Key, Column("ID"), DataMember]
         public int ID { get; set; }
 
+        [Column("IDesbk_tbAdministrators"), DataMember]
+        public long IDAdministrator { get; set; }
+
         [Column("CL_NAME"), DataMember]
         public string Name { get; set; }
 
@@ -47,12 +50,12 @@ namespace ESBackupServer.Database.Objects
 
         [Column("CL_LOGIN_PSWD")]
         public string Password { get; set; }
-
-        [Column("CL_LOGIN_SALT")]
-        public string Salt { get; set; }
         #endregion
 
         #region Virtual properties
+        [ForeignKey("IDAdministrator"), DataMember]
+        public virtual Administrator Administrator { get; set; }
+
         [DataMember]
         public virtual List<Backup> Backups { get; set; }
 
