@@ -21,7 +21,7 @@ namespace ESBackupServer.Database.Objects
         public string Description { get; set; }
 
         [Column("BK_TYPE"), DataMember]
-        public bool Type { get; set; }     
+        public byte BackupType { get; set; } //TODO: enum
 
         [Column("BK_EXPIRATION_DAYS"), DataMember]
         public uint? DaysToExpiration { get; set; }
