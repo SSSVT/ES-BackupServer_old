@@ -68,11 +68,11 @@ CREATE TABLE esbk_tbBackups(
 	BK_SOURCE varchar(max) not null, -- new
 	BK_DESTINATION varchar(max) not null, -- new
 
-	BK_TYPE bit not null, -- 0 = full, 1 = differential
+	BK_TYPE tinyint not null, -- 0 = full, 1 = differential, 2 = incremental
 	IDesbk_tbBackups_BASE bigint,
 
-	BK_EXPIRATION datetime, -- datetime?; new here
-	BK_COMPRESSION bit not null, -- 0 = do not compress; 1 = compress; new here
+	BK_EXPIRATION datetime, -- datetime?
+	BK_COMPRESSION bit not null, -- 0 = do not compress; 1 = compress
 
 	BK_TIME_BEGIN datetime not null, -- datetime
 	BK_TIME_END datetime, -- datetime?, null - updatem
@@ -83,64 +83,50 @@ CREATE TABLE esbk_tbBackups(
 CREATE TABLE esbk_tbBackupTemplates(
 	ID bigint identity(1,1) not null,
 	IDesbk_tbClients int not null,
+
 	BK_NAME varchar(128), -- string
 	BK_DESCRIPTION varchar(512), -- string
 
-	BK_SOURCE varchar(max) not null, -- new
-	BK_DESTINATION varchar(max) not null, -- new
-
-	BK_TYPE bit not null, -- 0 = full, 1 = differential
+	BK_TYPE tinyint not null, -- 0 = full, 1 = differential, 2 = incremental
 
 	BK_EXPIRATION_DAYS int, -- int?
 	BK_COMPRESSION bit not null, -- 0 = do not compress; 1 = compress
+	BK_SEARCH_PATTERN varchar(256) not null,
 
 	BK_ENABLED bit not null, -- zda je template aktivní
 
 	BK_NOTIFICATION_ENABLED bit not null,
-	BK_REPEAT_INTERVAL_CRON varchar(64) not null,
-
-	BK_SEARCH_PATTERN varchar(256) not null
+	BK_NOTIFICATION_EMAIL_ENABLED bit not null, -- notifikace na klientovi
+	BK_REPEAT_INTERVAL_CRON varchar(64) not null, -- nofitikace emailem
 );
-CREATE TABLE esbk_tbBackupTemplatesSetting(
-	ID uniqueidentifier not null, -- GUID
-	IDesbk_tbBackupTemplates bigint not null, -- int
-	IDesbk_tbBackupTemplatesSettingTypes int not null, -- int
+CREATE TABLE esbk_tbBackupTemplatesPaths(
+	ID uniqueidentifier not null,
+	IDesbk_tbBackupTemplates bigint not null,
 
-	-- DISABLED/TIME/BEFORE/AFTER BACKUP
-	-- null != event || time
-	-- 0 = event (before/after);
-	-- 1 = time	
-	ST_ACTION_TYPE bit, -- bool?
-	ST_EVENT bit, -- 0 = before backup, 1 = after backup
-	ST_CRON varchar(512), -- string
-
-	ST_VALUE varchar(max) -- string
+	BK_PATH_ORDER smallint not null,
+	BK_TARGET_TYPE tinyint not null, -- byte; 0 = WIN, 1 = FTP, 2 = SSH, 3 = SecureCopy
+	BK_SOURCE varchar(max) not null,
+	BK_DESTINATION varchar(max) not null,
 );
 
 CREATE TABLE esbk_tbLogs(
 	ID uniqueidentifier not null, -- GUID
 	IDesbk_tbClients int not null, -- musí se vázat ke klientovi
 	IDesbk_tbBackups bigint, -- long? - nemusí se vázat k záloze
-	IDesbk_tbLogTypes tinyint not null, -- byte
+	LG_TYPE tinyint not null, -- byte; 0 = error, 1 = warning; 2 = message
 	LG_TIME_UTC datetime not null, -- datetime
 	LG_VALUE varchar(max) not null -- string
-); /* Logy */
-CREATE TABLE esbk_tbLogTypes(
-	ID tinyint identity(1,1) not null, -- byte 0-255
-	TP_NAME varchar(64) not null
-); /* Typy logů */
+);
 
 BEGIN /* PK */
 	ALTER TABLE esbk_tbAdministrators ADD CONSTRAINT PK_esbk_tbAdministrators_ID PRIMARY KEY (ID);
 	ALTER TABLE esbk_tbEmails ADD CONSTRAINT PK_esbk_tbEmails_ID PRIMARY KEY NONCLUSTERED (ID);
-
 	ALTER TABLE esbk_tbClients ADD CONSTRAINT PK_esbk_tbClients_ID PRIMARY KEY (ID);
 	ALTER TABLE esbk_tbLogins ADD CONSTRAINT PK_esbk_tbLogins_ID PRIMARY KEY NONCLUSTERED (ID);
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT PK_esbk_tbBackups_ID PRIMARY KEY (ID);
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT PK_esbk_tbBackupTemplates_ID PRIMARY KEY (ID);
-	ALTER TABLE esbk_tbBackupTemplatesSetting ADD CONSTRAINT PK_esbk_tbBackupTemplatesSetting_ID PRIMARY KEY NONCLUSTERED (ID);
+	ALTER TABLE esbk_tbBackupTemplatesPaths ADD CONSTRAINT PK_esbk_tbBackupTemplatesPaths_ID PRIMARY KEY NONCLUSTERED (ID);
 	ALTER TABLE esbk_tbLogs ADD CONSTRAINT PK_esbk_tbLogs_ID PRIMARY KEY NONCLUSTERED (ID);
-	ALTER TABLE esbk_tbLogTypes ADD CONSTRAINT PK_esbk_tbLogTypes_ID PRIMARY KEY (ID);
 END
 BEGIN /* FK */
 	ALTER TABLE esbk_tbEmails ADD CONSTRAINT FK_esbk_tbEmails_IDesbk_tbAdministrators FOREIGN KEY (IDesbk_tbAdministrators) REFERENCES esbk_tbAdministrators(ID) ON UPDATE CASCADE ON DELETE CASCADE;
@@ -150,10 +136,9 @@ BEGIN /* FK */
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT FK_esbk_tbBackups_IDesbk_tbBackupTemplates FOREIGN KEY (IDesbk_tbBackupTemplates) REFERENCES esbk_tbBackupTemplates(ID) ON UPDATE CASCADE ON DELETE CASCADE;
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT FK_esbk_tbBackups_IDesbk_IDesbk_tbBackups_BASE FOREIGN KEY (IDesbk_tbBackups_BASE) REFERENCES esbk_tbBackups(ID);
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT FK_esbk_tbBackupTemplates_IDesbk_tbClients FOREIGN KEY (IDesbk_tbClients) REFERENCES esbk_tbClients(ID) ON UPDATE CASCADE ON DELETE CASCADE;
-	ALTER TABLE esbk_tbBackupTemplatesSetting ADD CONSTRAINT FK_esbk_tbBackupTemplatesSetting_IDesbk_tbBackupTemplates FOREIGN KEY (IDesbk_tbBackupTemplates) REFERENCES esbk_tbBackupTemplates(ID) ON UPDATE CASCADE ON DELETE CASCADE;
+	ALTER TABLE esbk_tbBackupTemplatesPaths ADD CONSTRAINT FK_esbk_tbBackupTemplatesPaths_IDesbk_tbBackupTemplates FOREIGN KEY (IDesbk_tbBackupTemplates) REFERENCES esbk_tbBackupTemplates(ID);
 	ALTER TABLE esbk_tbLogs ADD CONSTRAINT FK_esbk_tbLogs_IDesbk_tbClients FOREIGN KEY (IDesbk_tbClients) REFERENCES esbk_tbClients(ID); -- zůstanou logy, které nepatří k backupu - klienti se tak často odstraňovat nebudou
 	ALTER TABLE esbk_tbLogs ADD CONSTRAINT FK_esbk_tbLogs_IDesbk_tbBackups FOREIGN KEY (IDesbk_tbBackups) REFERENCES esbk_tbBackups(ID) ON UPDATE CASCADE ON DELETE CASCADE;
-	ALTER TABLE esbk_tbLogs ADD CONSTRAINT FK_esbk_tbLogs_IDesbk_tbLogTypes FOREIGN KEY (IDesbk_tbLogTypes) REFERENCES esbk_tbLogTypes(ID); -- Typy logů odstraňovat nebudeme, dostačující
 END
 BEGIN /* IX */
 	CREATE INDEX IX_esbk_tbClients_IDesbk_tbAdministrators ON esbk_tbClients(IDesbk_tbAdministrators);
@@ -164,11 +149,9 @@ BEGIN /* IX */
 	CREATE INDEX IX_esbk_tbBackups_IDesbk_tbClients ON esbk_tbBackups(IDesbk_tbClients);
 	CREATE INDEX IX_esbk_tbBackups_IDesbk_tbBackups_BASE ON esbk_tbBackups(IDesbk_tbBackups_BASE) WHERE BK_TYPE = 1;
 	CREATE INDEX IX_esbk_tbBackupTemplates_IDesbk_tbClients ON esbk_tbBackupTemplates(IDesbk_tbClients);
-	CREATE INDEX IX_esbk_tbBackupTemplatesSetting_IDesbk_tbBackupTemplates ON esbk_tbBackupTemplatesSetting(IDesbk_tbBackupTemplates);
-	CREATE INDEX IX_esbk_tbBackupTemplatesSetting_IDesbk_tbBackupTemplatesSettingTypes ON esbk_tbBackupTemplatesSetting(IDesbk_tbBackupTemplatesSettingTypes);
 	CREATE INDEX IX_esbk_tbLogs_IDesbk_tbClients ON esbk_tbLogs(IDesbk_tbClients);
 	CREATE INDEX IX_esbk_tbLogs_IDesbk_tbBackups ON esbk_tbLogs(IDesbk_tbBackups);
-	CREATE INDEX IX_esbk_tbLogs_IDesbk_tbLogTypes ON esbk_tbLogs(IDesbk_tbLogTypes);
+	CREATE INDEX IX_esbk_tbLogs_LG_TYPE ON esbk_tbLogs(LG_TYPE);
 END
 BEGIN /* DF */
 	ALTER TABLE esbk_tbAdministrators ADD CONSTRAINT DF_esbk_tbAdministrators_AD_REGISTRATION_DATE DEFAULT (GETDATE()) FOR AD_REGISTRATION_DATE;
@@ -183,7 +166,6 @@ BEGIN /* DF */
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_TYPE DEFAULT (0) FOR BK_TYPE;
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_COMPRESSION DEFAULT (0) FOR BK_COMPRESSION;
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_ENABLED DEFAULT (0) FOR BK_ENABLED;
-	-- TODO - ADD PROPERTIES
 	ALTER TABLE esbk_tbLogs ADD CONSTRAINT DF_esbk_tbLogs_LG_TIME_UTC DEFAULT (GETDATE()) FOR LG_TIME_UTC;
 END
 BEGIN /* CK */
@@ -200,11 +182,4 @@ BEGIN /* CK */
 END
 BEGIN /* UQ */
 	ALTER TABLE esbk_tbEmails ADD CONSTRAINT UQ_esbk_tbEmails_EMAIL UNIQUE (EMAIL);
-	ALTER TABLE esbk_tbLogTypes ADD CONSTRAINT UQ_esbk_tbLogTypes_TP_NAME UNIQUE (TP_NAME);
-END
-
-BEGIN /* INSERT INTO esbk_tbLogTypes */
-	INSERT INTO esbk_tbLogTypes VALUES ('Error'); -- exceptions
-	INSERT INTO esbk_tbLogTypes VALUES ('Warning'); -- Špatné přihlašovací údaje, ...
-	INSERT INTO esbk_tbLogTypes VALUES ('Message'); -- finished, email sent, ...
 END
