@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -10,7 +9,7 @@ namespace ESBackupServer.Database.Objects
     public class Backup
     {
         #region Entity Framework
-        [Key, Column("ID"), DataMember]
+        [Key, Column("ID"), DatabaseGenerated(DatabaseGeneratedOption.Identity), DataMember]
         public long ID { get; set; }
 
         [Column("IDesbk_tbClients"), DataMember]
@@ -25,46 +24,40 @@ namespace ESBackupServer.Database.Objects
         [Column("BK_DESCRIPTION"), DataMember]
         public string Description { get; set; }
 
+        [Column("BK_TYPE"), DataMember]
+        public bool BackupType { get; set; }
+
+        [Column("IDesbk_tbBackups_BASE"), DataMember]
+        public long? BaseBackupID { get; set; }
+
         [Column("BK_SOURCE"), DataMember]
         public string Source { get; set; }
 
         [Column("BK_DESTINATION"), DataMember]
         public string Destination { get; set; }
-
-        [Column("BK_TYPE"), DataMember]
-        public bool IsDifferential { get; set; }
-
-        [Column("IDesbk_tbBackups_BASE"), DataMember]
-        public long? BaseFullBackupID { get; set; }
-
-        [Column("BK_EXPIRATION"), DataMember]
-        public DateTime? Expiration { get; set; }
+        
+        [Column("BK_EXPIRATION_UTC"), DataMember]
+        public DateTime? UTCExpiration { get; set; }
 
         [Column("BK_COMPRESSION"), DataMember]
         public bool Compressed { get; set; }
 
-        [Column("BK_TIME_BEGIN"), DataMember]
-        public DateTime Start { get; set; }
+        //TODO: Default value
+        [Column("BK_TIME_BEGIN_UTC"), DataMember] //, DatabaseGenerated(DatabaseGeneratedOption.Identity)
+        public DateTime UTCStart { get; set; }
 
-        [Column("BK_TIME_END"), DataMember]
-        public DateTime? End { get; set; }
+        [Column("BK_TIME_END_UTC"), DataMember]
+        public DateTime? UTCEnd { get; set; }
 
         [Column("BK_STATUS"), DataMember]
         public byte Status { get; set; }
 
-        #region Virtual properties
-        [ForeignKey("IDClient"), DataMember]
-        public virtual Client Client { get; set; }
+        [Column("BK_META_PATH_ORDER"), DataMember]
+        public UInt16 PathOrder { get; set; }
 
-        [ForeignKey("IDBackupTemplate"), DataMember]
-        public virtual BackupTemplate Template { get; set; }
-
-        [ForeignKey("BaseFullBackupID"), DataMember]
-        public virtual Backup BaseFullBackup { get; set; }
-
-        [DataMember]
-        public virtual List<Log> Logs { get; set; }
-        #endregion
+        //TODO: Default value
+        [Column("BK_META_EMAIL_SENT"), DataMember] //, DatabaseGenerated(DatabaseGeneratedOption.Identity)
+        public bool EmailSent { get; set; }
         #endregion
     }
 }

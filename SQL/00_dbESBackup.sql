@@ -14,12 +14,7 @@ CREATE TABLE esbk_tbAdministrators(
 	ID bigint identity(1,1) not null,
 	AD_FIRST_NAME nvarchar(50) not null,
 	AD_LAST_NAME nvarchar(50) not null,
-
-	--AD_LOGIN_NAME varchar(128) not null, -- username
-	--AD_LOGIN_PSWD varchar(2048) not null, -- password
-	--AD_LOGIN_SALT varchar(512) not null, -- salt
-
-	AD_REGISTRATION_DATE datetime not null
+	AD_REGISTRATION_DATE_UTC datetime not null
 );
 CREATE TABLE esbk_tbEmails(
 	ID uniqueidentifier not null,
@@ -39,15 +34,15 @@ CREATE TABLE esbk_tbClients(
 	CL_LOGIN_PSWD varchar(2048), -- password
 	-- CL_LOGIN_SALT varchar(512), -- salt
 
-	CL_LAST_BACKUP datetime, -- datetime?
+	CL_LAST_BACKUP_UTC datetime, -- datetime?
 	
 	CL_STATUS tinyint not null, -- byte, autorizován/request registration/banned
 
 	CL_AUTO_STATUS_REPORT_ENABLED bit not null,
 	CL_AUTO_STATUS_REPORT_INTERVAL_CRON varchar(256),
-	CL_LAST_STATUS_REPORT datetime,
+	CL_LAST_STATUS_REPORT_UTC datetime,
 
-	CL_META_REGISTRATION_DATE datetime not null,
+	CL_META_REGISTRATION_DATE_UTC datetime not null,
 ); /* Tabulka serverů (klientů), kteří se zálohují */
 CREATE TABLE esbk_tbLogins(
 	ID uniqueidentifier not null, -- GUID
@@ -72,11 +67,11 @@ CREATE TABLE esbk_tbBackups(
 	BK_SOURCE varchar(max) not null, -- new
 	BK_DESTINATION varchar(max) not null, -- new
 	
-	BK_EXPIRATION datetime, -- datetime?
+	BK_EXPIRATION_UTC datetime, -- datetime?
 	BK_COMPRESSION bit not null, -- 0 = do not compress; 1 = compress
 
-	BK_TIME_BEGIN datetime not null, -- datetime
-	BK_TIME_END datetime, -- datetime?, null - updatem
+	BK_TIME_BEGIN_UTC datetime not null, -- datetime
+	BK_TIME_END_UTC datetime, -- datetime?, null - updatem
 	BK_STATUS tinyint not null, -- Executing, Competed, Failed, ...
 
 	BK_META_PATH_ORDER smallint not null, -- pořadí cesty

@@ -8,7 +8,7 @@ namespace ESBackupServer.Database.Objects
     [Table("esbk_tbAdministrators"), DataContract]
     public class Administrator
     {
-        [Key, Column("ID"), DataMember]
+        [Key, Column("ID"), DatabaseGenerated(DatabaseGeneratedOption.Identity), DataMember]
         public long ID { get; set; }
 
         [Column("AD_FIRST_NAME"), DataMember]
@@ -17,13 +17,8 @@ namespace ESBackupServer.Database.Objects
         [Column("AD_LAST_NAME"), DataMember]
         public string LastName { get; set; }
 
-        /* v2.0.0
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string Salt { get; set; }
-        */
-
-        [Column("AD_REGISTRATION_DATE")]
-        public DateTime RegistrationDate { get; set; } = DateTime.UtcNow;
+        //TODO: Default value
+        [Column("AD_REGISTRATION_DATE_UTC")] //, DatabaseGenerated(DatabaseGeneratedOption.Identity)
+        public DateTime UTCRegistrationDate { get; set; }
     }
 }

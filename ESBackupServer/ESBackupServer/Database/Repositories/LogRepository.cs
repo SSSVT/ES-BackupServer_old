@@ -44,7 +44,7 @@ namespace ESBackupServer.Database.Repositories
             Log log = this.Find(item.ID);
             log.IDClient = item.IDClient;
             log.IDBackup = item.IDBackup;
-            log.IDLogType = item.IDLogType;
+            log.LogType = item.LogType;
             log.UTCTime = item.UTCTime;
             log.Value = item.Value;
             this.SaveChanges();

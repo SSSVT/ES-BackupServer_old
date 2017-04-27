@@ -8,16 +8,16 @@ namespace ESBackupServer.Database.Objects
     [Table("esbk_tbEmails"), DataContract]
     public class Email
     {
-        [Key, Column("ID")]
+        [Key, Column("ID"), DatabaseGenerated(DatabaseGeneratedOption.Identity), DataMember]
         public Guid ID { get; set; }
 
-        [Column("IDesbk_tbAdministrators")]
+        [Column("IDesbk_tbAdministrators"), DataMember]
         public long IDAdministrator { get; set; }
 
-        [Column("EMAIL")]
+        [Column("EMAIL"), DataMember]
         public string Address { get; set; }
 
-        [Column("ISDEFAULT")]
-        public bool IsDefault { get; set; }
+        [Column("ISDEFAULT"), DataMember]
+        public bool IsDefault { get; set; } = false;
     }
 }

@@ -9,7 +9,7 @@ namespace ESBackupServer.Database.Objects
     public class Log
     {
         #region Entity Framework
-        [Key, Column("ID"), DataMember]
+        [Key, Column("ID"), DatabaseGenerated(DatabaseGeneratedOption.Identity), DataMember]
         public Guid ID { get; set; }
 
         [Column("IDesbk_tbClients"), DataMember]
@@ -18,23 +18,15 @@ namespace ESBackupServer.Database.Objects
         [Column("IDesbk_tbBackups"), DataMember]
         public long? IDBackup { get; set; }
 
-        [Column("IDesbk_tbLogTypes"), DataMember]
-        public byte IDLogType { get; set; }
+        [Column("LG_TYPE"), DataMember]
+        public byte LogType { get; set; }
 
-        [Column("LG_TIME_UTC"), DataMember]
+        //TODO: Default value
+        [Column("LG_TIME_UTC"), DataMember] //, DatabaseGenerated(DatabaseGeneratedOption.Identity)
         public DateTime UTCTime { get; set; }
 
         [Column("LG_VALUE"), DataMember]
         public string Value { get; set; }
-
-        [ForeignKey("IDClient"), DataMember]
-        public virtual Client Client { get; set; }
-
-        [ForeignKey("IDBackup"), DataMember]
-        public virtual Backup Backup { get; set; }
-
-        [ForeignKey("IDLogType"), DataMember]
-        public virtual LogType LogType { get; set; }
         #endregion
 
         #region Constructors        
@@ -49,13 +41,13 @@ namespace ESBackupServer.Database.Objects
             switch (logtype)
             {
                 case LogTypeNames.Error:
-                    this.IDLogType = 1;
+                    this.LogType = 1;
                     break;
                 case LogTypeNames.Warning:
-                    this.IDLogType = 2;
+                    this.LogType = 2;
                     break;
                 case LogTypeNames.Message:
-                    this.IDLogType = 3;
+                    this.LogType = 3;
                     break;
             }
 
@@ -67,5 +59,16 @@ namespace ESBackupServer.Database.Objects
             this.IDBackup = backup.ID;
         }
         #endregion
+    }
+
+    [DataContract]
+    public enum LogTypeNames
+    {
+        [EnumMember]
+        Error = 1,
+        [EnumMember]
+        Warning,
+        [EnumMember]
+        Message
     }
 }

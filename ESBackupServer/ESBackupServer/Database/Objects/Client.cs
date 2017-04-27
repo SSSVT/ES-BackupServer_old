@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -9,9 +8,8 @@ namespace ESBackupServer.Database.Objects
     [Table("esbk_tbClients"), DataContract(IsReference = true)]
     public class Client
     {
-        #region Entity Framework
         #region Data members
-        [Key, Column("ID"), DataMember]
+        [Key, Column("ID"), DatabaseGenerated(DatabaseGeneratedOption.Identity), DataMember]
         public int ID { get; set; }
 
         [Column("IDesbk_tbAdministrators"), DataMember]
@@ -23,51 +21,35 @@ namespace ESBackupServer.Database.Objects
         [Column("CL_DESCRIPTION"), DataMember]
         public string Description { get; set; }
 
+        [Column("CL_HWID")]
+        public string HardwareID { get; set; }
+
         [Column("CL_LOGIN_NAME"), DataMember]
         public string Username { get; set; }
 
-        [Column("CL_LAST_BACKUP"), DataMember]
-        public DateTime? LastBackupTime { get; set; }
-
-        [Column("CL_STATUS"), DataMember]
-        public byte Status { get; set; }
-
-        [Column("CL_AUTO_STATUS_REPORT_ENABLED"), DataMember]
-        public bool StatusReportEnabled { get; set; }
-
-        /// <summary>
-        /// In milisecond
-        /// </summary>
-        [Column("CL_AUTO_STATUS_REPORT_INTERVAL"), DataMember]
-        public int? ReportInterval { get; set; }
-
-        [Column("CL_LAST_STATUS_REPORT"), DataMember]
-        public DateTime? LastReportTime { get; set; }
-        #endregion
-        #region Not data member
-        [Column("CL_HWID")]
-        public string Hardware_ID { get; set; }
-
         [Column("CL_LOGIN_PSWD")]
         public string Password { get; set; }
-        #endregion
 
-        #region Virtual properties
-        [ForeignKey("IDAdministrator"), DataMember]
-        public virtual Administrator Administrator { get; set; }
+        [Column("CL_LAST_BACKUP_UTC"), DataMember]
+        public DateTime? UTCLastBackupTime { get; set; }
 
-        [DataMember]
-        public virtual List<Backup> Backups { get; set; }
+        //TODO: Default value
+        [Column("CL_STATUS"), DataMember] //, DatabaseGenerated(DatabaseGeneratedOption.Identity)
+        public byte Status { get; set; }
 
-        [DataMember]
-        public virtual List<Log> Logs { get; set; }
+        //TODO: Default value
+        [Column("CL_AUTO_STATUS_REPORT_ENABLED"), DataMember] //, DatabaseGenerated(DatabaseGeneratedOption.Identity)
+        public bool StatusReportEnabled { get; set; }
 
-        [DataMember]
-        public virtual List<Login> Logins { get; set; }
+        [Column("CL_AUTO_STATUS_REPORT_INTERVAL_CRON"), DataMember]
+        public int? ReportInterval { get; set; } //varchar(256)
 
-        [DataMember]
-        public virtual List<BackupTemplate> Templates { get; set; }
-        #endregion
+        [Column("CL_LAST_STATUS_REPORT_UTC"), DataMember]
+        public DateTime? UTCLastReportTime { get; set; }
+
+        //TODO: Default value
+        [Column("CL_META_REGISTRATION_DATE_UTC"), DataMember] //, DatabaseGenerated(DatabaseGeneratedOption.Identity)
+        public DateTime UTCRegistrationDate { get; set; }
         #endregion
     }
 

@@ -97,22 +97,19 @@
     <Compile Include="Database\Objects\Administrator.cs" />
     <Compile Include="Database\Objects\Backup.cs" />
     <Compile Include="Database\Objects\BackupTemplate.cs" />
-    <Compile Include="Database\Objects\BackupTemplateSetting.cs" />
+    <Compile Include="Database\Objects\BackupTemplatePath.cs" />
     <Compile Include="Database\Objects\Client.cs" />
     <Compile Include="Database\Objects\Email.cs" />
     <Compile Include="Database\Objects\Log.cs" />
     <Compile Include="Database\Objects\Login.cs" />
-    <Compile Include="Database\Objects\LogType.cs" />
     <Compile Include="Database\Repositories\AbRepository.cs" />
     <Compile Include="Database\Repositories\AdministratorRepository.cs" />
     <Compile Include="Database\Repositories\BackupRepository.cs" />
     <Compile Include="Database\Repositories\BackupTemplateRepository.cs" />
-    <Compile Include="Database\Repositories\BackupTemplateSettingRepository.cs" />
     <Compile Include="Database\Repositories\EmailRepository.cs" />
     <Compile Include="Database\Repositories\LoginRepository.cs" />
     <Compile Include="Database\Repositories\ClientRepository.cs" />
     <Compile Include="Database\Repositories\LogRepository.cs" />
-    <Compile Include="Database\Repositories\LogTypeRepository.cs" />
     <Compile Include="ESBackupServerAdminService.svc.cs">
       <DependentUpon>ESBackupServerAdminService.svc</DependentUpon>
     </Compile>

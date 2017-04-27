@@ -44,8 +44,6 @@ namespace ESBackupServer.Database.Repositories
             template.IDClient = item.IDClient;
             template.Name = item.Name;
             template.Description = item.Description;
-            template.Source = item.Source;
-            template.Destination = item.Destination;
             template.Type = item.Type;
             template.DaysToExpiration = item.DaysToExpiration;
             template.Compression = item.Compression;

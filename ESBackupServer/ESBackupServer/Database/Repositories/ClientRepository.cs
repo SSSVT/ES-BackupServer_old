@@ -46,16 +46,15 @@ namespace ESBackupServer.Database.Repositories
             client.Name = item.Name;
             client.Description = item.Description;
             client.Username = item.Username;
-            client.LastBackupTime = item.LastBackupTime;
+            client.UTCLastBackupTime = item.UTCLastBackupTime;
             client.Status = item.Status;
 
             client.StatusReportEnabled = item.StatusReportEnabled;
             client.ReportInterval = item.ReportInterval;
-            client.LastReportTime = item.LastReportTime;
+            client.UTCLastReportTime = item.UTCLastReportTime;
 
-            client.Hardware_ID = item.Hardware_ID;
+            client.HardwareID = item.HardwareID;
             client.Password = item.Password;
-            //client.Salt = item.Salt; //TODO: v2.0.0 salt
             this.SaveChanges();
         }
         #endregion
@@ -75,26 +74,26 @@ namespace ESBackupServer.Database.Repositories
             {
                 case Filter.Verified:
                     return (sort == Sort.Asc)
-                        ? this._Context.Clients.Where(x => x.Status == 0).OrderBy(x => x.LastReportTime).ToList()
-                        : this._Context.Clients.Where(x => x.Status == 0).OrderByDescending(x => x.LastReportTime).ToList();
+                        ? this._Context.Clients.Where(x => x.Status == 0).OrderBy(x => x.UTCLastReportTime).ToList()
+                        : this._Context.Clients.Where(x => x.Status == 0).OrderByDescending(x => x.UTCLastReportTime).ToList();
                 case Filter.Unverified:
                     return (sort == Sort.Asc)
-                        ? this._Context.Clients.Where(x => x.Status == 1).OrderBy(x => x.LastReportTime).ToList()
-                        : this._Context.Clients.Where(x => x.Status == 1).OrderByDescending(x => x.LastReportTime).ToList();
+                        ? this._Context.Clients.Where(x => x.Status == 1).OrderBy(x => x.UTCLastReportTime).ToList()
+                        : this._Context.Clients.Where(x => x.Status == 1).OrderByDescending(x => x.UTCLastReportTime).ToList();
                 case Filter.Banned:
                     return (sort == Sort.Asc)
-                        ? this._Context.Clients.Where(x => x.Status == 2).OrderBy(x => x.LastReportTime).ToList()
-                        : this._Context.Clients.Where(x => x.Status == 2).OrderByDescending(x => x.LastReportTime).ToList();
+                        ? this._Context.Clients.Where(x => x.Status == 2).OrderBy(x => x.UTCLastReportTime).ToList()
+                        : this._Context.Clients.Where(x => x.Status == 2).OrderByDescending(x => x.UTCLastReportTime).ToList();
                 default:
                     return (sort == Sort.Asc)
-                        ? this._Context.Clients.OrderBy(x => x.LastReportTime).ToList()
-                        : this._Context.Clients.OrderByDescending(x => x.LastReportTime).ToList();
+                        ? this._Context.Clients.OrderBy(x => x.UTCLastReportTime).ToList()
+                        : this._Context.Clients.OrderByDescending(x => x.UTCLastReportTime).ToList();
             }
         }
 
         internal Client Find(string name, string hwid)
         {
-            return this._Context.Clients.Where(x => x.Name == name && x.Hardware_ID == hwid).FirstOrDefault();
+            return this._Context.Clients.Where(x => x.Name == name && x.HardwareID == hwid).FirstOrDefault();
         }
 
         internal Client CreateClient(string name, string hwid)
@@ -102,7 +101,7 @@ namespace ESBackupServer.Database.Repositories
             this.Add(new Client()
             {
                 Name = name,
-                Hardware_ID = hwid
+                HardwareID = hwid
             });
             return this.Find(name, hwid);
         }

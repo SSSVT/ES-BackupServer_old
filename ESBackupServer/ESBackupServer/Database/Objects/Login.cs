@@ -9,21 +9,24 @@ namespace ESBackupServer.Database.Objects
     public class Login
     {
         #region EntityFramework
-        [Key, Column("ID"), DataMember]
+        [Key, Column("ID"), DatabaseGenerated(DatabaseGeneratedOption.Identity), DataMember]
         public Guid ID { get; set; }
 
         [Column("IDesbk_tbClients"), DataMember]
         public int IDClient { get; set; }
 
-        [Column("LG_TIME_UTC"), DataMember]
+        //TODO: Default value
+        [Column("LG_TIME_UTC"), DataMember] //, DatabaseGenerated(DatabaseGeneratedOption.Identity)
         public DateTime UTCTime { get; set; }
 
-        [Column("LG_TIME_EXPIRATION_UTC")]
+        //TODO: Default value
+        [Column("LG_TIME_EXPIRATION_UTC")] //, DatabaseGenerated(DatabaseGeneratedOption.Identity)
         public DateTime UTCExpiration { get; set; }
 
         [Column("LG_CLIENT_IP"), DataMember]
         public byte[] IP { get; set; } //IPv4 - 32; IPv6 - 128
 
+        //TODO: Zkontrolovat, zda je potřebné
         [ForeignKey("IDClient"), DataMember]
         public virtual Client Client { get; set; }
         #endregion
