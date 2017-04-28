@@ -21,7 +21,7 @@ namespace ESBackupServer.Database.Objects
         [Column("LG_TYPE"), DataMember]
         public byte LogType { get; set; }
 
-        [Column("LG_TIME_UTC"), DataMember] //, DatabaseGenerated(DatabaseGeneratedOption.Identity)
+        [Column("LG_TIME_UTC"), DataMember]
         public DateTime UTCTime { get; set; } = DateTime.UtcNow;
 
         [Column("LG_VALUE"), DataMember]

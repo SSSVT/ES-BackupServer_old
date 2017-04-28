@@ -17,8 +17,7 @@ namespace ESBackupServer.Database.Objects
         [Column("AD_LAST_NAME"), DataMember]
         public string LastName { get; set; }
 
-        //TODO: Default value
-        [Column("AD_META_REGISTRATION_DATE_UTC")] //, DatabaseGenerated(DatabaseGeneratedOption.Identity)
+        [Column("AD_META_REGISTRATION_DATE_UTC")]
         public DateTime UTCRegistrationDate { get; set; } = DateTime.UtcNow;
     }
 }

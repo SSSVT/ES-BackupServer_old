@@ -41,7 +41,7 @@ namespace ESBackupServer.Database.Objects
         [Column("BK_NOTIFICATION_EMAIL_ENABLED"), DataMember]
         public bool IsEmailNotificationEnabled { get; set; } = true;
 
-        //TODO: Default value
+        //TODO: CRON default value
         [Column("BK_REPEAT_INTERVAL_CRON"), DataMember]
         public string CRONRepeatInterval { get; set; }
         #endregion

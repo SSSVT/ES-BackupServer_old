@@ -42,8 +42,7 @@ namespace ESBackupServer.Database.Objects
         [Column("BK_COMPRESSION"), DataMember]
         public bool Compressed { get; set; } = false;
 
-        //TODO: Default value
-        [Column("BK_TIME_BEGIN_UTC"), DataMember] //, DatabaseGenerated(DatabaseGeneratedOption.Identity)
+        [Column("BK_TIME_BEGIN_UTC"), DataMember]
         public DateTime UTCStart { get; set; } = DateTime.UtcNow;
 
         [Column("BK_TIME_END_UTC"), DataMember]
@@ -55,8 +54,7 @@ namespace ESBackupServer.Database.Objects
         [Column("BK_META_PATH_ORDER"), DataMember]
         public UInt16 PathOrder { get; set; }
 
-        //TODO: Default value
-        [Column("BK_META_EMAIL_SENT"), DataMember] //, DatabaseGenerated(DatabaseGeneratedOption.Identity)
+        [Column("BK_META_EMAIL_SENT"), DataMember]
         public bool EmailSent { get; set; } = false;
         #endregion
     }

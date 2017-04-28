@@ -30,10 +30,10 @@ namespace ESBackupServer.Database.Objects
         [Column("CL_LOGIN_PSWD")]
         public string Password { get; set; }
 
-        [Column("CL_STATUS"), DataMember] //, DatabaseGenerated(DatabaseGeneratedOption.Identity)
+        [Column("CL_STATUS"), DataMember]
         public byte Status { get; set; } = 0;
 
-        [Column("CL_AUTO_STATUS_REPORT_ENABLED"), DataMember] //, DatabaseGenerated(DatabaseGeneratedOption.Identity)
+        [Column("CL_AUTO_STATUS_REPORT_ENABLED"), DataMember]
         public bool StatusReportEnabled { get; set; } = true;
 
         //TODO: CRON default value
@@ -46,8 +46,7 @@ namespace ESBackupServer.Database.Objects
         [Column("CL_META_LAST_BACKUP_UTC"), DataMember]
         public DateTime? UTCLastBackupTime { get; set; }
 
-        //TODO: Default value
-        [Column("CL_META_REGISTRATION_DATE_UTC"), DataMember] //, DatabaseGenerated(DatabaseGeneratedOption.Identity)
+        [Column("CL_META_REGISTRATION_DATE_UTC"), DataMember]
         public DateTime UTCRegistrationDate { get; set; } = DateTime.UtcNow;
         #endregion
     }
