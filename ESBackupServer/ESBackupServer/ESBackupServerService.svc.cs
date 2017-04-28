@@ -22,6 +22,9 @@ namespace ESBackupServer
         #region Factories
         private ConfigurationFactory _ConfigFactory { get; set; } = new ConfigurationFactory();
         #endregion
+        #region Components
+        private NetInfoObtainer _NetInfo = new NetInfoObtainer();
+        #endregion
         #endregion
 
         #region Registration
@@ -29,7 +32,7 @@ namespace ESBackupServer
         {
             Client item = this._ClientRepo.Find(name, hwid);
             if (item == null)
-                item = this._ClientRepo.CreateClient(name, hwid);
+                item = this._ClientRepo.CreateClient(AdministratorRepository.GetInstance().Find(1), name, hwid); //TODO: Remove debugging code
             return new UserDefinitionFactory().Create(item);
         }
         #endregion
@@ -47,14 +50,12 @@ namespace ESBackupServer
 
             if (this._ClientRepo.IsLoginValid(client, password))
             {
-                Guid sessionID = this._LoginRepo.Create(client).ID;
-                //ID, IP, UTC Time
+                Guid sessionID = this._LoginRepo.Create(client, this._NetInfo.GetClientIP()).ID;
                 this._LogRepo.Create(client, $"Session start: ID={ sessionID };IP={ new NetInfoObtainer().GetClientIP().ToString() };UTCTime={ DateTime.UtcNow }", LogTypeNames.Message);
                 return sessionID;
             }
             else
             {
-                //IP, UTC Time
                 this._LogRepo.Create(client, $"Invalid login: IP={ new NetInfoObtainer().GetClientIP().ToString() };UTCTime={ DateTime.UtcNow }", LogTypeNames.Warning);
                 return null;
             }
@@ -63,11 +64,8 @@ namespace ESBackupServer
         {
             Login login = this._LoginRepo.Find(sessionID);
             login.UTCExpiration = DateTime.UtcNow;
-            this._LoginRepo.SaveChanges();
-
-            //ID, UTC Time
+            this._LoginRepo.Update(login);
             this._LogRepo.Create(login.Client, $"Session end: ID={ sessionID };UTCTime={ DateTime.UtcNow }", LogTypeNames.Message);
-
             return true;
         }
         #endregion

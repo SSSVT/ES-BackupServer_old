@@ -65,17 +65,25 @@ namespace ESBackupServer.Database.Repositories
         /// </summary>
         /// <param name="client">Client instance</param>
         /// <returns></returns>
-        internal Login Create(Client client)
+        internal Login Create(Client client, IPAddress EndpointIP)
         {
             Login login = this.Find(client);
 
-            if (login != null && new IPAddress(login.IP) == this._NetInfo.GetClientIP())
-                return login;
-            else if (login != null && new IPAddress(login.IP) != this._NetInfo.GetClientIP())
+            if (login != null && new IPAddress(login.IP) == EndpointIP) //IP adresa je ok
+            {
+                login.UTCExpiration = DateTime.UtcNow.AddMinutes(15); //Refresh expiration
+            }
+            else if (login != null && new IPAddress(login.IP) != EndpointIP)
+            {
                 login.UTCExpiration = DateTime.UtcNow;
-
-            this.Add(new Login(client, DateTime.UtcNow));
-            return this.Find(client);
+            }
+            else
+            {
+                this.Add(new Login(client, DateTime.UtcNow, EndpointIP));
+                return this.Find(client);
+            }
+            this.Update(login);
+            return login;
         }
         internal bool IsSessionIDValid(Login login)
         {

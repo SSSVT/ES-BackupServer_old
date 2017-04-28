@@ -92,10 +92,11 @@ namespace ESBackupServer.Database.Repositories
         {
             return this._Context.Clients.Where(x => x.Name == name && x.HardwareID == hwid).FirstOrDefault();
         }
-        internal Client CreateClient(string name, string hwid)
+        internal Client CreateClient(Administrator admin, string name, string hwid)
         {
             this.Add(new Client()
             {
+                IDAdministrator = admin.ID,
                 Name = name,
                 HardwareID = hwid
             });

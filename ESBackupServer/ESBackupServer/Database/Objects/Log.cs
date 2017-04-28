@@ -22,7 +22,7 @@ namespace ESBackupServer.Database.Objects
         public byte LogType { get; set; }
 
         [Column("LG_TIME_UTC"), DataMember]
-        public DateTime UTCTime { get; set; } = DateTime.UtcNow;
+        public DateTime UTCTime { get; set; }
 
         [Column("LG_VALUE"), DataMember]
         public string Value { get; set; }
@@ -31,7 +31,7 @@ namespace ESBackupServer.Database.Objects
         #region Constructors        
         public Log()
         {
-
+            this.UTCTime = DateTime.UtcNow;
         }
         public Log(Client client, DateTime UTCtime, string value, LogTypeNames logtype)
         {

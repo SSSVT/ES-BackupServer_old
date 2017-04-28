@@ -31,7 +31,7 @@ namespace ESBackupServer.Database.Objects
         public string Password { get; set; }
 
         [Column("CL_STATUS"), DataMember]
-        public byte Status { get; set; } = 0;
+        public byte Status { get; set; } = 1;
 
         [Column("CL_AUTO_STATUS_REPORT_ENABLED"), DataMember]
         public bool StatusReportEnabled { get; set; } = true;
