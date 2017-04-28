@@ -15,13 +15,12 @@ namespace ESBackupServer.Database.Objects
         [Column("IDesbk_tbClients"), DataMember]
         public int IDClient { get; set; }
 
-        //TODO: Default value
         [Column("LG_TIME_UTC"), DataMember] //, DatabaseGenerated(DatabaseGeneratedOption.Identity)
-        public DateTime UTCTime { get; set; }
+        public DateTime UTCTime { get; set; } = DateTime.UtcNow;
 
         //TODO: Default value
         [Column("LG_TIME_EXPIRATION_UTC")] //, DatabaseGenerated(DatabaseGeneratedOption.Identity)
-        public DateTime UTCExpiration { get; set; }
+        public DateTime UTCExpiration { get; set; } = DateTime.UtcNow.AddMinutes(15);
 
         [Column("LG_CLIENT_IP"), DataMember]
         public byte[] IP { get; set; } //IPv4 - 32; IPv6 - 128

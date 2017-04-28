@@ -30,14 +30,13 @@ namespace ESBackupServer.Database.Objects
         [Column("CL_LOGIN_PSWD")]
         public string Password { get; set; }
 
-        //TODO: Default value
         [Column("CL_STATUS"), DataMember] //, DatabaseGenerated(DatabaseGeneratedOption.Identity)
-        public byte Status { get; set; }
+        public byte Status { get; set; } = 0;
 
-        //TODO: Default value
         [Column("CL_AUTO_STATUS_REPORT_ENABLED"), DataMember] //, DatabaseGenerated(DatabaseGeneratedOption.Identity)
-        public bool StatusReportEnabled { get; set; }
+        public bool StatusReportEnabled { get; set; } = true;
 
+        //TODO: CRON default value
         [Column("CL_AUTO_STATUS_REPORT_INTERVAL_CRON"), DataMember]
         public int? ReportInterval { get; set; } //varchar(256)
 
@@ -49,7 +48,7 @@ namespace ESBackupServer.Database.Objects
 
         //TODO: Default value
         [Column("CL_META_REGISTRATION_DATE_UTC"), DataMember] //, DatabaseGenerated(DatabaseGeneratedOption.Identity)
-        public DateTime UTCRegistrationDate { get; set; }
+        public DateTime UTCRegistrationDate { get; set; } = DateTime.UtcNow;
         #endregion
     }
 
