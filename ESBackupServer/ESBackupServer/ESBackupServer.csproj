@@ -105,6 +105,7 @@
     <Compile Include="Database\Repositories\AbRepository.cs" />
     <Compile Include="Database\Repositories\AdministratorRepository.cs" />
     <Compile Include="Database\Repositories\BackupRepository.cs" />
+    <Compile Include="Database\Repositories\BackupTemplatePathRepository.cs" />
     <Compile Include="Database\Repositories\BackupTemplateRepository.cs" />
     <Compile Include="Database\Repositories\EmailRepository.cs" />
     <Compile Include="Database\Repositories\LoginRepository.cs" />

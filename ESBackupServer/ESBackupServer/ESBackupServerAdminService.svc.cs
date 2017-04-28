@@ -63,10 +63,6 @@ namespace ESBackupServer
         }
         #endregion
         #region Set
-        public void SaveConfiguration(Configuration config)
-        {
-            this._ConfigFactory.Save(config);
-        }
         public void UpdateClient(Client client)
         {
             this._ClientRepository.Update(client);
@@ -75,7 +71,6 @@ namespace ESBackupServer
         {
             this._BackupRepository.Remove(id);
         }
-
         public void UpdateBackup(Backup backup)
         {
             this._BackupRepository.Update(backup);

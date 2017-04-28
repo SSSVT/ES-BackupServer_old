@@ -1,5 +1,4 @@
 ﻿using ESBackupServer.Database.Objects;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -36,11 +35,8 @@ namespace ESBackupServer.Database.Repositories
         }
         internal override void Remove(Backup item)
         {
-            if (!item.BackupType)
-            {
-                foreach (Backup diff in this._Context.Backups.Where(x => x.BaseBackupID == item.ID).ToList())
-                    this._Context.Backups.Remove(diff);
-            }
+            //0 = full, 1 = differential, 2 = incremental
+            //TODO: Remove all child backups
             this._Context.Backups.Remove(item);
             this.SaveChanges();
         }
@@ -51,15 +47,17 @@ namespace ESBackupServer.Database.Repositories
             backup.IDBackupTemplate = item.IDBackupTemplate;
             backup.Name = item.Name;
             backup.Description = item.Description;
-            backup.Source = item.Source;
-            backup.Destination = item.Destination;
             backup.BackupType = item.BackupType;
             backup.BaseBackupID = item.BaseBackupID;
+            backup.Source = item.Source;
+            backup.Destination = item.Destination;            
             backup.UTCExpiration = item.UTCExpiration;
             backup.Compressed = item.Compressed;
             backup.UTCStart = item.UTCStart;
             backup.UTCEnd = item.UTCEnd;
             backup.Status = item.Status;
+            backup.PathOrder = item.PathOrder;
+            backup.EmailSent = item.EmailSent;
             this.SaveChanges();
         }
         #endregion

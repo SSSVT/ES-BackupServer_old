@@ -22,11 +22,9 @@ namespace ESBackupServer.Database.Repositories
             return LoginRepository._Instance;
         }
         #endregion
-
         #region Properties
         private NetInfoObtainer _NetInfo { get; set; } = new NetInfoObtainer();
         #endregion
-
         #region AbRepository
         protected override void Add(Login item)
         {

@@ -8,10 +8,24 @@ namespace ESBackupServer.Database.Repositories
 {
     internal class EmailRepository : AbRepository<Email>
     {
+        #region Singleton
+        private EmailRepository()
+        {
+
+        }
+        private static EmailRepository _Instance { get; set; }
+        public static EmailRepository GetInstance()
+        {
+            if (EmailRepository._Instance == null)
+                EmailRepository._Instance = new EmailRepository();
+            return EmailRepository._Instance;
+        }
+        #endregion
         #region AbRepository
         protected override void Add(Email item)
         {
             this._Context.Emails.Add(item);
+            this.SaveChanges();
         }
         internal override Email Find(object id)
         {
@@ -23,7 +37,11 @@ namespace ESBackupServer.Database.Repositories
         }
         internal override void Remove(Email item)
         {
-            this._Context.Emails.Remove(item);
+            if (!item.IsDefault)
+            {
+                this._Context.Emails.Remove(item);
+                this.SaveChanges();
+            }
         }
         internal override void Update(Email item)
         {

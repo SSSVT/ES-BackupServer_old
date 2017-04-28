@@ -6,6 +6,19 @@ namespace ESBackupServer.Database.Repositories
 {
     internal class AdministratorRepository : AbRepository<Administrator>
     {
+        #region Singleton
+        private AdministratorRepository()
+        {
+
+        }
+        private static AdministratorRepository _Instance { get; set; }
+        internal static AdministratorRepository GetInstance()
+        {
+            if (AdministratorRepository._Instance == null)
+                AdministratorRepository._Instance = new AdministratorRepository();
+            return AdministratorRepository._Instance;
+        }
+        #endregion
         #region AbRepository
         protected override void Add(Administrator item)
         {

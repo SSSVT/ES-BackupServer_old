@@ -45,16 +45,14 @@ namespace ESBackupServer.Database.Repositories
             client.IDAdministrator = item.IDAdministrator;
             client.Name = item.Name;
             client.Description = item.Description;
+            client.HardwareID = item.HardwareID;
             client.Username = item.Username;
-            client.UTCLastBackupTime = item.UTCLastBackupTime;
+            client.Password = item.Password;
             client.Status = item.Status;
-
             client.StatusReportEnabled = item.StatusReportEnabled;
             client.ReportInterval = item.ReportInterval;
             client.UTCLastStatusReportTime = item.UTCLastStatusReportTime;
-
-            client.HardwareID = item.HardwareID;
-            client.Password = item.Password;
+            client.UTCLastBackupTime = item.UTCLastBackupTime;
             this.SaveChanges();
         }
         #endregion
@@ -95,7 +93,6 @@ namespace ESBackupServer.Database.Repositories
         {
             return this._Context.Clients.Where(x => x.Name == name && x.HardwareID == hwid).FirstOrDefault();
         }
-
         internal Client CreateClient(string name, string hwid)
         {
             this.Add(new Client()
