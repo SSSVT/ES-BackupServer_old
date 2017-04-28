@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 namespace ESBackupServer.Database.Objects
 {
-    [Table("esbk_tbAdministrators"), DataContract]
+    [Table("esbk_tbAdministrators"), DataContract(IsReference = true)]
     public class Administrator
     {
         [Key, Column("ID"), DatabaseGenerated(DatabaseGeneratedOption.Identity), DataMember]
@@ -18,7 +18,7 @@ namespace ESBackupServer.Database.Objects
         public string LastName { get; set; }
 
         //TODO: Default value
-        [Column("AD_REGISTRATION_DATE_UTC")] //, DatabaseGenerated(DatabaseGeneratedOption.Identity)
+        [Column("AD_META_REGISTRATION_DATE_UTC")] //, DatabaseGenerated(DatabaseGeneratedOption.Identity)
         public DateTime UTCRegistrationDate { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 namespace ESBackupServer.Database.Objects
 {
-    [Table("esbk_tbEmails"), DataContract]
+    [Table("esbk_tbEmails"), DataContract(IsReference = true)]
     public class Email
     {
         [Key, Column("ID"), DatabaseGenerated(DatabaseGeneratedOption.Identity), DataMember]

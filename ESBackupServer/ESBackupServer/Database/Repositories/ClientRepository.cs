@@ -51,7 +51,7 @@ namespace ESBackupServer.Database.Repositories
 
             client.StatusReportEnabled = item.StatusReportEnabled;
             client.ReportInterval = item.ReportInterval;
-            client.UTCLastReportTime = item.UTCLastReportTime;
+            client.UTCLastStatusReportTime = item.UTCLastStatusReportTime;
 
             client.HardwareID = item.HardwareID;
             client.Password = item.Password;
@@ -74,20 +74,20 @@ namespace ESBackupServer.Database.Repositories
             {
                 case Filter.Verified:
                     return (sort == Sort.Asc)
-                        ? this._Context.Clients.Where(x => x.Status == 0).OrderBy(x => x.UTCLastReportTime).ToList()
-                        : this._Context.Clients.Where(x => x.Status == 0).OrderByDescending(x => x.UTCLastReportTime).ToList();
+                        ? this._Context.Clients.Where(x => x.Status == 0).OrderBy(x => x.UTCLastStatusReportTime).ToList()
+                        : this._Context.Clients.Where(x => x.Status == 0).OrderByDescending(x => x.UTCLastStatusReportTime).ToList();
                 case Filter.Unverified:
                     return (sort == Sort.Asc)
-                        ? this._Context.Clients.Where(x => x.Status == 1).OrderBy(x => x.UTCLastReportTime).ToList()
-                        : this._Context.Clients.Where(x => x.Status == 1).OrderByDescending(x => x.UTCLastReportTime).ToList();
+                        ? this._Context.Clients.Where(x => x.Status == 1).OrderBy(x => x.UTCLastStatusReportTime).ToList()
+                        : this._Context.Clients.Where(x => x.Status == 1).OrderByDescending(x => x.UTCLastStatusReportTime).ToList();
                 case Filter.Banned:
                     return (sort == Sort.Asc)
-                        ? this._Context.Clients.Where(x => x.Status == 2).OrderBy(x => x.UTCLastReportTime).ToList()
-                        : this._Context.Clients.Where(x => x.Status == 2).OrderByDescending(x => x.UTCLastReportTime).ToList();
+                        ? this._Context.Clients.Where(x => x.Status == 2).OrderBy(x => x.UTCLastStatusReportTime).ToList()
+                        : this._Context.Clients.Where(x => x.Status == 2).OrderByDescending(x => x.UTCLastStatusReportTime).ToList();
                 default:
                     return (sort == Sort.Asc)
-                        ? this._Context.Clients.OrderBy(x => x.UTCLastReportTime).ToList()
-                        : this._Context.Clients.OrderByDescending(x => x.UTCLastReportTime).ToList();
+                        ? this._Context.Clients.OrderBy(x => x.UTCLastStatusReportTime).ToList()
+                        : this._Context.Clients.OrderByDescending(x => x.UTCLastStatusReportTime).ToList();
             }
         }
 

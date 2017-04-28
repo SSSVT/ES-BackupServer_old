@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 namespace ESBackupServer.Database.Objects
 {
-    [Table("esbk_tbBackupTemplatesPaths"), DataContract]
+    [Table("esbk_tbBackupTemplatesPaths"), DataContract(IsReference = true)]
     public class BackupTemplatePath
     {
         [Key, Column("ID"), DatabaseGenerated(DatabaseGeneratedOption.Identity), DataMember]
