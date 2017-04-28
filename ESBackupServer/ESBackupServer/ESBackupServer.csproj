@@ -90,6 +90,7 @@
     <Compile Include="App\Objects\Factories\Config\ConfigurationFactory.cs" />
     <Compile Include="App\Objects\Configuration.cs" />
     <Compile Include="App\Objects\Factories\Net\Mail\MailFactory.cs" />
+    <Compile Include="App\Objects\Factories\Registration\PasswordFactory.cs" />
     <Compile Include="App\Objects\Factories\Registration\UserDefinitionFactory.cs" />
     <Compile Include="App\Objects\Filters\Filter.cs" />
     <Compile Include="App\Objects\Registration\UserDefinition.cs" />

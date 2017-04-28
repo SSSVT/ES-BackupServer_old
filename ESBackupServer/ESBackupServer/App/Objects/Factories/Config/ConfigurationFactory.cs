@@ -14,11 +14,5 @@ namespace ESBackupServer.App.Objects.Factories.Config
             };
             return config;
         }
-
-        internal void Save(Configuration config)
-        {
-            //TODO: Implement
-            throw new NotImplementedException();
-        }
     }
 }

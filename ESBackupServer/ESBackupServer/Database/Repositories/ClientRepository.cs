@@ -59,7 +59,6 @@ namespace ESBackupServer.Database.Repositories
 
         internal bool IsLoginValid(Client client, string password)
         {
-            //TODO: Osolit heslo
             return (client.Password == password) ? true : false;
         }
         internal Client FindByUsername(string username)

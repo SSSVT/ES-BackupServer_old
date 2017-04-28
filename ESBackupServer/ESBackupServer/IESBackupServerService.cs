@@ -10,6 +10,7 @@ namespace ESBackupServer
     public interface IESBackupServerService
     {
         #region Registration
+        [OperationContract]
         UserDefinition RequestRegistration(string name, string hwid);
         #endregion
 

@@ -55,7 +55,7 @@ namespace ESBackupServer.App.Components.Net.Mail
             }
             catch (Exception ex)
             {
-                throw ex; //TODO: Fix potential bug
+                throw ex; //TODO: Fix potential bug --> log(client)
             }
         }
     }

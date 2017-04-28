@@ -1,6 +1,6 @@
 ﻿using ESBackupServer.App.Objects.Registration;
 using ESBackupServer.Database.Objects;
-using ESBackupServer.Database.Repositories;
+using System;
 
 namespace ESBackupServer.App.Objects.Factories.Registration
 {
@@ -8,13 +8,12 @@ namespace ESBackupServer.App.Objects.Factories.Registration
     {
         internal UserDefinition Create(Client client)
         {
-            ClientRepository.GetInstance().Update(client);
-            return (client.Status == (int)ClientStatus.Verified && client.Username == null)
+            return (Convert.ToInt32(client.Status) == Convert.ToInt32(ClientStatus.Verified) && client.Username == null)
                 ? new UserDefinition()
                 {
                     //TODO: Create username, password and salt
-                    Username = "test",
-                    Password = "password",
+                    Username = client.ID.ToString(),
+                    Password = new PasswordFactory().Generate(128),
                     Status = ClientStatus.Verified
                 }
                 : new UserDefinition()
