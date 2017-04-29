@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\ESBackupServer",
+    "\\ESBackupServer\\ESBackupServer",
+    "\\ESBackupServer\\ESBackupServer\\App\\Objects\\Factories\\Config",
+    "\\ESBackupServer\\ESBackupServer\\App\\Objects\\Factories\\Registration",
+    "\\ESBackupServer\\ESBackupServer\\Database",
+    "\\ESBackupServer\\ESBackupServer\\Database\\Repositories",
+    "\\SQL"
+  ],
+  "SelectedNode": "\\ESBackupServer\\ESBackupServer\\ESBackupServerService.svc.cs",
+  "PreviewInSolutionExplorer": false
+}
