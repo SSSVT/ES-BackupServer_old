@@ -103,8 +103,8 @@ CREATE TABLE esbk_tbBackupTemplatesPaths(
 
 	BK_PATH_ORDER smallint not null,
 	BK_TARGET_TYPE tinyint not null, -- byte; 0 = WIN, 1 = FTP, 2 = SSH, 3 = SecureCopy
-	BK_SOURCE varchar(max) not null,
-	BK_DESTINATION varchar(max) not null,
+	BK_SOURCE varchar(446) not null,
+	BK_DESTINATION varchar(446) not null,
 );
 
 CREATE TABLE esbk_tbLogs(
@@ -142,7 +142,7 @@ BEGIN /* IX */
 	CREATE INDEX IX_esbk_tbEmails_IDesbk_tbAdministrators ON esbk_tbEmails(IDesbk_tbAdministrators);
 	CREATE UNIQUE INDEX IX_UQ_esbk_tbEmails ON esbk_tbEmails(EMAIL);
 	CREATE INDEX IX_esbk_tbClients_IDesbk_tbAdministrators ON esbk_tbClients(IDesbk_tbAdministrators);
-	CREATE UNIQUE INDEX IX_UQ_esbk_tbClients ON esbk_tbClients(CL_LOGIN_NAME);
+	CREATE UNIQUE INDEX IX_UQ_esbk_tbClients ON esbk_tbClients(CL_LOGIN_NAME) WHERE CL_LOGIN_NAME IS NOT NULL;
 	CREATE INDEX IX_esbk_tbLogins_ID ON esbk_tbLogins(ID);
 	CREATE INDEX IX_esbk_tbLogins_IDesbk_tbClients ON esbk_tbLogins(IDesbk_tbClients);
 	CREATE INDEX IX_esbk_tbLogins_LG_TIME_UTC ON esbk_tbLogins(LG_TIME_UTC);
@@ -164,7 +164,7 @@ BEGIN /* DF */
 	ALTER TABLE esbk_tbClients ADD CONSTRAINT DF_esbk_tbClients_CL_STATUS DEFAULT (0) FOR CL_STATUS;
 	ALTER TABLE esbk_tbClients ADD CONSTRAINT DF_esbk_tbClients_CL_AUTO_STATUS_REPORT_ENABLED DEFAULT (1) FOR CL_AUTO_STATUS_REPORT_ENABLED;
 	ALTER TABLE esbk_tbClients ADD CONSTRAINT DF_esbk_tbClients_CL_META_REGISTRATION_DATE_UTC DEFAULT (GETUTCDATE()) FOR CL_META_REGISTRATION_DATE_UTC;
-	--ALTER TABLE esbk_tbClients ADD CONSTRAINT DF_esbk_tbClients_CL_AUTO_STATUS_REPORT_INTERVAL_CRON DEFAULT ('') FOR CL_AUTO_STATUS_REPORT_INTERVAL_CRON;
+	ALTER TABLE esbk_tbClients ADD CONSTRAINT DF_esbk_tbClients_CL_AUTO_STATUS_REPORT_INTERVAL_CRON DEFAULT ('*/10 * * * *') FOR CL_AUTO_STATUS_REPORT_INTERVAL_CRON;
 	ALTER TABLE esbk_tbLogins ADD CONSTRAINT DF_esbk_tbLogins_ID DEFAULT (NEWID()) FOR ID;
 	ALTER TABLE esbk_tbLogins ADD CONSTRAINT DF_esbk_tbLogins_LG_TIME_UTC DEFAULT (GETUTCDATE()) FOR LG_TIME_UTC;
 	ALTER TABLE esbk_tbLogins ADD CONSTRAINT DF_esbk_tbLogins_LG_TIME_EXPIRATION_UTC DEFAULT (DATEADD(minute, 15, GETUTCDATE())) FOR LG_TIME_EXPIRATION_UTC;
@@ -199,14 +199,30 @@ BEGIN /* CK */
 END
 BEGIN /* UQ */
 	ALTER TABLE esbk_tbEmails ADD CONSTRAINT UQ_esbk_tbEmails_EMAIL UNIQUE (EMAIL);
+	ALTER TABLE esbk_tbBackupTemplatesPaths ADD CONSTRAINT UQ_esbk_tbBackupTemplatesPaths_PATH UNIQUE (IDesbk_tbBackupTemplates, BK_SOURCE, BK_DESTINATION);
 END
 
+/*
+	1x Administrator
+	2x Email
+	3x Client
+	2x Backup template (FULL, DIFF)
+	1x Backup template path
+*/
 BEGIN /* INSERT */
 	INSERT INTO esbk_tbAdministrators (AD_FIRST_NAME, AD_LAST_NAME) VALUES ('Tomáš', 'Švejnoha');
 	INSERT INTO esbk_tbEmails (IDesbk_tbAdministrators, EMAIL, ISDEFAULT) VALUES (1, 'tomas.svejnoha@gmail.com', 1);
-	INSERT INTO esbk_tbClients (IDesbk_tbAdministrators, CL_NAME, CL_HWID, CL_STATUS, CL_LOGIN_NAME, CL_LOGIN_PSWD) VALUES (1, 'PC-Tomas', 'hwid', 0, 1, 'password');
+	INSERT INTO esbk_tbEmails (IDesbk_tbAdministrators, EMAIL, ISDEFAULT) VALUES (1, 'svejnohatomas@gmail.com', 0);
+	INSERT INTO esbk_tbClients (IDesbk_tbAdministrators, CL_NAME, CL_HWID, CL_STATUS, CL_LOGIN_NAME, CL_LOGIN_PSWD) VALUES (1, 'PC01', 'hwid', 0, 1, 'password');
+	INSERT INTO esbk_tbClients (IDesbk_tbAdministrators, CL_NAME, CL_HWID, CL_STATUS) VALUES (1, 'PC02', 'hwid', 1);
+	INSERT INTO esbk_tbClients (IDesbk_tbAdministrators, CL_NAME, CL_HWID, CL_STATUS) VALUES (1, 'PC03', 'hwid', 2);
+	
+	INSERT INTO esbk_tbBackupTemplates (IDesbk_tbClients, BK_TYPE, BK_ENABLED, BK_REPEAT_INTERVAL_CRON) VALUES (1, 0, 1, '0 0 * * sun'); -- At 00:00 on Sunday (every)
+	INSERT INTO esbk_tbBackupTemplates (IDesbk_tbClients, BK_TYPE, BK_ENABLED, BK_REPEAT_INTERVAL_CRON) VALUES (1, 1, 1, '0 0 * * *'); -- At 00:00 every day
+	
+	INSERT INTO esbk_tbBackupTemplatesPaths (IDesbk_tbBackupTemplates, BK_PATH_ORDER, BK_TARGET_TYPE, BK_SOURCE, BK_DESTINATION) VALUES (1, 1, 0, 'C:\src', 'C:\dst');
 END
 
-select * from esbk_tbClients
-select * from esbk_tbLogins
-select * from esbk_tbLogs
+--select * from esbk_tbClients
+--select * from esbk_tbLogins
+--select * from esbk_tbLogs

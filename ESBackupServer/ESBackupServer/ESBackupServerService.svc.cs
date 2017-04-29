@@ -18,6 +18,7 @@ namespace ESBackupServer
         private ClientRepository _ClientRepo { get; set; } = ClientRepository.GetInstance();
         private LoginRepository _LoginRepo { get; set; } = LoginRepository.GetInstance();
         private LogRepository _LogRepo { get; set; } = LogRepository.GetInstance();
+        private BackupRepository _BackupRepository { get; set; } = BackupRepository.GetInstance();
         #endregion
         #region Factories
         private ConfigurationFactory _ConfigFactory { get; set; } = new ConfigurationFactory();
@@ -79,7 +80,7 @@ namespace ESBackupServer
 
         public void CreateBackup(Backup backup)
         {
-            throw new NotImplementedException(); //TODO: Implement
+            this._BackupRepository.Update(backup);
         }
         #endregion
     }

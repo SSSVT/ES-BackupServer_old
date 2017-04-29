@@ -35,30 +35,45 @@ namespace ESBackupServer.Database.Repositories
         }
         internal override void Remove(Backup item)
         {
-            //0 = full, 1 = differential, 2 = incremental
-            //TODO: Remove all child backups
-            this._Context.Backups.Remove(item);
+            if (item.Status == 0 || item.Status == 2) //FULL (0) -> remove diffs; INCREMENTAL (2) -> remove next incremental backups
+            {
+                foreach (Backup backup in this.FindByBaseBackup(item))
+                {
+                    this.Remove(backup);
+                }
+            }
+            else //DIFF (1)
+            {
+                this._Context.Backups.Remove(item);
+            }            
             this.SaveChanges();
         }
         internal override void Update(Backup item)
         {
             Backup backup = this.Find(item.ID);
-            backup.IDClient = item.IDClient;
-            backup.IDBackupTemplate = item.IDBackupTemplate;
-            backup.Name = item.Name;
-            backup.Description = item.Description;
-            backup.BackupType = item.BackupType;
-            backup.BaseBackupID = item.BaseBackupID;
-            backup.Source = item.Source;
-            backup.Destination = item.Destination;            
-            backup.UTCExpiration = item.UTCExpiration;
-            backup.Compressed = item.Compressed;
-            backup.UTCStart = item.UTCStart;
-            backup.UTCEnd = item.UTCEnd;
-            backup.Status = item.Status;
-            backup.PathOrder = item.PathOrder;
-            backup.EmailSent = item.EmailSent;
-            this.SaveChanges();
+            if (backup == null)
+            {
+                this.Add(item);
+            }
+            else
+            {
+                backup.IDClient = item.IDClient;
+                backup.IDBackupTemplate = item.IDBackupTemplate;
+                backup.Name = item.Name;
+                backup.Description = item.Description;
+                backup.BackupType = item.BackupType;
+                backup.BaseBackupID = item.BaseBackupID;
+                backup.Source = item.Source;
+                backup.Destination = item.Destination;
+                backup.UTCExpiration = item.UTCExpiration;
+                backup.Compressed = item.Compressed;
+                backup.UTCStart = item.UTCStart;
+                backup.UTCEnd = item.UTCEnd;
+                backup.Status = item.Status;
+                backup.PathOrder = item.PathOrder;
+                backup.EmailSent = item.EmailSent;
+                this.SaveChanges();
+            }            
         }
         #endregion
         
@@ -69,6 +84,10 @@ namespace ESBackupServer.Database.Repositories
         internal void Remove(long id)
         {
             this.Remove(this.Find(id));
+        }
+        private List<Backup> FindByBaseBackup(Backup item)
+        {
+            return this._Context.Backups.Where(x => x.BaseBackupID == item.ID).ToList();
         }
     }
 }
