@@ -41,12 +41,19 @@ namespace ESBackupServer.Database.Repositories
         internal override void Update(BackupTemplatePath item)
         {
             BackupTemplatePath path = this.Find(item.ID);
-            path.IDBackupTemplate = item.IDBackupTemplate;
-            path.PathOrder = item.PathOrder;
-            path.TargetType = item.TargetType;
-            path.Source = item.Source;
-            path.Destination = item.Destination;
-            this.SaveChanges();
+            if (path == null)
+            {
+                this.Add(item);
+            }
+            else
+            {
+                path.IDBackupTemplate = item.IDBackupTemplate;
+                path.PathOrder = item.PathOrder;
+                path.TargetType = item.TargetType;
+                path.Source = item.Source;
+                path.Destination = item.Destination;
+                this.SaveChanges();
+            }            
         }
         #endregion
 

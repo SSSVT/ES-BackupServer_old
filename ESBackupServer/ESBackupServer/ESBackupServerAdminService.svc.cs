@@ -27,6 +27,7 @@ namespace ESBackupServer
         private LogRepository _LogRepository { get; set; } = LogRepository.GetInstance();
         private BackupRepository _BackupRepository { get; set; } = BackupRepository.GetInstance();
         private BackupTemplateRepository _BackupTemplateRepository { get; set; } = BackupTemplateRepository.GetInstance();
+        private BackupTemplatePathRepository _BackupTemplatePathRepository { get; set; } = BackupTemplatePathRepository.GetInstance();
         #endregion
 
         private ConfigurationFactory _ConfigFactory { get; set; } = new ConfigurationFactory();
@@ -63,17 +64,26 @@ namespace ESBackupServer
         }
         #endregion
         #region Set
-        public void UpdateClient(Client client)
+        public void UpdateClient(Client item)
         {
-            this._ClientRepository.Update(client);
+            this._ClientRepository.Update(item);
         }
         public void RemoveBackup(long id)
         {
             this._BackupRepository.Remove(id);
         }
-        public void UpdateBackup(Backup backup)
+        public void UpdateBackup(Backup item)
         {
-            this._BackupRepository.Update(backup);
+            this._BackupRepository.Update(item);
+        }
+
+        public void SaveTemplate(BackupTemplate item)
+        {
+            this._BackupTemplateRepository.Update(item);
+        }
+        public void SaveTemplatePath(BackupTemplatePath item)
+        {
+            this._BackupTemplatePathRepository.Update(item);
         }
         #endregion
     }

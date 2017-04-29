@@ -41,19 +41,26 @@ namespace ESBackupServer.Database.Repositories
         internal override void Update(BackupTemplate item)
         {
             BackupTemplate template = this.Find(item.ID);
-            template.IDClient = item.IDClient;
-            template.Name = item.Name;
-            template.Description = item.Description;
-            template.BackupType = item.BackupType;
-            template.DaysToExpiration = item.DaysToExpiration;
-            template.Compression = item.Compression;
-            template.SearchPattern = item.SearchPattern;
-            template.BackupEmptyDirectories = item.BackupEmptyDirectories;
-            template.Enabled = item.Enabled;
-            template.IsNotificationEnabled = item.IsNotificationEnabled;
-            template.IsEmailNotificationEnabled = item.IsEmailNotificationEnabled;
-            template.CRONRepeatInterval = item.CRONRepeatInterval;
-            this.SaveChanges();
+            if (template == null)
+            {
+                this.Add(item); //nenalezeno - nové
+            }
+            else
+            {
+                template.IDClient = item.IDClient;
+                template.Name = item.Name;
+                template.Description = item.Description;
+                template.BackupType = item.BackupType;
+                template.DaysToExpiration = item.DaysToExpiration;
+                template.Compression = item.Compression;
+                template.SearchPattern = item.SearchPattern;
+                template.BackupEmptyDirectories = item.BackupEmptyDirectories;
+                template.Enabled = item.Enabled;
+                template.IsNotificationEnabled = item.IsNotificationEnabled;
+                template.IsEmailNotificationEnabled = item.IsEmailNotificationEnabled;
+                template.CRONRepeatInterval = item.CRONRepeatInterval;
+                this.SaveChanges();
+            }            
         }
         #endregion
 

@@ -41,6 +41,12 @@ namespace ESBackupServer
 
         [OperationContract]
         void UpdateBackup(Backup backup);
+
+        [OperationContract]
+        void SaveTemplate(BackupTemplate template);
+
+        [OperationContract]
+        void SaveTemplatePath(BackupTemplatePath path);
         #endregion
     }
 }
