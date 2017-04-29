@@ -18,6 +18,11 @@ namespace ESBackupServer.Database.Objects
         public string Address { get; set; }
 
         [Column("ISDEFAULT"), DataMember]
-        public bool IsDefault { get; set; } = false;
+        public bool IsDefault { get; set; }
+
+        public Email()
+        {
+            this.IsDefault = false;
+        }
     }
 }

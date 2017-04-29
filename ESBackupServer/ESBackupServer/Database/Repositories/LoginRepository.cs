@@ -57,7 +57,7 @@ namespace ESBackupServer.Database.Repositories
 
         internal Login Find(Client client)
         {
-            return this._Context.Logins.Where(x => x.IDClient == client.ID && x.UTCExpiration < DateTime.UtcNow).FirstOrDefault();
+            return this._Context.Logins.Where(x => x.IDClient == client.ID && x.UTCExpiration > DateTime.UtcNow).FirstOrDefault();
         }
 
         /// <summary>
@@ -68,26 +68,21 @@ namespace ESBackupServer.Database.Repositories
         internal Login Create(Client client, IPAddress EndpointIP)
         {
             Login login = this.Find(client);
-
-            if (login != null && new IPAddress(login.IP) == EndpointIP) //IP adresa je ok
+            if (login != null && login.IP == EndpointIP.ToString()) //IP adresa je ok
             {
                 login.UTCExpiration = DateTime.UtcNow.AddMinutes(15); //Refresh expiration
-            }
-            else if (login != null && new IPAddress(login.IP) != EndpointIP)
-            {
-                login.UTCExpiration = DateTime.UtcNow;
+                this.Update(login);
+                return login;
             }
             else
             {
                 this.Add(new Login(client, DateTime.UtcNow, EndpointIP));
                 return this.Find(client);
-            }
-            this.Update(login);
-            return login;
+            }            
         }
         internal bool IsSessionIDValid(Login login)
         {
-            if (login.UTCExpiration < DateTime.UtcNow && new IPAddress(login.IP) == this._NetInfo.GetClientIP())
+            if (login.UTCExpiration < DateTime.UtcNow && login.IP == this._NetInfo.GetClientIP().ToString())
             {
                 login.UTCExpiration = DateTime.UtcNow.AddMinutes(15);
                 return true;

@@ -23,7 +23,7 @@ namespace ESBackupServer
         private ConfigurationFactory _ConfigFactory { get; set; } = new ConfigurationFactory();
         #endregion
         #region Components
-        private NetInfoObtainer _NetInfo = new NetInfoObtainer();
+        private NetInfoObtainer _NetInfo { get; set; } = new NetInfoObtainer();
         #endregion
         #endregion
 

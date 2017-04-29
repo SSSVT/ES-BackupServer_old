@@ -25,7 +25,7 @@ namespace ESBackupServer.Database.Objects
         public string Description { get; set; }
 
         [Column("BK_TYPE"), DataMember]
-        public byte BackupType { get; set; } = 0; //TODO: enum
+        public byte BackupType { get; set; } //TODO: enum
 
         [Column("IDesbk_tbBackups_BASE"), DataMember]
         public long? BaseBackupID { get; set; }
@@ -40,22 +40,31 @@ namespace ESBackupServer.Database.Objects
         public DateTime? UTCExpiration { get; set; }
 
         [Column("BK_COMPRESSION"), DataMember]
-        public bool Compressed { get; set; } = false;
+        public bool Compressed { get; set; }
 
         [Column("BK_TIME_BEGIN_UTC"), DataMember]
-        public DateTime UTCStart { get; set; } = DateTime.UtcNow;
+        public DateTime UTCStart { get; set; }
 
         [Column("BK_TIME_END_UTC"), DataMember]
         public DateTime? UTCEnd { get; set; }
 
         [Column("BK_STATUS"), DataMember]
-        public byte Status { get; set; } = 0;
+        public byte Status { get; set; }
 
         [Column("BK_META_PATH_ORDER"), DataMember]
         public UInt16 PathOrder { get; set; }
 
         [Column("BK_META_EMAIL_SENT"), DataMember]
-        public bool EmailSent { get; set; } = false;
+        public bool EmailSent { get; set; }
         #endregion
+
+        public Backup()
+        {
+            this.BackupType = 0;
+            this.Compressed = false;
+            this.UTCStart = DateTime.UtcNow;
+            this.Status = 0;
+            this.EmailSent = false;
+        }
     }
 }

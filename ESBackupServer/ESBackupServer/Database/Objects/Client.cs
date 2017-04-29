@@ -31,10 +31,10 @@ namespace ESBackupServer.Database.Objects
         public string Password { get; set; }
 
         [Column("CL_STATUS"), DataMember]
-        public byte Status { get; set; } = 1;
+        public byte Status { get; set; }
 
         [Column("CL_AUTO_STATUS_REPORT_ENABLED"), DataMember]
-        public bool StatusReportEnabled { get; set; } = true;
+        public bool StatusReportEnabled { get; set; }
 
         //TODO: CRON default value
         [Column("CL_AUTO_STATUS_REPORT_INTERVAL_CRON"), DataMember]
@@ -47,8 +47,15 @@ namespace ESBackupServer.Database.Objects
         public DateTime? UTCLastBackupTime { get; set; }
 
         [Column("CL_META_REGISTRATION_DATE_UTC"), DataMember]
-        public DateTime UTCRegistrationDate { get; set; } = DateTime.UtcNow;
+        public DateTime UTCRegistrationDate { get; set; }
         #endregion
+
+        public Client()
+        {
+            this.Status = 1;
+            this.StatusReportEnabled = true;
+            this.UTCRegistrationDate = DateTime.UtcNow;
+        }
     }
 
     [DataContract]

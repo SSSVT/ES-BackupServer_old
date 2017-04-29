@@ -50,7 +50,7 @@ CREATE TABLE esbk_tbLogins(
 
 	LG_TIME_UTC datetime not null, -- datetime
 	LG_TIME_EXPIRATION_UTC datetime not null, -- datetime; default - 15 minut; při dalším requestu obnovit na 15
-	LG_CLIENT_IP varbinary(128) not null, -- byte[]; IPv4 - 32 bitů, IPv6 - 128 bitů
+	LG_CLIENT_IP varchar(64) not null,
 ); /* Historie přihlášení klientů */
 
 CREATE TABLE esbk_tbBackups(
@@ -178,6 +178,7 @@ BEGIN /* DF */
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_ENABLED DEFAULT (0) FOR BK_ENABLED;
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_NOTIFICATION_ENABLED DEFAULT (0) FOR BK_NOTIFICATION_ENABLED;
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_NOTIFICATION_EMAIL_ENABLED DEFAULT (1) FOR BK_NOTIFICATION_EMAIL_ENABLED;
+	ALTER TABLE esbk_tbBackupTemplatesPaths ADD CONSTRAINT DF_esbk_tbBackupTemplatesPaths_ID DEFAULT (NEWID()) FOR ID;
 	ALTER TABLE esbk_tbLogs ADD CONSTRAINT DF_esbk_tbLogs_ID DEFAULT (NEWID()) FOR ID;
 	ALTER TABLE esbk_tbLogs ADD CONSTRAINT DF_esbk_tbLogs_LG_TIME_UTC DEFAULT (GETUTCDATE()) FOR LG_TIME_UTC;
 END
@@ -188,11 +189,9 @@ BEGIN /* CK */
 	ALTER TABLE esbk_tbClients ADD CONSTRAINT CK_esbk_tbClients_CL_META_REGISTRATION_DATE_UTC CHECK (CL_META_REGISTRATION_DATE_UTC <= GETUTCDATE());
 	ALTER TABLE esbk_tbLogins ADD CONSTRAINT CK_esbk_tbLogins_LG_TIME_UTC CHECK (LG_TIME_UTC <= GETUTCDATE());
 	ALTER TABLE esbk_tbLogins ADD CONSTRAINT CK_esbk_tbLogins_LG_TIME_EXPIRATION_UTC CHECK (LG_TIME_UTC <= LG_TIME_EXPIRATION_UTC);
-	ALTER TABLE esbk_tbLogins ADD CONSTRAINT CK_esbk_tbLogins_LG_CLIENT_IP CHECK (LEN(LG_CLIENT_IP) = 32 OR LEN(LG_CLIENT_IP) = 128); -- IPv4 || IPv6
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT CK_esbk_tbBackups_BK_EXPIRATION_UTC CHECK (BK_EXPIRATION_UTC >= GETUTCDATE());
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT CK_esbk_tbBackups_BK_TIME_BEGIN_UTC CHECK (BK_TIME_BEGIN_UTC <= GETUTCDATE());
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT CK_esbk_tbBackups_BK_TIME_END_UTC CHECK (BK_TIME_BEGIN_UTC <= BK_TIME_END_UTC AND BK_TIME_END_UTC <= GETUTCDATE());
-
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT CK_esbk_tbBackupTemplates_BK_EXPIRATION_DAYS CHECK (BK_EXPIRATION_DAYS > 0);
 	ALTER TABLE esbk_tbLogs ADD CONSTRAINT CK_esbk_tbLogs_LG_TIME_UTC CHECK (LG_TIME_UTC <= GETUTCDATE());
 END
@@ -205,3 +204,7 @@ BEGIN /* INSERT */
 	INSERT INTO esbk_tbEmails (IDesbk_tbAdministrators, EMAIL, ISDEFAULT) VALUES (1, 'tomas.svejnoha@gmail.com', 1);
 	INSERT INTO esbk_tbClients (IDesbk_tbAdministrators, CL_NAME, CL_HWID, CL_STATUS, CL_LOGIN_NAME, CL_LOGIN_PSWD) VALUES (1, 'PC-Tomas', 'hwid', 0, 1, 'password');
 END
+
+select * from esbk_tbClients
+select * from esbk_tbLogins
+select * from esbk_tbLogs

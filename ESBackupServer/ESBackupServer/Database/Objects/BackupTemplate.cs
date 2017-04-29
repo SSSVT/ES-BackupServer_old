@@ -21,29 +21,39 @@ namespace ESBackupServer.Database.Objects
         public string Description { get; set; }
 
         [Column("BK_TYPE"), DataMember]
-        public byte BackupType { get; set; } = 0; //TODO: enum
+        public byte BackupType { get; set; } //TODO: enum
 
         [Column("BK_EXPIRATION_DAYS"), DataMember]
         public uint? DaysToExpiration { get; set; }
 
         [Column("BK_COMPRESSION"), DataMember]
-        public bool Compression { get; set; } = false;
+        public bool Compression { get; set; }
 
         [Column("BK_SEARCH_PATTERN"), DataMember]
-        public string SearchPattern { get; set; } = "*";
+        public string SearchPattern { get; set; }
 
         [Column("BK_ENABLED"), DataMember]
-        public bool Enabled { get; set; } = false;
+        public bool Enabled { get; set; }
 
         [Column("BK_NOTIFICATION_ENABLED"), DataMember]
-        public bool IsNotificationEnabled { get; set; } = false;
+        public bool IsNotificationEnabled { get; set; }
 
         [Column("BK_NOTIFICATION_EMAIL_ENABLED"), DataMember]
-        public bool IsEmailNotificationEnabled { get; set; } = true;
+        public bool IsEmailNotificationEnabled { get; set; }
 
         //TODO: CRON default value
         [Column("BK_REPEAT_INTERVAL_CRON"), DataMember]
         public string CRONRepeatInterval { get; set; }
         #endregion
+
+        public BackupTemplate()
+        {
+            this.BackupType = 0;
+            this.Compression = false;
+            this.SearchPattern = "*";
+            this.Enabled = false;
+            this.IsNotificationEnabled = false;
+            this.IsEmailNotificationEnabled = true;
+        }
     }
 }

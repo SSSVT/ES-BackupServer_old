@@ -23,7 +23,7 @@ namespace ESBackupServer.Database.Objects
         public DateTime UTCExpiration { get; set; }
 
         [Column("LG_CLIENT_IP"), DataMember]
-        public byte[] IP { get; set; } //IPv4 - 32; IPv6 - 128
+        public string IP { get; set; } //IPv4 - 32; IPv6 - 128
 
         //TODO: Zkontrolovat, zda je potřebné
         [ForeignKey("IDClient"), DataMember]
@@ -39,7 +39,7 @@ namespace ESBackupServer.Database.Objects
         {
             this.IDClient = item.ID;
             this.UTCTime = UTCtime;
-            this.IP = ip.GetAddressBytes();
+            this.IP = ip.ToString();
         }
     }
 }

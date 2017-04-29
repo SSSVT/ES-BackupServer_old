@@ -18,6 +18,11 @@ namespace ESBackupServer.Database.Objects
         public string LastName { get; set; }
 
         [Column("AD_META_REGISTRATION_DATE_UTC")]
-        public DateTime UTCRegistrationDate { get; set; } = DateTime.UtcNow;
+        public DateTime UTCRegistrationDate { get; set; }
+
+        public Administrator()
+        {
+            this.UTCRegistrationDate = DateTime.UtcNow;
+        }
     }
 }
