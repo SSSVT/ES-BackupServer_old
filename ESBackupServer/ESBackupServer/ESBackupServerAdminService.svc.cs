@@ -81,10 +81,6 @@ namespace ESBackupServer
         {
             this._BackupTemplateRepository.Update(item);
         }
-        public void SaveTemplatePath(BackupTemplatePath item)
-        {
-            this._BackupTemplatePathRepository.Update(item);
-        }
         public void SetTemplateStatus(long id, bool IsEnabled)
         {
             BackupTemplate item = this._BackupTemplateRepository.Find(id);
