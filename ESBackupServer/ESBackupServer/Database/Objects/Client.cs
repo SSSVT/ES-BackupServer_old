@@ -36,9 +36,8 @@ namespace ESBackupServer.Database.Objects
         [Column("CL_AUTO_STATUS_REPORT_ENABLED"), DataMember]
         public bool StatusReportEnabled { get; set; }
 
-        //TODO: CRON default value
-        [Column("CL_AUTO_STATUS_REPORT_INTERVAL_CRON"), DataMember]
-        public string ReportInterval { get; set; } //varchar(256)
+        [Column("CL_AUTO_STATUS_REPORT_INTERVAL"), DataMember]
+        public int ReportInterval { get; set; }
 
         [Column("CL_META_LAST_STATUS_REPORT_UTC"), DataMember]
         public DateTime? UTCLastStatusReportTime { get; set; }
@@ -55,7 +54,7 @@ namespace ESBackupServer.Database.Objects
             this.Status = 1;
             this.StatusReportEnabled = true;
             this.UTCRegistrationDate = DateTime.UtcNow;
-            this.ReportInterval = "*/10 * * * *";
+            this.ReportInterval = 10*1000; //10 minut
         }
     }
 
