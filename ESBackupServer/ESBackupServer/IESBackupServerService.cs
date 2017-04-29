@@ -1,5 +1,6 @@
 ﻿using ESBackupServer.App.Objects;
 using ESBackupServer.App.Objects.Registration;
+using ESBackupServer.Database.Objects;
 using System;
 using System.ServiceModel;
 
@@ -25,6 +26,9 @@ namespace ESBackupServer
         #region Backup
         [OperationContract]
         Configuration GetConfiguration(Guid sessionID);
+
+        [OperationContract]
+        void CreateBackup(Backup backup);
         #endregion
     }
 }

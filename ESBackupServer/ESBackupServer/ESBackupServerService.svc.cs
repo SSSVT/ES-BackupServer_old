@@ -76,6 +76,11 @@ namespace ESBackupServer
             Login login = this._LoginRepo.Find(sessionID);
             return (this._LoginRepo.IsSessionIDValid(login)) ? this._ConfigFactory.Create(login.Client) : null;  
         }
+
+        public void CreateBackup(Backup backup)
+        {
+            throw new NotImplementedException(); //TODO: Implement
+        }
         #endregion
     }
 }
