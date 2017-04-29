@@ -47,6 +47,9 @@ namespace ESBackupServer
 
         [OperationContract]
         void SaveTemplatePath(BackupTemplatePath path);
+
+        [OperationContract]
+        void SetTemplateStatus(long id, bool IsEnabled);
         #endregion
     }
 }

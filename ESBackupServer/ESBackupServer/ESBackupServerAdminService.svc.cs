@@ -85,6 +85,12 @@ namespace ESBackupServer
         {
             this._BackupTemplatePathRepository.Update(item);
         }
+        public void SetTemplateStatus(long id, bool IsEnabled)
+        {
+            BackupTemplate item = this._BackupTemplateRepository.Find(id);
+            item.Enabled = IsEnabled;
+            this._BackupTemplateRepository.Update(item);
+        }
         #endregion
     }
 }
