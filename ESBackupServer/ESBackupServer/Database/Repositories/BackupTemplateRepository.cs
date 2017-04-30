@@ -6,6 +6,8 @@ namespace ESBackupServer.Database.Repositories
 {
     internal class BackupTemplateRepository : AbRepository<BackupTemplate>
     {
+        private BackupTemplatePathRepository _BackupTemplatePathRepository { get; set; } = BackupTemplatePathRepository.GetInstance();
+
         #region Singleton
         private BackupTemplateRepository()
         {
@@ -60,7 +62,11 @@ namespace ESBackupServer.Database.Repositories
                 template.IsEmailNotificationEnabled = item.IsEmailNotificationEnabled;
                 template.CRONRepeatInterval = item.CRONRepeatInterval;
                 this.SaveChanges();
-            }            
+            }
+            foreach (BackupTemplatePath path in item.Paths)
+            {
+                this._BackupTemplatePathRepository.Update(path);
+            }
         }
         #endregion
 

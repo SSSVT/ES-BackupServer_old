@@ -66,9 +66,11 @@ namespace ESBackupServer
             try
             {
                 Login login = this._LoginRepo.Find(sessionID);
+                Client client = this._ClientRepo.Find(login.IDClient);
+
                 login.UTCExpiration = DateTime.UtcNow;
                 this._LoginRepo.Update(login);
-                this._LogRepo.Create(login.Client, $"Session end: ID={ sessionID };UTCTime={ DateTime.UtcNow }", LogTypeNames.Message);
+                this._LogRepo.Create(client, $"Session end: ID={ sessionID };UTCTime={ DateTime.UtcNow }", LogTypeNames.Message);
                 return true;
             }
             catch (Exception ex)
@@ -83,7 +85,8 @@ namespace ESBackupServer
         public Configuration GetConfiguration(Guid sessionID)
         {
             Login login = this._LoginRepo.Find(sessionID);
-            return (this._LoginRepo.IsSessionIDValid(login)) ? this._ConfigFactory.Create(login.Client) : null;  
+            Client client = this._ClientRepo.Find(login.IDClient);
+            return (this._LoginRepo.IsSessionIDValid(login)) ? this._ConfigFactory.Create(client) : null;  
         }
 
         public void CreateBackup(Backup backup)

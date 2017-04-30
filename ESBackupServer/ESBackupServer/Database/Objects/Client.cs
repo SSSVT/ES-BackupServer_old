@@ -37,7 +37,7 @@ namespace ESBackupServer.Database.Objects
         public bool StatusReportEnabled { get; set; }
 
         [Column("CL_AUTO_STATUS_REPORT_INTERVAL"), DataMember]
-        public int ReportInterval { get; set; }
+        public int? ReportInterval { get; set; }
 
         [Column("CL_META_LAST_STATUS_REPORT_UTC"), DataMember]
         public DateTime? UTCLastStatusReportTime { get; set; }
