@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace ESBackupServer.App.Objects.Registration
 {
     [DataContract]
-    public class UserDefinition
+    public class RegistrationResponse
     {
         [DataMember]
         public string Username { get; set; }

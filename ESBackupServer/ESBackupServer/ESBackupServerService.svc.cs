@@ -29,7 +29,7 @@ namespace ESBackupServer
         #endregion
 
         #region Registration
-        public UserDefinition RequestRegistration(string name, string hwid)
+        public RegistrationResponse RequestRegistration(string name, string hwid)
         {
             Client item = this._ClientRepo.Find(name, hwid);
             if (item == null)

@@ -12,7 +12,7 @@ namespace ESBackupServer
     {
         #region Registration
         [OperationContract]
-        UserDefinition RequestRegistration(string name, string hwid);
+        RegistrationResponse RequestRegistration(string name, string hwid);
         #endregion
 
         #region User authentication
