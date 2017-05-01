@@ -15,7 +15,7 @@ namespace ESBackupServer.App.Objects
         [DataMember]
         public bool StatusReportEnabled { get; set; }
         [DataMember]
-        public int ReportInterval { get; set; }
+        public int? ReportInterval { get; set; }
         #endregion
 
         #region Metadata
