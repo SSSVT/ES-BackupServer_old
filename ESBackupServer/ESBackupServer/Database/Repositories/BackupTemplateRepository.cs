@@ -62,10 +62,11 @@ namespace ESBackupServer.Database.Repositories
                 template.IsEmailNotificationEnabled = item.IsEmailNotificationEnabled;
                 template.CRONRepeatInterval = item.CRONRepeatInterval;
                 this.SaveChanges();
-            }
-            foreach (BackupTemplatePath path in item.Paths)
-            {
-                this._BackupTemplatePathRepository.Update(path);
+
+                foreach (BackupTemplatePath path in item.Paths)
+                {
+                    this._BackupTemplatePathRepository.Update(path);
+                }
             }
         }
         #endregion
