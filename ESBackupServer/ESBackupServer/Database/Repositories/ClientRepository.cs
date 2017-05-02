@@ -42,17 +42,17 @@ namespace ESBackupServer.Database.Repositories
         internal override void Update(Client item)
         {
             Client client = this.Find(item.ID);
-            client.IDAdministrator = item.IDAdministrator;
-            client.Name = item.Name;
+            //client.IDAdministrator = item.IDAdministrator;
+            //client.Name = item.Name;
             client.Description = item.Description;
-            client.HardwareID = item.HardwareID;
-            client.Username = item.Username;
-            client.Password = item.Password;
+            //client.HardwareID = item.HardwareID;
+            //client.Username = item.Username;
+            //client.Password = item.Password;
             client.Status = item.Status;
             client.StatusReportEnabled = item.StatusReportEnabled;
             client.ReportInterval = item.ReportInterval;
-            client.UTCLastStatusReportTime = item.UTCLastStatusReportTime;
-            client.UTCLastBackupTime = item.UTCLastBackupTime;
+            //client.UTCLastStatusReportTime = item.UTCLastStatusReportTime;
+            //client.UTCLastBackupTime = item.UTCLastBackupTime;
             this.SaveChanges();
         }
         #endregion

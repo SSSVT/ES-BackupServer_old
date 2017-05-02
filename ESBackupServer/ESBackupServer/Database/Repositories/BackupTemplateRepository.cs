@@ -46,6 +46,7 @@ namespace ESBackupServer.Database.Repositories
             if (template == null)
             {
                 this.Add(item); //nenalezeno - nové
+                //TODO: Vygenerovat Guid (tmp) a cesty namapovat podle Guid
             }
             else
             {

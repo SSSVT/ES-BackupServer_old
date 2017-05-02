@@ -39,17 +39,11 @@ namespace ESBackupServer
         #endregion
 
         #region User authentication
-        /// <summary>
-        /// Returns session ID
-        /// </summary>
-        /// <param name="username"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
         public Guid? Login(string username, string password)
         {
             Client client = this._ClientRepo.FindByUsername(username);
 
-            if (this._ClientRepo.IsLoginValid(client, password))
+            if (this._ClientRepo.IsLoginValid(client, password) && client.Status == 0)
             {
                 Guid sessionID = this._LoginRepo.Create(client, this._NetInfo.GetClientIP()).ID;
                 this._LogRepo.Create(client, $"Session start: ID={ sessionID };IP={ new NetInfoObtainer().GetClientIP().ToString() };UTCTime={ DateTime.UtcNow }", LogTypeNames.Message);
