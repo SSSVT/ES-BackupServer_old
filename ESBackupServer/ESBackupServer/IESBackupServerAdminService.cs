@@ -31,6 +31,11 @@ namespace ESBackupServer
 
         [OperationContract]
         BackupTemplate GetTemplateByID(int id);
+
+
+        //TODO: Rework to more efficent/safe way if possible
+        [OperationContract]
+        bool AdminLogIn(string username, string password);
         #endregion
         #region Set
         [OperationContract]

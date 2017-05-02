@@ -28,6 +28,7 @@ namespace ESBackupServer
         private BackupRepository _BackupRepository { get; set; } = BackupRepository.GetInstance();
         private BackupTemplateRepository _BackupTemplateRepository { get; set; } = BackupTemplateRepository.GetInstance();
         private BackupTemplatePathRepository _BackupTemplatePathRepository { get; set; } = BackupTemplatePathRepository.GetInstance();
+        private AdministratorRepository _AdministratorRepository { get; set; } = AdministratorRepository.GetInstance();
         #endregion
 
         private ConfigurationFactory _ConfigFactory { get; set; } = new ConfigurationFactory();
@@ -61,6 +62,16 @@ namespace ESBackupServer
         public BackupTemplate GetTemplateByID(int id)
         {
             return this._BackupTemplateRepository.Find(id);
+        }
+
+        public bool AdminLogIn(string username, string password)
+        {
+            Administrator admin = this._AdministratorRepository.FindByUsername(username);
+
+            if (admin == null)
+                return false;
+            
+            return this._AdministratorRepository.IsLoginValid(admin,password);   
         }
         #endregion
         #region Set
