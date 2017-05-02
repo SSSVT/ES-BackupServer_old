@@ -46,12 +46,13 @@ namespace ESBackupServer.Database.Repositories
             this.SaveChanges();
         }
         #endregion
-        public Administrator FindByUsername(string username)
+        internal Administrator FindByUsername(string username)
         {
             return this._Context.Administrators.Where(x => x.Username == username).FirstOrDefault();
         }
-        public bool IsLoginValid(Administrator admin, string password)
+        internal bool IsLoginValid(Administrator admin, string password)
         {
+            //TODO: Salt password
             return (admin.Password == password) ? true : false;
         }
     }

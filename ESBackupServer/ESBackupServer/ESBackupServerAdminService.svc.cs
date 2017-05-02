@@ -64,7 +64,7 @@ namespace ESBackupServer
             return this._BackupTemplateRepository.Find(id);
         }
 
-        public bool AdminLogIn(string username, string password)
+        public bool Login(string username, string password)
         {
             Administrator admin = this._AdministratorRepository.FindByUsername(username);
 
