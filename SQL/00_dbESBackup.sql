@@ -14,6 +14,10 @@ CREATE TABLE esbk_tbAdministrators(
 	ID bigint identity(1,1) not null,
 	AD_FIRST_NAME nvarchar(50) not null,
 	AD_LAST_NAME nvarchar(50) not null,
+
+	AD_LOGIN_NAME varchar(128) not null, -- username
+	AD_LOGIN_PSWD varchar(2048) not null, -- password
+
 	AD_META_REGISTRATION_DATE_UTC datetime not null
 );
 CREATE TABLE esbk_tbEmails(
@@ -210,7 +214,7 @@ END
 	1x Backup template path
 */
 BEGIN /* INSERT */
-	INSERT INTO esbk_tbAdministrators (AD_FIRST_NAME, AD_LAST_NAME) VALUES ('Tomáš', 'Švejnoha');
+	INSERT INTO esbk_tbAdministrators (AD_FIRST_NAME, AD_LAST_NAME, AD_LOGIN_NAME, AD_LOGIN_PSWD) VALUES ('Tomáš', 'Švejnoha', 'root', 'root');
 	INSERT INTO esbk_tbEmails (IDesbk_tbAdministrators, EMAIL, ISDEFAULT) VALUES (1, 'tomas.svejnoha@gmail.com', 1);
 	INSERT INTO esbk_tbEmails (IDesbk_tbAdministrators, EMAIL, ISDEFAULT) VALUES (1, 'svejnohatomas@gmail.com', 0);
 	INSERT INTO esbk_tbClients (IDesbk_tbAdministrators, CL_NAME, CL_HWID, CL_STATUS, CL_LOGIN_NAME, CL_LOGIN_PSWD) VALUES (1, 'PC01', 'hwid', 0, 1, 'password');

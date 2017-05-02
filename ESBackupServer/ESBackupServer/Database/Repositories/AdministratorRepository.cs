@@ -41,6 +41,8 @@ namespace ESBackupServer.Database.Repositories
             Administrator admin = this.Find(item.ID);
             admin.FirstName = item.FirstName;
             admin.LastName = item.LastName;
+            //admin.Username = item.Username;
+            admin.Password = item.Password;
             this.SaveChanges();
         }
         #endregion

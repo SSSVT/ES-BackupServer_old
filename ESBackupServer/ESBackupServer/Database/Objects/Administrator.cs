@@ -17,6 +17,12 @@ namespace ESBackupServer.Database.Objects
         [Column("AD_LAST_NAME"), DataMember]
         public string LastName { get; set; }
 
+        [Column("AD_LOGIN_NAME")]
+        public string Username { get; set; }
+
+        [Column("AD_LOGIN_PSWD")]
+        public string Password { get; set; }
+
         [Column("AD_META_REGISTRATION_DATE_UTC")]
         public DateTime UTCRegistrationDate { get; set; }
 
