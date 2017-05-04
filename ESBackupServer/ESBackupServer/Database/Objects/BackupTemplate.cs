@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -48,6 +49,9 @@ namespace ESBackupServer.Database.Objects
         //TODO: CRON default value
         [Column("BK_REPEAT_INTERVAL_CRON"), DataMember]
         public string CRONRepeatInterval { get; set; }
+
+        [Column("BK_META_TMP_ID")]
+        internal Guid TmpID { get; set; }
         #endregion
 
         [NotMapped, DataMember]

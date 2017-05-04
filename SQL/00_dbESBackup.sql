@@ -100,6 +100,8 @@ CREATE TABLE esbk_tbBackupTemplates(
 	BK_NOTIFICATION_ENABLED bit not null, -- notifikace na klientovi
 	BK_NOTIFICATION_EMAIL_ENABLED bit not null, -- nofitikace emailem
 	BK_REPEAT_INTERVAL_CRON varchar(256) not null, -- interval opakování
+
+	BK_META_TMP_ID uniqueidentifier,
 );
 CREATE TABLE esbk_tbBackupTemplatesPaths(
 	ID uniqueidentifier not null,
@@ -155,6 +157,7 @@ BEGIN /* IX */
 	CREATE INDEX IX_esbk_tbBackups_IDesbk_tbBackups_BASE ON esbk_tbBackups(IDesbk_tbBackups_BASE) WHERE BK_TYPE IN (1, 2);
 	CREATE INDEX IX_esbk_tbBackups_BK_TIME_BEGIN_UTC ON esbk_tbBackups(BK_TIME_BEGIN_UTC);
 	CREATE INDEX IX_esbk_tbBackupTemplates_IDesbk_tbClients ON esbk_tbBackupTemplates(IDesbk_tbClients);
+	CREATE INDEX IX_esbk_tbBackupTemplates_BK_META_TMP_ID ON esbk_tbBackupTemplates(BK_META_TMP_ID) WHERE BK_META_TMP_ID IS NOT NULL;
 	CREATE INDEX IX_esbk_tbBackupTemplatesPaths_IDesbk_tbBackupTemplates ON esbk_tbBackupTemplatesPaths(IDesbk_tbBackupTemplates);
 	CREATE INDEX IX_esbk_tbLogs_IDesbk_tbClients ON esbk_tbLogs(IDesbk_tbClients);
 	CREATE INDEX IX_esbk_tbLogs_IDesbk_tbBackups ON esbk_tbLogs(IDesbk_tbBackups);

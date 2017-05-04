@@ -1,4 +1,5 @@
 ﻿using ESBackupServer.Database.Objects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -46,7 +47,16 @@ namespace ESBackupServer.Database.Repositories
             if (template == null)
             {
                 this.Add(item); //nenalezeno - nové
-                //TODO: Vygenerovat Guid (tmp) a cesty namapovat podle Guid
+
+                byte[] arr = new byte[16];
+                new Random().NextBytes(arr);
+                Guid tmpId = new Guid(arr);               
+                BackupTemplate tmp = this.Find(tmpId);
+
+                foreach (BackupTemplatePath path in item.Paths)
+                {
+                    path.IDBackupTemplate = tmp.ID;
+                }
             }
             else
             {
@@ -75,6 +85,11 @@ namespace ESBackupServer.Database.Repositories
         internal List<BackupTemplate> Find(Client client)
         {
             return this._Context.Templates.Where(x => x.IDClient == client.ID).ToList();
+        }
+
+        internal BackupTemplate Find(Guid tmpID)
+        {
+            return this._Context.Templates.Where(x => x.TmpID == tmpID).FirstOrDefault();
         }
     }
 }
