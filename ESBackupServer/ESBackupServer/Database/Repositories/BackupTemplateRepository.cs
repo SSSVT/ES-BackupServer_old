@@ -46,16 +46,24 @@ namespace ESBackupServer.Database.Repositories
             BackupTemplate template = this.Find(item.ID);
             if (template == null)
             {
-                this.Add(item); //nenalezeno - nové
-
+                //generování Guid
                 byte[] arr = new byte[16];
                 new Random().NextBytes(arr);
-                Guid tmpId = new Guid(arr);               
+                Guid tmpId = new Guid(arr);
+
+                //přiřazení
+                item.TmpID = tmpId;
+
+                //přidání do db
+                this.Add(item);
+
+                //vyhledání podle .tmpID (Guid)
                 BackupTemplate tmp = this.Find(tmpId);
 
                 foreach (BackupTemplatePath path in item.Paths)
                 {
                     path.IDBackupTemplate = tmp.ID;
+                    this._BackupTemplatePathRepository.Update(path);
                 }
             }
             else
