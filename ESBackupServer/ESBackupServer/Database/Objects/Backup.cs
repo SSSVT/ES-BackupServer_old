@@ -25,7 +25,7 @@ namespace ESBackupServer.Database.Objects
         public string Description { get; set; }
 
         [Column("BK_TYPE"), DataMember]
-        public byte BackupType { get; set; } //TODO: enum
+        public byte BackupType { get; set; }
 
         [Column("IDesbk_tbBackups_BASE"), DataMember]
         public long? BaseBackupID { get; set; }

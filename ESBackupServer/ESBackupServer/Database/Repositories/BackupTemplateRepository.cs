@@ -43,31 +43,20 @@ namespace ESBackupServer.Database.Repositories
         }
         internal override void Update(BackupTemplate item)
         {
+            byte[] arr = new byte[16];
+            new Random().NextBytes(arr);
+            Guid tmpId = new Guid(arr);
+
             BackupTemplate template = this.Find(item.ID);
             if (template == null)
             {
-                //generování Guid
-                byte[] arr = new byte[16];
-                new Random().NextBytes(arr);
-                Guid tmpId = new Guid(arr);
-
-                //přiřazení
                 item.TmpID = tmpId;
-
-                //přidání do db
-                this.Add(item);
-
-                //vyhledání podle .tmpID (Guid)
-                BackupTemplate tmp = this.Find(tmpId);
-
-                foreach (BackupTemplatePath path in item.Paths)
-                {
-                    path.IDBackupTemplate = tmp.ID;
-                    this._BackupTemplatePathRepository.Update(path);
-                }
+                this.Add(item); //this.SaveChanges();
             }
             else
             {
+                template.TmpID = tmpId;
+
                 template.IDClient = item.IDClient;
                 template.Name = item.Name;
                 template.Description = item.Description;
@@ -81,12 +70,16 @@ namespace ESBackupServer.Database.Repositories
                 template.IsEmailNotificationEnabled = item.IsEmailNotificationEnabled;
                 template.CRONRepeatInterval = item.CRONRepeatInterval;
                 this.SaveChanges();
-
-                foreach (BackupTemplatePath path in item.Paths)
-                {
-                    this._BackupTemplatePathRepository.Update(path);
-                }
             }
+
+            BackupTemplate tmp = this.Find(tmpId);
+            foreach (BackupTemplatePath path in item.Paths)
+            {
+                path.IDBackupTemplate = tmp.ID;
+                this._BackupTemplatePathRepository.Update(path);
+            }
+            tmp.TmpID = null;
+            this.SaveChanges();
         }
         #endregion
 
@@ -94,7 +87,6 @@ namespace ESBackupServer.Database.Repositories
         {
             return this._Context.Templates.Where(x => x.IDClient == client.ID).ToList();
         }
-
         internal BackupTemplate Find(Guid tmpID)
         {
             return this._Context.Templates.Where(x => x.TmpID == tmpID).FirstOrDefault();

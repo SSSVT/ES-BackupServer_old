@@ -23,7 +23,7 @@ namespace ESBackupServer.Database.Objects
         public string Description { get; set; }
 
         [Column("BK_TYPE"), DataMember]
-        public byte BackupType { get; set; } //TODO: enum
+        public byte BackupType { get; set; }
 
         [Column("BK_EXPIRATION_DAYS"), DataMember]
         public uint? DaysToExpiration { get; set; }
@@ -51,7 +51,7 @@ namespace ESBackupServer.Database.Objects
         public string CRONRepeatInterval { get; set; }
 
         [Column("BK_META_TMP_ID")]
-        internal Guid TmpID { get; set; }
+        public Guid? TmpID { get; set; }
         #endregion
 
         [NotMapped, DataMember]
@@ -65,7 +65,7 @@ namespace ESBackupServer.Database.Objects
             this.BackupEmptyDirectories = true;
             this.Enabled = false;
             this.IsNotificationEnabled = false;
-            this.IsEmailNotificationEnabled = true;            
+            this.IsEmailNotificationEnabled = true;
         }
     }
 }
