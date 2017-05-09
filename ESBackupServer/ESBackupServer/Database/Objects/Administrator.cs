@@ -24,7 +24,7 @@ namespace ESBackupServer.Database.Objects
         [Column("AD_LOGIN_PSWD")]
         public string Password { get; set; }
 
-        [Column("AD_META_REGISTRATION_DATE_UTC")]
+        [Column("AD_META_REGISTRATION_DATE_UTC"), DataMember]
         public DateTime UTCRegistrationDate { get; set; }
 
         [NotMapped, DataMember]
