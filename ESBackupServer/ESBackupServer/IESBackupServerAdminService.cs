@@ -61,6 +61,9 @@ namespace ESBackupServer
 
         [OperationContract]
         void RemoveBackupTemplatePath(Guid id);
+
+        [OperationContract]
+        void UpdateAdministrator(Administrator admin);
         #endregion
     }
 }

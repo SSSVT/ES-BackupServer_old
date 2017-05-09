@@ -51,8 +51,9 @@ namespace ESBackupServer.Database.Repositories
             client.Status = item.Status;
             client.StatusReportEnabled = item.StatusReportEnabled;
             client.ReportInterval = item.ReportInterval;
-            //client.UTCLastStatusReportTime = item.UTCLastStatusReportTime;
-            //client.UTCLastBackupTime = item.UTCLastBackupTime;
+            client.UTCLastStatusReportTime = item.UTCLastStatusReportTime;
+            client.UTCLastBackupTime = item.UTCLastBackupTime;
+            client.UTCLastConfigUpdate = item.UTCLastConfigUpdate;
             this.SaveChanges();
         }
         #endregion

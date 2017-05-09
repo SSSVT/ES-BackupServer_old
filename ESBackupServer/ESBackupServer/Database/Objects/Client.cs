@@ -47,6 +47,9 @@ namespace ESBackupServer.Database.Objects
 
         [Column("CL_META_REGISTRATION_DATE_UTC"), DataMember]
         public DateTime UTCRegistrationDate { get; set; }
+
+        [Column("CL_META_LAST_CONFIG_UPDATE"), DataMember]
+        public DateTime? UTCLastConfigUpdate { get; set; }
         #endregion
 
         public Client()

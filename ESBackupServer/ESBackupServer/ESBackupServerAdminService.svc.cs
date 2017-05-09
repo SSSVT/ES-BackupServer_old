@@ -99,20 +99,26 @@ namespace ESBackupServer
         public void SaveTemplate(BackupTemplate item)
         {
             this._BackupTemplateRepository.Update(item);
+            this.ClientConfigUpdated(item.IDClient);
         }
         public void SetTemplateStatus(long id, bool IsEnabled)
         {
             BackupTemplate item = this._BackupTemplateRepository.Find(id);
             item.Enabled = IsEnabled;
             this._BackupTemplateRepository.Update(item);
+            this.ClientConfigUpdated(item.IDClient);
         }
         public void RemoveBackupTemplate(long id)
         {
-            this._BackupTemplateRepository.Remove(id);
+            BackupTemplate item = this._BackupTemplateRepository.Find(id);
+            this._BackupTemplateRepository.Remove(item);
+            this.ClientConfigUpdated(item.IDClient);
         }
         public void RemoveBackupTemplatePath(Guid id)
         {
-            this._BackupTemplatePathRepository.Remove(id);
+            BackupTemplatePath item = this._BackupTemplatePathRepository.Find(id);
+            this._BackupTemplatePathRepository.Remove(item);
+            this.ClientConfigUpdated(this._BackupTemplateRepository.Find(item.IDBackupTemplate).IDClient);
         }
 
         public void UpdateAdministrator(Administrator admin)
@@ -120,5 +126,12 @@ namespace ESBackupServer
             this._AdministratorRepository.Update(admin);
         }
         #endregion
+
+        private void ClientConfigUpdated(int id)
+        {
+            Client c = this._ClientRepository.Find(id);
+            c.UTCLastConfigUpdate = DateTime.UtcNow;
+            this._ClientRepository.Update(c);
+        }
     }
 }
