@@ -91,5 +91,10 @@ namespace ESBackupServer.Database.Repositories
         {
             return this._Context.Templates.Where(x => x.TmpID == tmpID).FirstOrDefault();
         }
+
+        internal void Remove(long id)
+        {
+            this.Remove(this.Find(id));
+        }
     }
 }

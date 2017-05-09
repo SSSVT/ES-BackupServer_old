@@ -1,4 +1,5 @@
 ﻿using ESBackupServer.Database.Objects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -60,6 +61,11 @@ namespace ESBackupServer.Database.Repositories
         internal List<BackupTemplatePath> Find(BackupTemplate template)
         {
             return this._Context.TemplatesPaths.Where(x => x.IDBackupTemplate == template.ID).ToList();
+        }
+
+        internal void Remove(Guid id)
+        {
+            this.Remove(this.Find(id));
         }
     }
 }

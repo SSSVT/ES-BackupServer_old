@@ -1,6 +1,7 @@
 ﻿using ESBackupServer.App.Objects;
 using ESBackupServer.App.Objects.Filters;
 using ESBackupServer.Database.Objects;
+using System;
 using System.Collections.Generic;
 using System.ServiceModel;
 
@@ -36,6 +37,9 @@ namespace ESBackupServer
         //TODO: Rework to more efficent/safe way if possible
         [OperationContract]
         bool Login(string username, string password);
+
+        [OperationContract]
+        Administrator GetProfile(Guid sessionID);
         #endregion
         #region Set
         [OperationContract]
@@ -52,6 +56,12 @@ namespace ESBackupServer
 
         [OperationContract]
         void SetTemplateStatus(long id, bool IsEnabled);
+
+        [OperationContract]
+        void RemoveBackupTemplate(long id);
+
+        [OperationContract]
+        void RemoveBackupTemplatePath(Guid id);
         #endregion
     }
 }

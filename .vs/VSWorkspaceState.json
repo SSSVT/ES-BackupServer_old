@@ -2,12 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\ESBackupServer",
-    "\\ESBackupServer\\ESBackupServer\\App\\Objects",
-    "\\ESBackupServer\\ESBackupServer\\App\\Objects\\Factories",
-    "\\ESBackupServer\\ESBackupServer\\App\\Objects\\Factories\\Config",
-    "\\ESBackupServer\\ESBackupServer\\App\\Objects\\Factories\\Registration",
-    "\\ESBackupServer\\ESBackupServer\\Database\\Repositories"
+    "\\ESBackupServer\\ESBackupServer",
+    "\\SQL"
   ],
-  "SelectedNode": "\\SQL",
+  "SelectedNode": "\\SQL\\00_dbESBackup.sql",
   "PreviewInSolutionExplorer": false
 }
