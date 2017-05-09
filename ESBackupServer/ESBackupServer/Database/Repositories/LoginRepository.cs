@@ -1,4 +1,5 @@
-﻿using ESBackupServer.App.Objects.Components.Net;
+﻿using ESBackupServer.App.Objects.Authentication;
+using ESBackupServer.App.Objects.Components.Net;
 using ESBackupServer.Database.Objects;
 using System;
 using System.Collections.Generic;
@@ -65,20 +66,25 @@ namespace ESBackupServer.Database.Repositories
         /// </summary>
         /// <param name="client">Client instance</param>
         /// <returns></returns>
-        internal Login Create(Client client, IPAddress EndpointIP)
+        internal LoginResponse Create(Client client, IPAddress EndpointIP)
         {
             Login login = this.Find(client);
             if (login != null && login.IP == EndpointIP.ToString()) //IP adresa je ok
             {
                 login.UTCExpiration = DateTime.UtcNow.AddMinutes(15); //Refresh expiration
                 this.Update(login);
-                return login;
             }
             else
             {
                 this.Add(new Login(client, DateTime.UtcNow, EndpointIP));
-                return this.Find(client);
-            }            
+                login = this.Find(client);
+            }
+
+            return new LoginResponse()
+            {
+                SessionID = login.ID,
+                UTCExpiration = login.UTCExpiration
+            };
         }
         internal bool IsSessionIDValid(Login login)
         {

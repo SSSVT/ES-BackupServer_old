@@ -1,4 +1,5 @@
 ﻿using ESBackupServer.App.Objects;
+using ESBackupServer.App.Objects.Authentication;
 using ESBackupServer.App.Objects.Registration;
 using ESBackupServer.Database.Objects;
 using System;
@@ -17,7 +18,7 @@ namespace ESBackupServer
 
         #region User authentication
         [OperationContract]
-        Guid? Login(string username, string password);
+        LoginResponse Login(string username, string password);
 
         [OperationContract]
         bool Logout(Guid sessionID);
