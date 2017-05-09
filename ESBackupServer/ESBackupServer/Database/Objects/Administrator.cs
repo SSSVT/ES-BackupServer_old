@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -25,6 +26,9 @@ namespace ESBackupServer.Database.Objects
 
         [Column("AD_META_REGISTRATION_DATE_UTC")]
         public DateTime UTCRegistrationDate { get; set; }
+
+        [NotMapped, DataMember]
+        public List<Email> Emails { get; set; }
 
         public Administrator()
         {

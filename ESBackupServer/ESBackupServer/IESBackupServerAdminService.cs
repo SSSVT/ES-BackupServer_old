@@ -37,9 +37,8 @@ namespace ESBackupServer
         //TODO: Rework to more efficent/safe way if possible
         [OperationContract]
         bool Login(string username, string password);
-
         [OperationContract]
-        Administrator GetProfile(Guid sessionID);
+        Administrator GetProfile(string username);
         #endregion
         #region Set
         [OperationContract]

@@ -23,8 +23,8 @@ namespace ESBackupServer
 
         #region Properties
         #region Repositories
-        private AdministratorRepository _AdminRepository { get; set; } = AdministratorRepository.GetInstance();
         private LoginRepository _LoginRepository { get; set; } = LoginRepository.GetInstance();
+        private EmailRepository _EmailRepository { get; set; } = EmailRepository.GetInstance();
         private ClientRepository _ClientRepository { get; set; } = ClientRepository.GetInstance();
         private LogRepository _LogRepository { get; set; } = LogRepository.GetInstance();
         private BackupRepository _BackupRepository { get; set; } = BackupRepository.GetInstance();
@@ -75,9 +75,11 @@ namespace ESBackupServer
             
             return this._AdministratorRepository.IsLoginValid(admin,password);   
         }
-        public Administrator GetProfile(Guid sessionID)
+        public Administrator GetProfile(string username)
         {
-            throw new NotImplementedException();
+            Administrator admin = this._AdministratorRepository.FindByUsername(username);
+            admin.Emails = this._EmailRepository.Find(admin);
+            return admin;
         }
         #endregion
         #region Set
@@ -108,10 +110,14 @@ namespace ESBackupServer
         {
             this._BackupTemplateRepository.Remove(id);
         }
-
         public void RemoveBackupTemplatePath(Guid id)
         {
             this._BackupTemplatePathRepository.Remove(id);
+        }
+
+        public void UpdateAdministrator(Administrator admin)
+        {
+            this._AdministratorRepository.Update(admin);
         }
         #endregion
     }

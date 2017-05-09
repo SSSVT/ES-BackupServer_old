@@ -6,6 +6,8 @@ namespace ESBackupServer.Database.Repositories
 {
     internal class AdministratorRepository : AbRepository<Administrator>
     {
+        private EmailRepository _EmailRepository { get; set; } = EmailRepository.GetInstance;
+
         #region Singleton
         private AdministratorRepository()
         {
@@ -41,8 +43,13 @@ namespace ESBackupServer.Database.Repositories
             Administrator admin = this.Find(item.ID);
             admin.FirstName = item.FirstName;
             admin.LastName = item.LastName;
-            //admin.Username = item.Username;
             admin.Password = item.Password;
+
+            foreach (Email email in item.Emails)
+            {
+                this._EmailRepository.Update(email);
+            }
+
             this.SaveChanges();
         }
         #endregion

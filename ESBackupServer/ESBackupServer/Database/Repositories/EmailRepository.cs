@@ -46,9 +46,16 @@ namespace ESBackupServer.Database.Repositories
         internal override void Update(Email item)
         {
             Email email = this.Find(item.ID);
-            email.Address = item.Address;
-            email.IsDefault = item.IsDefault;
-            this.SaveChanges();
+            if (email == null)
+            {
+                this.Add(item);
+            }
+            else
+            {
+                email.Address = item.Address;
+                email.IsDefault = item.IsDefault;
+                this.SaveChanges();
+            }
         }
         #endregion
 
