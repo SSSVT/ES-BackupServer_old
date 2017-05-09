@@ -74,3 +74,6 @@ D:\Projects\BackupApplication\ES-BackupServer\ESBackupServer\ESBackupServer\bin\
 D:\Projects\BackupApplication\ES-BackupServer\ESBackupServer\ESBackupServer\obj\Debug\ESBackupServer.csprojResolveAssemblyReference.cache
 D:\Projects\BackupApplication\ES-BackupServer\ESBackupServer\ESBackupServer\obj\Debug\ESBackupServer.dll
 D:\Projects\BackupApplication\ES-BackupServer\ESBackupServer\ESBackupServer\obj\Debug\ESBackupServer.pdb
+C:\Users\NB-PROMO\Source\Repos\ES-BackupServer\ESBackupServer\ESBackupServer\obj\Debug\ESBackupServer.csprojResolveAssemblyReference.cache
+C:\Users\NB-PROMO\Source\Repos\ES-BackupServer\ESBackupServer\ESBackupServer\obj\Debug\ESBackupServer.dll
+C:\Users\NB-PROMO\Source\Repos\ES-BackupServer\ESBackupServer\ESBackupServer\obj\Debug\ESBackupServer.pdb

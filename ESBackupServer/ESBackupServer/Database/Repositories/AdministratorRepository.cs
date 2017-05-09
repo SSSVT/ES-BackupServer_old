@@ -6,7 +6,7 @@ namespace ESBackupServer.Database.Repositories
 {
     internal class AdministratorRepository : AbRepository<Administrator>
     {
-        private EmailRepository _EmailRepository { get; set; } = EmailRepository.GetInstance;
+        private EmailRepository _EmailRepository { get; set; } = EmailRepository.GetInstance();
 
         #region Singleton
         private AdministratorRepository()
