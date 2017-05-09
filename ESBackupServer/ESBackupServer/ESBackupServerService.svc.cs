@@ -89,5 +89,12 @@ namespace ESBackupServer
             this._BackupRepository.Update(backup);
         }
         #endregion
+
+        #region COM actions
+        public bool HasConfigUpdate(Guid sessionID, DateTime timestamp)
+        {
+            return timestamp < this._ClientRepo.Find(this._LoginRepo.Find(sessionID)).UTCLastConfigUpdate;
+        }
+        #endregion
     }
 }

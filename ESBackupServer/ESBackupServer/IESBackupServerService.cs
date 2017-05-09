@@ -31,5 +31,9 @@ namespace ESBackupServer
         [OperationContract]
         void CreateBackup(Backup backup);
         #endregion
+
+        #region COM actions
+        bool HasConfigUpdate(Guid sessionID, DateTime timestamp);
+        #endregion
     }
 }
