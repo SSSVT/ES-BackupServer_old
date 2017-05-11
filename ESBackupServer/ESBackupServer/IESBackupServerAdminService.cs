@@ -16,10 +16,10 @@ namespace ESBackupServer
         List<Client> GetClients(Filter filter, Sort sort);
 
         [OperationContract]
-        List<Backup> GetBackupsByClientID(int id);
+        List<BackupInfo> GetBackupsByClientID(int id);
 
         [OperationContract]
-        Backup GetBackupByID(long id);
+        BackupInfo GetBackupByID(long id);
 
         [OperationContract]
         List<Log> GetLogsByClientID(int id);
@@ -48,7 +48,7 @@ namespace ESBackupServer
         void RemoveBackup(long id);
 
         [OperationContract]
-        void UpdateBackup(Backup backup);
+        void UpdateBackup(BackupInfo backup);
 
         [OperationContract]
         void SaveTemplate(BackupTemplate template);

@@ -37,11 +37,11 @@ namespace ESBackupServer
         #endregion
 
         #region Get
-        public List<Backup> GetBackupsByClientID(int id)
+        public List<BackupInfo> GetBackupsByClientID(int id)
         {
             return this._BackupRepository.FindByClientID(id);
         }
-        public Backup GetBackupByID(long id)
+        public BackupInfo GetBackupByID(long id)
         {
             return this._BackupRepository.Find(id);
         }
@@ -91,7 +91,7 @@ namespace ESBackupServer
         {
             this._BackupRepository.Remove(id);
         }
-        public void UpdateBackup(Backup item)
+        public void UpdateBackup(BackupInfo item)
         {
             this._BackupRepository.Update(item);
         }

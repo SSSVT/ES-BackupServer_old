@@ -84,7 +84,7 @@ namespace ESBackupServer
             return (this._LoginRepo.IsSessionIDValid(login)) ? this._ConfigFactory.Create(client) : null;  
         }
 
-        public void CreateBackup(Backup backup)
+        public void CreateBackup(BackupInfo backup)
         {
             this._BackupRepository.Update(backup);
         }

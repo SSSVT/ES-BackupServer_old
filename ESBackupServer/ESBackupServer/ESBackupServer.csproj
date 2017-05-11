@@ -97,7 +97,7 @@
     <Compile Include="App\Objects\Registration\RegistrationResponse.cs" />
     <Compile Include="Database\DatabaseContext.cs" />
     <Compile Include="Database\Objects\Administrator.cs" />
-    <Compile Include="Database\Objects\Backup.cs" />
+    <Compile Include="Database\Objects\BackupInfo.cs" />
     <Compile Include="Database\Objects\BackupTemplate.cs" />
     <Compile Include="Database\Objects\BackupTemplatePath.cs" />
     <Compile Include="Database\Objects\Client.cs" />

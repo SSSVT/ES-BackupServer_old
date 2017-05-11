@@ -29,7 +29,7 @@ namespace ESBackupServer
         Configuration GetConfiguration(Guid sessionID);
 
         [OperationContract]
-        void CreateBackup(Backup backup);
+        void CreateBackup(BackupInfo backup);
         #endregion
 
         #region COM actions

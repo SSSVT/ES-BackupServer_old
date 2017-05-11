@@ -63,7 +63,7 @@ namespace ESBackupServer.Database.Repositories
         {
             this.Add(new Log(client, DateTime.UtcNow, message, type));
         }
-        internal void Create(Client client, Backup backup, string message, LogTypeNames type)
+        internal void Create(Client client, BackupInfo backup, string message, LogTypeNames type)
         {
             this.Add(new Log(client, backup, DateTime.UtcNow, message, type));
         }
