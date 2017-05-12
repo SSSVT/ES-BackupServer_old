@@ -50,7 +50,20 @@ namespace ESBackupServer.Database.Objects
 
         [Column("CL_META_LAST_CONFIG_UPDATE"), DataMember]
         public DateTime? UTCLastConfigUpdate { get; set; }
+
         #endregion
+        [NotMapped, DataMember]
+        public bool IsOnline
+        {
+            get
+            {
+                return this.UTCLastStatusReportTime >= DateTime.UtcNow.AddMilliseconds(-Convert.ToDouble(this.ReportInterval));
+            }
+            set
+            {               
+            }
+        }
+
 
         public Client()
         {
