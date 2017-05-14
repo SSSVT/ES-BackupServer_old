@@ -42,8 +42,7 @@ namespace ESBackupServer.Database.Repositories
         {
             Administrator admin = this.Find(item.ID);
             admin.FirstName = item.FirstName;
-            admin.LastName = item.LastName;
-            admin.Password = item.Password;
+            admin.LastName = item.LastName;            
 
             foreach (Email email in item.Emails)
             {
