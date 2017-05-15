@@ -30,6 +30,11 @@ namespace ESBackupServer.Database.Objects
         [NotMapped, DataMember]
         public List<Email> Emails { get; set; }
 
+        #region Virtual properties
+        [NotMapped]
+        internal virtual List<Email> VirtualEmails { get; set; }
+        #endregion
+
         public Administrator()
         {
             this.UTCRegistrationDate = DateTime.UtcNow;

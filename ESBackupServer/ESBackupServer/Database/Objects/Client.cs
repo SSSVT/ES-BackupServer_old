@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -51,6 +52,10 @@ namespace ESBackupServer.Database.Objects
         [Column("CL_META_LAST_CONFIG_UPDATE"), DataMember]
         public DateTime? UTCLastConfigUpdate { get; set; }
 
+        #endregion
+        #region Virtual properties
+        [NotMapped]
+        internal virtual List<BackupInfo> Backups { get; set; }
         #endregion
         [NotMapped, DataMember]
         public bool IsOnline

@@ -103,5 +103,9 @@ namespace ESBackupServer.Database.Repositories
             });
             return this.Find(name, hwid);
         }
+        internal List<Client> FindByAdmin(long IDAdmin)
+        {
+            return this._Context.Clients.Where(x => x.IDAdministrator == IDAdmin).ToList();
+        }
     }
 }

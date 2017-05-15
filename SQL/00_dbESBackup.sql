@@ -230,6 +230,10 @@ BEGIN /* INSERT */
 	INSERT INTO esbk_tbBackupTemplates (IDesbk_tbClients, BK_TYPE, BK_ENABLED, BK_REPEAT_INTERVAL_CRON) VALUES (1, 1, 1, '0 0 * * *'); -- At 00:00 every day
 	
 	INSERT INTO esbk_tbBackupTemplatesPaths (IDesbk_tbBackupTemplates, BK_PATH_ORDER, BK_TARGET_TYPE, BK_SOURCE, BK_DESTINATION) VALUES (1, 1, 0, 'C:\src', 'C:\dst');
+
+	INSERT INTO esbk_tbBackups VALUES (1, 1, 'Test', 'Test', 0, NULL, 'C:\src', 'C:\dst', NULL, 0, GETUTCDATE(), NULL, 1, 1,0)
+	INSERT INTO esbk_tbBackups VALUES (1, 1, 'Test', 'Test', 0, NULL, 'C:\src', 'C:\dst2', NULL, 0, GETUTCDATE(), NULL, 1, 1,0)
+	INSERT INTO esbk_tbBackups VALUES (1, 1, 'Test', 'Test', 0, NULL, 'C:\src', 'C:\dst3', NULL, 0, GETUTCDATE(), NULL, 1, 1,0)
 END
 
 --select * from esbk_tbClients

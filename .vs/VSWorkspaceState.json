@@ -3,8 +3,14 @@
     "",
     "\\ESBackupServer",
     "\\ESBackupServer\\ESBackupServer",
+    "\\ESBackupServer\\ESBackupServer\\App",
+    "\\ESBackupServer\\ESBackupServer\\App\\Objects",
+    "\\ESBackupServer\\ESBackupServer\\App\\Objects\\CRON",
+    "\\ESBackupServer\\ESBackupServer\\Database",
+    "\\ESBackupServer\\ESBackupServer\\Database\\Objects",
+    "\\ESBackupServer\\ESBackupServer\\Database\\Repositories",
     "\\SQL"
   ],
-  "SelectedNode": "\\ESBackupServer\\ESBackupServer\\ESBackupServerService.svc.cs",
+  "SelectedNode": "\\ESBackupServer\\ESBackupServer\\ESBackupServerAdminService.svc.cs",
   "PreviewInSolutionExplorer": false
 }

@@ -76,7 +76,9 @@ namespace ESBackupServer.Database.Repositories
             }            
         }
         #endregion
-        
+        #region Local properties
+        private ClientRepository _ClientRepository = ClientRepository.GetInstance();
+        #endregion
         internal List<BackupInfo> FindByClientID(int ID)
         {
             return this._Context.Backups.Where(x => x.IDClient == ID).ToList();
@@ -88,6 +90,24 @@ namespace ESBackupServer.Database.Repositories
         private List<BackupInfo> FindByBaseBackup(BackupInfo item)
         {
             return this._Context.Backups.Where(x => x.BaseBackupID == item.ID).ToList();
+        }
+        internal List<BackupInfo> FindBackupsWithUnsentEmailByAdmin(long IDAdmin)
+        {
+            List<Client> clientList = this._ClientRepository.FindByAdmin(IDAdmin);
+            if (clientList.Count > 1)
+            {
+                List<BackupInfo> backupList = new List<BackupInfo>();
+                foreach (Client client in clientList)
+                {
+                    foreach (BackupInfo backup in client.Backups)
+                    {
+                        backupList.Add(backup);
+                    }
+                }
+                return backupList;
+            }
+            else
+                return this._Context.Backups.Where(x => x.EmailSent == false && x.IDClient == clientList[0].ID).ToList();
         }
     }
 }

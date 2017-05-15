@@ -5,6 +5,8 @@ using ESBackupServer.Database.Objects;
 using ESBackupServer.Database.Repositories;
 using System.Collections.Generic;
 using System;
+using ESBackupServer.App.Interfaces.CRON;
+using ESBackupServer.App.Components.CRON;
 
 namespace ESBackupServer
 {
@@ -14,11 +16,11 @@ namespace ESBackupServer
     {
         public ESBackupServerAdminService()
         {
-            //onStart
-        }
+            this._scheduler = new TaskScheduler();
+        }        
         ~ESBackupServerAdminService()
         {
-            //onStop
+            this._scheduler.Stop(); 
         }
 
         #region Properties
@@ -32,7 +34,7 @@ namespace ESBackupServer
         private BackupTemplatePathRepository _BackupTemplatePathRepository { get; set; } = BackupTemplatePathRepository.GetInstance();
         private AdministratorRepository _AdministratorRepository { get; set; } = AdministratorRepository.GetInstance();
         #endregion
-
+        private ITaskScheduler _scheduler { get; set; }
         private ConfigurationFactory _ConfigFactory { get; set; } = new ConfigurationFactory();
         #endregion
 

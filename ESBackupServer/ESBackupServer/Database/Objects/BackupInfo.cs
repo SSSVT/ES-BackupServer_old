@@ -57,6 +57,10 @@ namespace ESBackupServer.Database.Objects
         [Column("BK_META_EMAIL_SENT"), DataMember]
         public bool EmailSent { get; set; }
         #endregion
+        #region Virtual properties
+        [ForeignKey("IDClient"), NotMapped]
+        public virtual Client Client { get; set; }
+        #endregion
 
         public BackupInfo()
         {

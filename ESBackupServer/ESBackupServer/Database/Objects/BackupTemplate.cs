@@ -55,7 +55,7 @@ namespace ESBackupServer.Database.Objects
         #endregion
 
         [NotMapped, DataMember]
-        public List<BackupTemplatePath> Paths { get; set; }
+        internal List<BackupTemplatePath> Paths { get; set; }
 
         public BackupTemplate()
         {

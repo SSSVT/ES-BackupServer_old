@@ -1,6 +1,7 @@
 ﻿using ESBackupServer.Database.Objects;
 using ESBackupServer.Database.Repositories;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ESBackupServer.App.Objects.Factories.Net.Mail
@@ -10,18 +11,18 @@ namespace ESBackupServer.App.Objects.Factories.Net.Mail
         private ClientRepository _ClientRepo { get; set; } = ClientRepository.GetInstance();
         private BackupRepository _BackupRepo { get; set; } = BackupRepository.GetInstance();
 
-        public string CreateBody(Client client)
+        public string CreateBody(List<BackupInfo> list)
         {
-            int executing = this._BackupRepo.FindByClientID(client.ID).Where(x => x.Status == 0).Count();
-            int completed = this._BackupRepo.FindByClientID(client.ID).Where(x => x.Status == 1).Count();
-            int failed = this._BackupRepo.FindByClientID(client.ID).Where(x => x.Status == 2).Count();
+            int executing = list.Where(x => x.Status == 0).Count();
+            int completed = list.Where(x => x.Status == 1).Count();
+            int failed = list.Where(x => x.Status == 2).Count();
 
-            return $"Client name: {client.Name} \nClient description: { client.Description } \nCompleted backups: { completed } \nExecuting backups: { executing }\nFailed backups: { failed }\n\nGenerated at (UTC): { DateTime.UtcNow }";
+            return $"Completed backups: { completed } \nExecuting backups: { executing }\nFailed backups: { failed }\n\nGenerated at (UTC): { DateTime.UtcNow }";
         }
 
-        public string CreateSubject(Client client)
+        public string CreateSubject()
         {
-            return $"Report from ES Backup Server";
+            return $"Report from ES Backup Server\n\n\n";
         }
     }
 }
