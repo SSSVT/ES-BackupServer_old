@@ -51,6 +51,10 @@ namespace ESBackupServer
         {
             return this._ClientRepository.Find(filter, sort);
         }
+        public Client GetClientByID(int ID)
+        {
+            return this._ClientRepository.Find(ID);
+        }
         public Configuration GetConfigurationByClientID(int id)
         {
             return this._ConfigFactory.Create(this._ClientRepository.Find(id));
@@ -82,6 +86,11 @@ namespace ESBackupServer
             Administrator admin = this._AdministratorRepository.FindByUsername(username);
             admin.Emails = this._EmailRepository.Find(admin);
             return admin;
+        }
+
+        public List<Login> GetLoginsByClient(int ID)
+        {
+            return this._LoginRepository.FindByClient(ID);
         }
         #endregion
         #region Set

@@ -16,6 +16,9 @@ namespace ESBackupServer
         List<Client> GetClients(Filter filter, Sort sort);
 
         [OperationContract]
+        Client GetClientByID(int ID);
+
+        [OperationContract]
         List<BackupInfo> GetBackupsByClientID(int id);
 
         [OperationContract]
@@ -33,12 +36,16 @@ namespace ESBackupServer
         [OperationContract]
         BackupTemplate GetTemplateByID(int id);
 
-
         //TODO: Rework to more efficent/safe way if possible
         [OperationContract]
         bool Login(string username, string password);
+
         [OperationContract]
         Administrator GetProfile(string username);
+
+        [OperationContract]
+        List<Login> GetLoginsByClient(int ID);
+
         #endregion
         #region Set
         [OperationContract]

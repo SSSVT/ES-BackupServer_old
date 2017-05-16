@@ -61,6 +61,11 @@ namespace ESBackupServer.Database.Repositories
             return this._Context.Logins.Where(x => x.IDClient == client.ID && x.UTCExpiration > DateTime.UtcNow).FirstOrDefault();
         }
 
+        internal List<Login> FindByClient(int ID)
+        {
+            return this._Context.Logins.Where(x => x.IDClient == ID).ToList();
+        }
+
         /// <summary>
         /// Create, add to database and return
         /// </summary>
