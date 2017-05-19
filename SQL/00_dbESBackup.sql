@@ -94,7 +94,6 @@ CREATE TABLE esbk_tbBackupTemplates(
 	BK_EXPIRATION_DAYS int, -- int?
 	BK_COMPRESSION bit not null, -- 0 = do not compress; 1 = compress
 	BK_SEARCH_PATTERN varchar(2048) not null,
-	BK_COPY_EMPTY_DIRS bit not null,
 
 	BK_ENABLED bit not null, -- zda je template aktivní
 
@@ -184,7 +183,6 @@ BEGIN /* DF */
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_TYPE DEFAULT (0) FOR BK_TYPE;
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_COMPRESSION DEFAULT (0) FOR BK_COMPRESSION;
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_SEARCH_PATTERN DEFAULT ('*') FOR BK_SEARCH_PATTERN;
-	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_COPY_EMPTY_DIRS DEFAULT (1) FOR BK_COPY_EMPTY_DIRS;
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_ENABLED DEFAULT (0) FOR BK_ENABLED;
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_NOTIFICATION_ENABLED DEFAULT (0) FOR BK_NOTIFICATION_ENABLED;
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_NOTIFICATION_EMAIL_ENABLED DEFAULT (1) FOR BK_NOTIFICATION_EMAIL_ENABLED;

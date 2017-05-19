@@ -3,7 +3,6 @@ using ESBackupServer.App.Objects.Authentication;
 using ESBackupServer.App.Objects.Components.Net;
 using ESBackupServer.App.Objects.Factories.Config;
 using ESBackupServer.App.Objects.Factories.Registration;
-using ESBackupServer.App.Objects.Metadata;
 using ESBackupServer.App.Objects.Registration;
 using ESBackupServer.Database.Objects;
 using ESBackupServer.Database.Repositories;

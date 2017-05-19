@@ -34,9 +34,6 @@ namespace ESBackupServer.Database.Objects
         [Column("BK_SEARCH_PATTERN"), DataMember]
         public string SearchPattern { get; set; }
 
-        [Column("BK_COPY_EMPTY_DIRS"), DataMember]
-        public bool BackupEmptyDirectories { get; set; }
-
         [Column("BK_ENABLED"), DataMember]
         public bool Enabled { get; set; }
 
@@ -62,7 +59,6 @@ namespace ESBackupServer.Database.Objects
             this.BackupType = 0;
             this.Compression = false;
             this.SearchPattern = "*";
-            this.BackupEmptyDirectories = true;
             this.Enabled = false;
             this.IsNotificationEnabled = false;
             this.IsEmailNotificationEnabled = true;

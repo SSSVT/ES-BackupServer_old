@@ -18,6 +18,8 @@ namespace ESBackupServer.App.Components.CRON
         private IScheduler _scheduler;
         public void Run()
         {
+            //TODO: FIX THIS SHIT ALREADY
+
             this._scheduler = StdSchedulerFactory.GetDefaultScheduler();
 
             this._scheduler.Start();
@@ -37,7 +39,7 @@ namespace ESBackupServer.App.Components.CRON
                 .WithCronSchedule("0 0/1 * 1/1 * ? *")
                 .Build();
             
-            this._scheduler.ScheduleJob(EmailJob, EmailTrigger);
+            //this._scheduler.ScheduleJob(EmailJob, EmailTrigger);
 
             #endregion
 
