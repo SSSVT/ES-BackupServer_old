@@ -91,7 +91,7 @@ namespace ESBackupServer
             this._BackupRepository.Update(backup);
         }
 
-        public List<BackupHistory> GetLastTeplateBackupSet(long TemplateID)
+        public List<BackupInfo> GetLastTeplateBackupSet(long TemplateID)
         {
             long id = this._BackupRepository.GetLastTemplateBackup(TemplateID).ID;
             return this._BackupRepository.GetPreviousBackups(id);

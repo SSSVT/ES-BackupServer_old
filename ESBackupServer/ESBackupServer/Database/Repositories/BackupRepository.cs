@@ -117,21 +117,14 @@ namespace ESBackupServer.Database.Repositories
             return this._Context.Backups.Where(x => x.IDBackupTemplate == id).OrderBy(x => x.UTCEnd).LastOrDefault();
         }
 
-        internal List<BackupHistory> GetPreviousBackups(long id)
+        internal List<BackupInfo> GetPreviousBackups(long id)
         {
-            List<BackupHistory> list = new List<BackupHistory>();
+            List<BackupInfo> list = new List<BackupInfo>();
             BackupInfo backup = this.Find(id);
 
             while (backup.BackupType != 0)
             {
-                list.Add(
-                new BackupHistory()
-                {
-                    Source = backup.Source,
-                    Destination = backup.Destination,
-                    UTCStart = backup.UTCStart,
-                    UTCEnd = (DateTime)backup.UTCEnd
-                });
+                list.Add(backup);
                 backup = this.Find(backup.BaseBackupID);
             }
 

@@ -99,7 +99,6 @@
     <Compile Include="App\Objects\Factories\Registration\PasswordFactory.cs" />
     <Compile Include="App\Objects\Factories\Registration\UserDefinitionFactory.cs" />
     <Compile Include="App\Objects\Filters\Filter.cs" />
-    <Compile Include="App\Objects\Metadata\BackupHistory.cs" />
     <Compile Include="App\Objects\Registration\RegistrationResponse.cs" />
     <Compile Include="Database\DatabaseContext.cs" />
     <Compile Include="Database\Objects\Administrator.cs" />
