@@ -3,10 +3,12 @@ using ESBackupServer.App.Objects.Authentication;
 using ESBackupServer.App.Objects.Components.Net;
 using ESBackupServer.App.Objects.Factories.Config;
 using ESBackupServer.App.Objects.Factories.Registration;
+using ESBackupServer.App.Objects.Metadata;
 using ESBackupServer.App.Objects.Registration;
 using ESBackupServer.Database.Objects;
 using ESBackupServer.Database.Repositories;
 using System;
+using System.Collections.Generic;
 
 namespace ESBackupServer
 {
@@ -87,6 +89,12 @@ namespace ESBackupServer
         public void CreateBackup(BackupInfo backup)
         {
             this._BackupRepository.Update(backup);
+        }
+
+        public List<BackupHistory> GetLastTeplateBackupSet(long TemplateID)
+        {
+            long id = this._BackupRepository.GetLastTemplateBackup(TemplateID).ID;
+            return this._BackupRepository.GetPreviousBackups(id);
         }
         #endregion
 

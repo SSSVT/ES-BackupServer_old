@@ -1,4 +1,6 @@
-﻿using ESBackupServer.Database.Objects;
+﻿using ESBackupServer.App.Objects.Metadata;
+using ESBackupServer.Database.Objects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -108,6 +110,32 @@ namespace ESBackupServer.Database.Repositories
             }
             else
                 return this._Context.Backups.Where(x => x.EmailSent == false && x.IDClient == clientList[0].ID).ToList();
+        }
+
+        internal BackupInfo GetLastTemplateBackup(long id)
+        {
+            return this._Context.Backups.Where(x => x.IDBackupTemplate == id).OrderBy(x => x.UTCEnd).LastOrDefault();
+        }
+
+        internal List<BackupHistory> GetPreviousBackups(long id)
+        {
+            List<BackupHistory> list = new List<BackupHistory>();
+            BackupInfo backup = this.Find(id);
+
+            while (backup.BackupType != 0)
+            {
+                list.Add(
+                new BackupHistory()
+                {
+                    Source = backup.Source,
+                    Destination = backup.Destination,
+                    UTCStart = backup.UTCStart,
+                    UTCEnd = (DateTime)backup.UTCEnd
+                });
+                backup = this.Find(backup.BaseBackupID);
+            }
+
+            return list;
         }
     }
 }
