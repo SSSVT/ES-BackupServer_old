@@ -63,8 +63,7 @@ namespace ESBackupServer.Database.Repositories
                 template.BackupType = item.BackupType;
                 template.DaysToExpiration = item.DaysToExpiration;
                 template.Compression = item.Compression;
-                template.SearchPattern = item.SearchPattern;
-                template.BackupEmptyDirectories = item.BackupEmptyDirectories;
+                template.SearchPattern = item.SearchPattern;                
                 template.Enabled = item.Enabled;
                 template.IsNotificationEnabled = item.IsNotificationEnabled;
                 template.IsEmailNotificationEnabled = item.IsEmailNotificationEnabled;
