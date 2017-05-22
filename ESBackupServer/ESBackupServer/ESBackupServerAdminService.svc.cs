@@ -136,13 +136,12 @@ namespace ESBackupServer
         {
             this._AdministratorRepository.Update(admin);
         }
-        #endregion
-
-        private void ClientConfigUpdated(int id)
+        public void ClientConfigUpdated(int id)
         {
             Client c = this._ClientRepository.Find(id);
             c.UTCLastConfigUpdate = DateTime.UtcNow;
             this._ClientRepository.Update(c);
         }
+        #endregion
     }
 }

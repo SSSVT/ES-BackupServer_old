@@ -71,6 +71,9 @@ namespace ESBackupServer
 
         [OperationContract]
         void UpdateAdministrator(Administrator admin);
+
+        [OperationContract]
+        void ClientConfigUpdated(int id);
         #endregion
     }
 }

@@ -33,7 +33,11 @@ namespace ESBackupServer
         #endregion
 
         #region COM actions
+        [OperationContract]
         bool HasConfigUpdate(Guid sessionID, DateTime timestamp);
+        [OperationContract]
+        void ClientReportUpdated(Guid sessionID);
+        //TODO: CHECK
         #endregion
     }
 }
