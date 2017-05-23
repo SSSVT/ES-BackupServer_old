@@ -9,7 +9,7 @@ namespace ESBackupServer.App.Objects.Factories.Registration
     {
         internal RegistrationResponse Create(Client client)
         {
-            if (client.Status == Convert.ToByte(ClientStatus.Verified) && client.Username == null)
+            if (client.Status == Convert.ToByte(ClientStatus.Verified))
             {
                 string password = new PasswordFactory().Generate(128);
                 RegistrationResponse def = new RegistrationResponse()

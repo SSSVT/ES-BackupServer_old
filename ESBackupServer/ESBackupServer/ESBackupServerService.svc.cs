@@ -85,8 +85,13 @@ namespace ESBackupServer
             return (this._LoginRepo.IsSessionIDValid(login)) ? this._ConfigFactory.Create(client) : null;  
         }
 
-        public void CreateBackup(BackupInfo backup)
+        public void CreateBackup(BackupInfo backup, Guid sessionID)
         {
+            Client client = this._ClientRepo.Find(this._LoginRepo.Find(sessionID).IDClient);
+
+            client.UTCLastBackupTime = DateTime.UtcNow;
+            this._ClientRepo.Update(client);
+
             this._BackupRepository.Update(backup);
         }
 
@@ -100,14 +105,14 @@ namespace ESBackupServer
         #region COM actions
         public bool HasConfigUpdate(Guid sessionID, DateTime timestamp)
         {
-            Client client = this._ClientRepo.Find(this._LoginRepo.Find(sessionID));            
+            Client client = this._ClientRepo.Find(this._LoginRepo.Find(sessionID).IDClient);            
             
             return timestamp < client.UTCLastConfigUpdate;
         }
 
         public void ClientReportUpdated(Guid sessionID)
         {
-            Client client = this._ClientRepo.Find(this._LoginRepo.Find(sessionID));
+            Client client = this._ClientRepo.Find(this._LoginRepo.Find(sessionID).IDClient);
 
             client.UTCLastStatusReportTime = DateTime.UtcNow;
             this._ClientRepo.Update(client);

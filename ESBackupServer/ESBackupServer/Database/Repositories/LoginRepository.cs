@@ -93,7 +93,7 @@ namespace ESBackupServer.Database.Repositories
         }
         internal bool IsSessionIDValid(Login login)
         {
-            if (login.UTCExpiration < DateTime.UtcNow && login.IP == this._NetInfo.GetClientIP().ToString())
+            if (login.UTCExpiration > DateTime.UtcNow && login.IP == this._NetInfo.GetClientIP().ToString())
             {
                 login.UTCExpiration = DateTime.UtcNow.AddMinutes(15);
                 return true;
