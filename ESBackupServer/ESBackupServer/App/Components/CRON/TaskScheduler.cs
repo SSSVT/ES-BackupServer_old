@@ -2,16 +2,18 @@
 using ESBackupServer.App.Objects.CRON;
 using Quartz;
 using Quartz.Impl;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace ESBackupServer.App.Components.CRON
 {
     public class TaskScheduler : ITaskScheduler
     {
-        public TaskScheduler()
+        protected static TaskScheduler _Instance;
+        public static TaskScheduler GetInstance()
+        {
+            return (TaskScheduler._Instance == null) ? new TaskScheduler() : TaskScheduler._Instance;
+        }
+
+        private TaskScheduler()
         {
             this.Run();
         }

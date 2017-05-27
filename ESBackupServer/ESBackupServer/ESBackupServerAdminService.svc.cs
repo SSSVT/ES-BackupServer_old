@@ -16,7 +16,7 @@ namespace ESBackupServer
     {
         public ESBackupServerAdminService()
         {
-            this._scheduler = new TaskScheduler();
+            this._scheduler = TaskScheduler.GetInstance();
         }        
         ~ESBackupServerAdminService()
         {
