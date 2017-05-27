@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ESBackupServer.Database.Repositories
 {
-    internal class BackupRepository : AbRepository<Backup>
+    internal class BackupRepository : AbRepository<BackupInfo>
     {
         #region Singleton
         private BackupRepository()
@@ -20,24 +20,24 @@ namespace ESBackupServer.Database.Repositories
         }
         #endregion
         #region AbRepository
-        protected override void Add(Backup item)
+        protected override void Add(BackupInfo item)
         {
             this._Context.Backups.Add(item);
             this.SaveChanges();
         }
-        internal override Backup Find(object id)
+        internal override BackupInfo Find(object id)
         {
             return this._Context.Backups.Find(id);
         }
-        internal override List<Backup> FindAll()
+        internal override List<BackupInfo> FindAll()
         {
             return this._Context.Backups.ToList();
         }
-        internal override void Remove(Backup item)
+        internal override void Remove(BackupInfo item)
         {
             if (item.Status == 0 || item.Status == 2) //FULL (0) -> remove diffs; INCREMENTAL (2) -> remove next incremental backups
             {
-                foreach (Backup backup in this.FindByBaseBackup(item))
+                foreach (BackupInfo backup in this.FindByBaseBackup(item))
                 {
                     this.Remove(backup);
                 }
@@ -48,9 +48,9 @@ namespace ESBackupServer.Database.Repositories
             }            
             this.SaveChanges();
         }
-        internal override void Update(Backup item)
+        internal override void Update(BackupInfo item)
         {
-            Backup backup = this.Find(item.ID);
+            BackupInfo backup = this.Find(item.ID);
             if (backup == null)
             {
                 this.Add(item);
@@ -76,8 +76,10 @@ namespace ESBackupServer.Database.Repositories
             }            
         }
         #endregion
-        
-        internal List<Backup> FindByClientID(int ID)
+        #region Local properties
+        private ClientRepository _ClientRepository = ClientRepository.GetInstance();
+        #endregion
+        internal List<BackupInfo> FindByClientID(int ID)
         {
             return this._Context.Backups.Where(x => x.IDClient == ID).ToList();
         }
@@ -85,9 +87,46 @@ namespace ESBackupServer.Database.Repositories
         {
             this.Remove(this.Find(id));
         }
-        private List<Backup> FindByBaseBackup(Backup item)
+        private List<BackupInfo> FindByBaseBackup(BackupInfo item)
         {
             return this._Context.Backups.Where(x => x.BaseBackupID == item.ID).ToList();
+        }
+        internal List<BackupInfo> FindBackupsWithUnsentEmailByAdmin(long IDAdmin)
+        {
+            List<Client> clientList = this._ClientRepository.FindByAdmin(IDAdmin);
+            if (clientList.Count > 1)
+            {
+                List<BackupInfo> backupList = new List<BackupInfo>();
+                foreach (Client client in clientList)
+                {
+                    foreach (BackupInfo backup in client.Backups)
+                    {
+                        backupList.Add(backup);
+                    }
+                }
+                return backupList;
+            }
+            else
+                return this._Context.Backups.Where(x => x.EmailSent == false && x.IDClient == clientList[0].ID).ToList();
+        }
+
+        internal BackupInfo GetLastTemplateBackup(long id)
+        {
+            return this._Context.Backups.Where(x => x.IDBackupTemplate == id).OrderBy(x => x.UTCEnd).LastOrDefault();
+        }
+
+        internal List<BackupInfo> GetPreviousBackups(long id)
+        {
+            List<BackupInfo> list = new List<BackupInfo>();
+            BackupInfo backup = this.Find(id);
+
+            while (backup.BackupType != 0)
+            {
+                list.Add(backup);
+                backup = this.Find(backup.BaseBackupID);
+            }
+
+            return list;
         }
     }
 }

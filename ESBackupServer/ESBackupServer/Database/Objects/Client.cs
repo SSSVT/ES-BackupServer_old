@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -37,7 +38,7 @@ namespace ESBackupServer.Database.Objects
         public bool StatusReportEnabled { get; set; }
 
         [Column("CL_AUTO_STATUS_REPORT_INTERVAL"), DataMember]
-        public int ReportInterval { get; set; }
+        public int? ReportInterval { get; set; }
 
         [Column("CL_META_LAST_STATUS_REPORT_UTC"), DataMember]
         public DateTime? UTCLastStatusReportTime { get; set; }
@@ -47,7 +48,27 @@ namespace ESBackupServer.Database.Objects
 
         [Column("CL_META_REGISTRATION_DATE_UTC"), DataMember]
         public DateTime UTCRegistrationDate { get; set; }
+
+        [Column("CL_META_LAST_CONFIG_UPDATE"), DataMember]
+        public DateTime? UTCLastConfigUpdate { get; set; }
+
         #endregion
+        #region Virtual properties
+        [NotMapped]
+        internal virtual List<BackupInfo> Backups { get; set; }
+        #endregion
+        [NotMapped, DataMember]
+        public bool IsOnline
+        {
+            get
+            {
+                return this.UTCLastStatusReportTime >= DateTime.UtcNow.AddMilliseconds(-Convert.ToDouble(this.ReportInterval));
+            }
+            set
+            {               
+            }
+        }
+
 
         public Client()
         {

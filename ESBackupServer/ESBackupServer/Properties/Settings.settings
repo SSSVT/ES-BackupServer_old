@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="MailSender" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Backup server</Value>
+      <Value Profile="(Default)">Evolution Studio</Value>
     </Setting>
   </Settings>
 </SettingsFile>

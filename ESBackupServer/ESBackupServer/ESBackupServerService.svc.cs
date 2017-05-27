@@ -1,4 +1,5 @@
 ﻿using ESBackupServer.App.Objects;
+using ESBackupServer.App.Objects.Authentication;
 using ESBackupServer.App.Objects.Components.Net;
 using ESBackupServer.App.Objects.Factories.Config;
 using ESBackupServer.App.Objects.Factories.Registration;
@@ -6,6 +7,7 @@ using ESBackupServer.App.Objects.Registration;
 using ESBackupServer.Database.Objects;
 using ESBackupServer.Database.Repositories;
 using System;
+using System.Collections.Generic;
 
 namespace ESBackupServer
 {
@@ -29,7 +31,7 @@ namespace ESBackupServer
         #endregion
 
         #region Registration
-        public UserDefinition RequestRegistration(string name, string hwid)
+        public RegistrationResponse RequestRegistration(string name, string hwid)
         {
             Client item = this._ClientRepo.Find(name, hwid);
             if (item == null)
@@ -39,21 +41,15 @@ namespace ESBackupServer
         #endregion
 
         #region User authentication
-        /// <summary>
-        /// Returns session ID
-        /// </summary>
-        /// <param name="username"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
-        public Guid? Login(string username, string password)
+        public LoginResponse Login(string username, string password)
         {
             Client client = this._ClientRepo.FindByUsername(username);
 
-            if (this._ClientRepo.IsLoginValid(client, password))
+            if (this._ClientRepo.IsLoginValid(client, password) && client.Status == 0)
             {
-                Guid sessionID = this._LoginRepo.Create(client, this._NetInfo.GetClientIP()).ID;
-                this._LogRepo.Create(client, $"Session start: ID={ sessionID };IP={ new NetInfoObtainer().GetClientIP().ToString() };UTCTime={ DateTime.UtcNow }", LogTypeNames.Message);
-                return sessionID;
+                LoginResponse response = this._LoginRepo.Create(client, this._NetInfo.GetClientIP());
+                this._LogRepo.Create(client, $"Session start: ID={ response.SessionID };IP={ new NetInfoObtainer().GetClientIP().ToString() };UTCTime={ DateTime.UtcNow }", LogTypeNames.Message);
+                return response;
             }
             else
             {
@@ -66,9 +62,11 @@ namespace ESBackupServer
             try
             {
                 Login login = this._LoginRepo.Find(sessionID);
+                Client client = this._ClientRepo.Find(login.IDClient);
+
                 login.UTCExpiration = DateTime.UtcNow;
                 this._LoginRepo.Update(login);
-                this._LogRepo.Create(login.Client, $"Session end: ID={ sessionID };UTCTime={ DateTime.UtcNow }", LogTypeNames.Message);
+                this._LogRepo.Create(client, $"Session end: ID={ sessionID };UTCTime={ DateTime.UtcNow }", LogTypeNames.Message);
                 return true;
             }
             catch (Exception ex)
@@ -83,12 +81,41 @@ namespace ESBackupServer
         public Configuration GetConfiguration(Guid sessionID)
         {
             Login login = this._LoginRepo.Find(sessionID);
-            return (this._LoginRepo.IsSessionIDValid(login)) ? this._ConfigFactory.Create(login.Client) : null;  
+            Client client = this._ClientRepo.Find(login.IDClient);
+            return (this._LoginRepo.IsSessionIDValid(login)) ? this._ConfigFactory.Create(client) : null;  
         }
 
-        public void CreateBackup(Backup backup)
+        public void CreateBackup(BackupInfo backup, Guid sessionID)
         {
+            Client client = this._ClientRepo.Find(this._LoginRepo.Find(sessionID).IDClient);
+
+            client.UTCLastBackupTime = DateTime.UtcNow;
+            this._ClientRepo.Update(client);
+
             this._BackupRepository.Update(backup);
+        }
+
+        public List<BackupInfo> GetLastTeplateBackupSet(long TemplateID)
+        {
+            long id = this._BackupRepository.GetLastTemplateBackup(TemplateID).ID;
+            return this._BackupRepository.GetPreviousBackups(id);
+        }
+        #endregion
+
+        #region COM actions
+        public bool HasConfigUpdate(Guid sessionID, DateTime timestamp)
+        {
+            Client client = this._ClientRepo.Find(this._LoginRepo.Find(sessionID).IDClient);            
+            
+            return timestamp < client.UTCLastConfigUpdate;
+        }
+
+        public void ClientReportUpdated(Guid sessionID)
+        {
+            Client client = this._ClientRepo.Find(this._LoginRepo.Find(sessionID).IDClient);
+
+            client.UTCLastStatusReportTime = DateTime.UtcNow;
+            this._ClientRepo.Update(client);
         }
         #endregion
     }

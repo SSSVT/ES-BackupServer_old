@@ -23,7 +23,7 @@ namespace ESBackupServer.Database
         #region DbSets
         public DbSet<Administrator> Administrators { get; set; }
         public DbSet<Email> Emails { get; set; }
-        public DbSet<Backup> Backups { get; set; }
+        public DbSet<BackupInfo> Backups { get; set; }
         public DbSet<BackupTemplate> Templates { get; set; }
         public DbSet<BackupTemplatePath> TemplatesPaths { get; set; }
         public DbSet<Client> Clients { get; set; }

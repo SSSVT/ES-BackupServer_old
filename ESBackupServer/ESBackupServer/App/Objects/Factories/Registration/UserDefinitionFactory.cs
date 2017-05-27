@@ -7,12 +7,12 @@ namespace ESBackupServer.App.Objects.Factories.Registration
 {
     internal class UserDefinitionFactory
     {
-        internal UserDefinition Create(Client client)
+        internal RegistrationResponse Create(Client client)
         {
-            if (client.Status == Convert.ToByte(ClientStatus.Verified) && client.Username == null)
+            if (client.Status == Convert.ToByte(ClientStatus.Verified))
             {
                 string password = new PasswordFactory().Generate(128);
-                UserDefinition def = new UserDefinition()
+                RegistrationResponse def = new RegistrationResponse()
                 {
                     //TODO: Create username, password and salt
                     Username = client.ID.ToString(),
@@ -26,7 +26,7 @@ namespace ESBackupServer.App.Objects.Factories.Registration
             }
             else
             {
-                return new UserDefinition()
+                return new RegistrationResponse()
                 {
                     Status = this.GetStatus(client.Status)
                 };

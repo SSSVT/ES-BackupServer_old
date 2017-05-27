@@ -1,4 +1,5 @@
 ﻿using ESBackupServer.App.Objects;
+using ESBackupServer.App.Objects.Authentication;
 using ESBackupServer.App.Objects.Registration;
 using ESBackupServer.Database.Objects;
 using System;
@@ -12,12 +13,12 @@ namespace ESBackupServer
     {
         #region Registration
         [OperationContract]
-        UserDefinition RequestRegistration(string name, string hwid);
+        RegistrationResponse RequestRegistration(string name, string hwid);
         #endregion
 
         #region User authentication
         [OperationContract]
-        Guid? Login(string username, string password);
+        LoginResponse Login(string username, string password);
 
         [OperationContract]
         bool Logout(Guid sessionID);
@@ -28,7 +29,15 @@ namespace ESBackupServer
         Configuration GetConfiguration(Guid sessionID);
 
         [OperationContract]
-        void CreateBackup(Backup backup);
+        void CreateBackup(BackupInfo backup, Guid sessionID);
+        #endregion
+
+        #region COM actions
+        [OperationContract]
+        bool HasConfigUpdate(Guid sessionID, DateTime timestamp);
+        [OperationContract]
+        void ClientReportUpdated(Guid sessionID);
+        //TODO: CHECK
         #endregion
     }
 }

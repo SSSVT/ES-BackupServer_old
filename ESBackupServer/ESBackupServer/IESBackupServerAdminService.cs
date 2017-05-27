@@ -1,6 +1,7 @@
 ﻿using ESBackupServer.App.Objects;
 using ESBackupServer.App.Objects.Filters;
 using ESBackupServer.Database.Objects;
+using System;
 using System.Collections.Generic;
 using System.ServiceModel;
 
@@ -15,10 +16,13 @@ namespace ESBackupServer
         List<Client> GetClients(Filter filter, Sort sort);
 
         [OperationContract]
-        List<Backup> GetBackupsByClientID(int id);
+        Client GetClientByID(int ID);
 
         [OperationContract]
-        Backup GetBackupByID(long id);
+        List<BackupInfo> GetBackupsByClientID(int id);
+
+        [OperationContract]
+        BackupInfo GetBackupByID(long id);
 
         [OperationContract]
         List<Log> GetLogsByClientID(int id);
@@ -31,6 +35,17 @@ namespace ESBackupServer
 
         [OperationContract]
         BackupTemplate GetTemplateByID(int id);
+
+        //TODO: Rework to more efficent/safe way if possible
+        [OperationContract]
+        bool Login(string username, string password);
+
+        [OperationContract]
+        Administrator GetProfile(string username);
+
+        [OperationContract]
+        List<Login> GetLoginsByClient(int ID);
+
         #endregion
         #region Set
         [OperationContract]
@@ -40,16 +55,25 @@ namespace ESBackupServer
         void RemoveBackup(long id);
 
         [OperationContract]
-        void UpdateBackup(Backup backup);
+        void UpdateBackup(BackupInfo backup);
 
         [OperationContract]
         void SaveTemplate(BackupTemplate template);
 
         [OperationContract]
-        void SaveTemplatePath(BackupTemplatePath path);
+        void SetTemplateStatus(long id, bool IsEnabled);
 
         [OperationContract]
-        void SetTemplateStatus(long id, bool IsEnabled);
+        void RemoveBackupTemplate(long id);
+
+        [OperationContract]
+        void RemoveBackupTemplatePath(Guid id);
+
+        [OperationContract]
+        void UpdateAdministrator(Administrator admin);
+
+        [OperationContract]
+        void ClientConfigUpdated(int id);
         #endregion
     }
 }

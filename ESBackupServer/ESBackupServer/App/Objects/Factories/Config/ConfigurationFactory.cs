@@ -17,6 +17,8 @@ namespace ESBackupServer.App.Objects.Factories.Config
             {
                 item.Paths = PathRepo.Find(item);
             }
+            config.StatusReportEnabled = client.StatusReportEnabled;
+            config.ReportInterval = client.ReportInterval;            
             return config;
         }
     }

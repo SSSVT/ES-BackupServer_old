@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 namespace ESBackupServer.Database.Objects
 {
     [Table("esbk_tbBackups"), DataContract(IsReference = true)]
-    public class Backup
+    public class BackupInfo
     {
         #region Entity Framework
         [Key, Column("ID"), DatabaseGenerated(DatabaseGeneratedOption.Identity), DataMember]
@@ -25,7 +25,7 @@ namespace ESBackupServer.Database.Objects
         public string Description { get; set; }
 
         [Column("BK_TYPE"), DataMember]
-        public byte BackupType { get; set; } //TODO: enum
+        public byte BackupType { get; set; }
 
         [Column("IDesbk_tbBackups_BASE"), DataMember]
         public long? BaseBackupID { get; set; }
@@ -57,8 +57,12 @@ namespace ESBackupServer.Database.Objects
         [Column("BK_META_EMAIL_SENT"), DataMember]
         public bool EmailSent { get; set; }
         #endregion
+        #region Virtual properties
+        [ForeignKey("IDClient"), NotMapped]
+        public virtual Client Client { get; set; }
+        #endregion
 
-        public Backup()
+        public BackupInfo()
         {
             this.BackupType = 0;
             this.Compressed = false;
