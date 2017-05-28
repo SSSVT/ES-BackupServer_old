@@ -87,6 +87,13 @@ namespace ESBackupServer.Database.Repositories
         {
             this.Remove(this.Find(id));
         }
+        internal void Remove(Client item)
+        {
+            foreach (BackupInfo info in this.FindByClientID(item.ID))
+            {
+                this.Remove(info);
+            }
+        }
         private List<BackupInfo> FindByBaseBackup(BackupInfo item)
         {
             return this._Context.Backups.Where(x => x.BaseBackupID == item.ID).ToList();

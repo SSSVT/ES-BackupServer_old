@@ -36,6 +36,8 @@ namespace ESBackupServer.Database.Repositories
         }
         internal override void Remove(Client item)
         {
+            BackupRepository.GetInstance().Remove(item);
+            LogRepository.GetInstance().Remove(item);
             this._Context.Clients.Remove(item);
             this.SaveChanges();
         }

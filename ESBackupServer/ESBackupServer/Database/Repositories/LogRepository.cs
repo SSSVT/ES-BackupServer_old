@@ -51,6 +51,13 @@ namespace ESBackupServer.Database.Repositories
         }
         #endregion
 
+        internal void Remove(Client item)
+        {
+            foreach (Log lg in this.FindByClientID(item.ID))
+            {
+                this.Remove(lg);
+            }
+        }
         internal List<Log> FindByBackupID(long ID)
         {
             return this._Context.Logs.Where(x => x.IDBackup == ID).ToList();
