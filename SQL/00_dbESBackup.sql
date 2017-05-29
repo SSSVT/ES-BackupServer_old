@@ -79,7 +79,7 @@ CREATE TABLE esbk_tbBackups(
 	BK_TIME_END_UTC datetime, -- datetime?, null - updatem
 	BK_STATUS tinyint not null, -- Executing, Competed, Failed, ...
 
-	BK_META_PATH_ORDER smallint not null, -- pořadí cesty
+	BK_META_PATH_ORDER int not null, -- pořadí cesty
 	BK_META_EMAIL_SENT bit not null
 ); /* Historie provedených záloh */
 CREATE TABLE esbk_tbBackupTemplates(

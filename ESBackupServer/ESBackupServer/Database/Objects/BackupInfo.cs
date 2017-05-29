@@ -52,7 +52,7 @@ namespace ESBackupServer.Database.Objects
         public byte Status { get; set; }
 
         [Column("BK_META_PATH_ORDER"), DataMember]
-        public UInt16 PathOrder { get; set; }
+        public int PathOrder { get; set; }
 
         [Column("BK_META_EMAIL_SENT"), DataMember]
         public bool EmailSent { get; set; }
