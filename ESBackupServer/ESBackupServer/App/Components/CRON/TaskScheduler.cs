@@ -20,8 +20,6 @@ namespace ESBackupServer.App.Components.CRON
         private IScheduler _scheduler;
         public void Run()
         {
-            //TODO: FIX THIS SHIT ALREADY
-
             this._scheduler = StdSchedulerFactory.GetDefaultScheduler();
 
             this._scheduler.Start();

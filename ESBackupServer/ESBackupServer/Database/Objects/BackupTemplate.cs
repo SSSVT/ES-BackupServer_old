@@ -43,7 +43,6 @@ namespace ESBackupServer.Database.Objects
         [Column("BK_NOTIFICATION_EMAIL_ENABLED"), DataMember]
         public bool IsEmailNotificationEnabled { get; set; }
 
-        //TODO: CRON default value
         [Column("BK_REPEAT_INTERVAL_CRON"), DataMember]
         public string CRONRepeatInterval { get; set; }
 
@@ -53,15 +52,5 @@ namespace ESBackupServer.Database.Objects
 
         [NotMapped, DataMember]
         internal List<BackupTemplatePath> Paths { get; set; }
-
-        public BackupTemplate()
-        {
-            this.BackupType = 0;
-            this.Compression = false;
-            this.SearchPattern = "*";
-            this.Enabled = false;
-            this.IsNotificationEnabled = false;
-            this.IsEmailNotificationEnabled = true;
-        }
     }
 }
