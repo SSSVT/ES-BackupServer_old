@@ -24,16 +24,17 @@ namespace ESBackupServer.App.Objects.CRON
         {
             //TODO: Implement email sending
 
-            foreach (Administrator admin in this._AdministratorRepository.FindAll())
-            {
-                string message = this._MailFactory.CreateBody(this._BackupRepository.FindBackupsWithUnsentEmailByAdmin(admin.ID));
+            //foreach (Administrator admin in this._AdministratorRepository.FindAll())
+            //{
+            //    string message = this._MailFactory.CreateBody(this._BackupRepository.FindBackupsWithUnsentEmailByAdmin(admin.ID));
 
-                this._MailSender.Send(
-                    "smtp.seznam.cz",
-                    "vlad.mrkacek@gmail.com",
-                    this._MailFactory.CreateSubject(),
-                    message);
-            }
+            //    this._MailSender.Send(
+            //        "smtp.seznam.cz",
+            //        "vlad.mrkacek@gmail.com",
+            //        this._MailFactory.CreateSubject(),
+            //        message);
+            //}
+
         }
     }
 }

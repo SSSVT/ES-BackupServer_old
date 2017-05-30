@@ -7,10 +7,14 @@ namespace ESBackupServer.App.Components.CRON
 {
     public class TaskScheduler : ITaskScheduler
     {
+        #region Singleton        
         protected static TaskScheduler _Instance;
         public static TaskScheduler GetInstance()
         {
-            return (TaskScheduler._Instance == null) ? new TaskScheduler() : TaskScheduler._Instance;
+            if (TaskScheduler._Instance == null)
+                TaskScheduler._Instance = new TaskScheduler();
+
+            return TaskScheduler._Instance;
         }
 
         private TaskScheduler()
@@ -18,6 +22,7 @@ namespace ESBackupServer.App.Components.CRON
             this.Run();
         }
         private IScheduler _scheduler;
+        #endregion
         public void Run()
         {
             this._scheduler = StdSchedulerFactory.GetDefaultScheduler();
@@ -39,7 +44,7 @@ namespace ESBackupServer.App.Components.CRON
                 .WithCronSchedule("0 0/1 * 1/1 * ? *")
                 .Build();
             
-            //this._scheduler.ScheduleJob(EmailJob, EmailTrigger);
+            this._scheduler.ScheduleJob(EmailJob, EmailTrigger);
 
             #endregion
 

@@ -1,4 +1,6 @@
-﻿using ESBackupServer.App.Objects;
+﻿using ESBackupServer.App.Components.CRON;
+using ESBackupServer.App.Interfaces.CRON;
+using ESBackupServer.App.Objects;
 using ESBackupServer.App.Objects.Authentication;
 using ESBackupServer.App.Objects.Components.Net;
 using ESBackupServer.App.Objects.Factories.Config;
@@ -15,7 +17,12 @@ namespace ESBackupServer
     // NOTE: In order to launch WCF Test Client for testing this service, please select ESBackupServerService.svc or ESBackupServerService.svc.cs at the Solution Explorer and start debugging.
     public class ESBackupServerService : IESBackupServerService
     {
+        public ESBackupServerService()
+        {
+            this._scheduler = TaskScheduler.GetInstance();
+        }
         #region Properties
+        private ITaskScheduler _scheduler { get; set; }
         #region Repos
         private ClientRepository _ClientRepo { get; set; } = ClientRepository.GetInstance();
         private LoginRepository _LoginRepo { get; set; } = LoginRepository.GetInstance();

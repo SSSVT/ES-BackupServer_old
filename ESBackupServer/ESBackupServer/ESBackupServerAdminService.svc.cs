@@ -17,12 +17,7 @@ namespace ESBackupServer
         public ESBackupServerAdminService()
         {
             this._scheduler = TaskScheduler.GetInstance();
-        }        
-        ~ESBackupServerAdminService()
-        {
-            this._scheduler.Stop(); 
         }
-
         #region Properties
         #region Repositories
         private LoginRepository _LoginRepository { get; set; } = LoginRepository.GetInstance();
