@@ -45,5 +45,10 @@ namespace ESBackupServer.Database.Repositories
             this.SaveChanges();
         }
         #endregion
+
+        internal SmtpConfiguration FindDefault()
+        {
+            return this._Context.SmtpConfiguration.Where(x => x.IsActive).FirstOrDefault();
+        }
     }
 }

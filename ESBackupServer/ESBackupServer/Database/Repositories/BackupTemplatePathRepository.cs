@@ -53,6 +53,9 @@ namespace ESBackupServer.Database.Repositories
                 path.TargetType = item.TargetType;
                 path.Source = item.Source;
                 path.Destination = item.Destination;
+
+                path.Username = item.Username;
+                path.Password = item.Password;
                 this.SaveChanges();
             }            
         }
