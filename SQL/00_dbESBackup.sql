@@ -107,8 +107,11 @@ CREATE TABLE esbk_tbBackupTemplatesPaths(
 	ID uniqueidentifier not null,
 	IDesbk_tbBackupTemplates bigint not null,
 
+	BK_USERNAME varchar(128),
+	BK_PASSWORD varchar(512),
+
 	BK_PATH_ORDER smallint not null,
-	BK_TARGET_TYPE tinyint not null, -- byte; 0 = WIN, 1 = FTP, 2 = SSH, 3 = SecureCopy
+	BK_TARGET_TYPE tinyint not null, -- byte; 0 = WIN, 1 = FTP, 2 = SSH, 3 = SecureCopy, ...
 	BK_SOURCE varchar(446) not null,
 	BK_DESTINATION varchar(446) not null,
 );

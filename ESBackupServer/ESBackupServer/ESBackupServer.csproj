@@ -88,7 +88,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App\Components\CRON\TaskScheduler.cs" />
-    <Compile Include="App\Components\ExceptionSaver.cs" />
     <Compile Include="App\Components\Net\Mail\MailSender.cs" />
     <Compile Include="App\Components\Net\NetInfoObtainer.cs" />
     <Compile Include="App\Interfaces\CRON\ITaskScheduler.cs" />
