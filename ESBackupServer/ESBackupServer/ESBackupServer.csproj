@@ -109,6 +109,7 @@
     <Compile Include="Database\Objects\Email.cs" />
     <Compile Include="Database\Objects\Log.cs" />
     <Compile Include="Database\Objects\Login.cs" />
+    <Compile Include="Database\Objects\SmtpConfiguration.cs" />
     <Compile Include="Database\Repositories\AbRepository.cs" />
     <Compile Include="Database\Repositories\AdministratorRepository.cs" />
     <Compile Include="Database\Repositories\BackupRepository.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Database\Repositories\LoginRepository.cs" />
     <Compile Include="Database\Repositories\ClientRepository.cs" />
     <Compile Include="Database\Repositories\LogRepository.cs" />
+    <Compile Include="Database\Repositories\SmtpConfigurationRepository.cs" />
     <Compile Include="ESBackupServerAdminService.svc.cs">
       <DependentUpon>ESBackupServerAdminService.svc</DependentUpon>
     </Compile>

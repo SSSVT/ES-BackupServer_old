@@ -10,6 +10,19 @@ GO
 
 USE [dbESBackup];
 
+CREATE TABLE esbk_MailConfig(
+	ID int identity(1,1) not null,
+	MC_SERVER varchar(128) not null,
+	MC_PORT int,
+	MC_USERNAME varchar(128),
+	MC_PASSWORD varchar(512),
+	MC_METHOD int,
+	MC_PROTOCOL int,
+
+	MC_ACTIVE bit not null
+);
+ALTER TABLE esbk_MailConfig ADD CONSTRAINT PK_esbk_MailConfig_ID PRIMARY KEY (ID);
+
 CREATE TABLE esbk_tbAdministrators(
 	ID bigint identity(1,1) not null,
 	AD_FIRST_NAME nvarchar(50) not null,
