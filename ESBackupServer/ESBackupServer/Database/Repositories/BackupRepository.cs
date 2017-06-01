@@ -135,5 +135,10 @@ namespace ESBackupServer.Database.Repositories
 
             return list;
         }
+
+        internal long GetCount(int clientID, byte code)
+        {
+            return this._Context.Backups.Where(x => x.IDClient == clientID && x.Status == code).LongCount();
+        }
     }
 }

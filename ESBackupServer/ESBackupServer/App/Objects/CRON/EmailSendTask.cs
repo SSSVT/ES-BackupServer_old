@@ -10,19 +10,35 @@ using System.Web;
 
 namespace ESBackupServer.App.Objects.CRON
 {
-    public class EmailSendTask : IJob
+    internal class EmailSendTask : IJob
     {
         #region Repositories
-
-        private BackupRepository _BackupRepository { get; set; } = BackupRepository.GetInstance();
-        private AdministratorRepository _AdministratorRepository { get; set; }
         private MailSender _MailSender { get; set; } = new MailSender();
         private MailFactory _MailFactory { get; set; } = new MailFactory();
+
+        protected BackupRepository _BackupRepository { get; set; } = BackupRepository.GetInstance();
+        protected ClientRepository _ClientRepository { get; set; } = ClientRepository.GetInstance();
+        protected AdministratorRepository _AdministratorRepository { get; set; } = AdministratorRepository.GetInstance();
+        protected EmailRepository _EmailRepository { get; set; } = EmailRepository.GetInstance();
         #endregion
 
         public void Execute(IJobExecutionContext context)
         {
             //TODO: Implement email sending
+
+            foreach (Administrator admin in this._AdministratorRepository.FindAll())
+            {
+                long executing = 0;
+                long completed = 0;                
+                long failed = 0;
+
+                foreach (Client client in this._ClientRepository.FindByAdmin(admin.ID))
+                {
+                    executing += this._BackupRepository.GetCount(client.ID, 0);
+                    completed += this._BackupRepository.GetCount(client.ID, 1);
+                    failed += this._BackupRepository.GetCount(client.ID, 2);
+                }
+            }
 
             //foreach (Administrator admin in this._AdministratorRepository.FindAll())
             //{
