@@ -53,6 +53,7 @@ namespace ESBackupServer.Database.Repositories
             BackupInfo backup = this.Find(item.ID);
             if (backup == null)
             {
+                item.EmailSent = !BackupTemplateRepository.GetInstance().Find(item.IDBackupTemplate).IsEmailNotificationEnabled;
                 this.Add(item);
             }
             else
@@ -138,7 +139,7 @@ namespace ESBackupServer.Database.Repositories
 
         internal long GetCount(int clientID, byte code)
         {
-            return this._Context.Backups.Where(x => x.IDClient == clientID && x.Status == code).LongCount();
+            return this._Context.Backups.Where(x => x.IDClient == clientID && x.Status == code && x.EmailSent == false).LongCount();
         }
     }
 }
