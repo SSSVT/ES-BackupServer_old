@@ -20,14 +20,14 @@ namespace ESBackupServer
         }
         #region Properties
         #region Repositories
-        private LoginRepository _LoginRepository { get; set; } = LoginRepository.GetInstance();
-        private EmailRepository _EmailRepository { get; set; } = EmailRepository.GetInstance();
-        private ClientRepository _ClientRepository { get; set; } = ClientRepository.GetInstance();
-        private LogRepository _LogRepository { get; set; } = LogRepository.GetInstance();
-        private BackupRepository _BackupRepository { get; set; } = BackupRepository.GetInstance();
-        private BackupTemplateRepository _BackupTemplateRepository { get; set; } = BackupTemplateRepository.GetInstance();
-        private BackupTemplatePathRepository _BackupTemplatePathRepository { get; set; } = BackupTemplatePathRepository.GetInstance();
-        private AdministratorRepository _AdministratorRepository { get; set; } = AdministratorRepository.GetInstance();
+        private LoginRepository _LoginRepository { get; set; } = new LoginRepository();
+        private EmailRepository _EmailRepository { get; set; } = new EmailRepository();
+        private ClientRepository _ClientRepository { get; set; } = new ClientRepository();
+        private LogRepository _LogRepository { get; set; } = new LogRepository();
+        private BackupRepository _BackupRepository { get; set; } = new BackupRepository();
+        private BackupTemplateRepository _BackupTemplateRepository { get; set; } = new BackupTemplateRepository();
+        private BackupTemplatePathRepository _BackupTemplatePathRepository { get; set; } = new BackupTemplatePathRepository();
+        private AdministratorRepository _AdministratorRepository { get; set; } = new AdministratorRepository();
         #endregion
         private ITaskScheduler _scheduler { get; set; }
         private ConfigurationFactory _ConfigFactory { get; set; } = new ConfigurationFactory();

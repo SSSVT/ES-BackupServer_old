@@ -10,19 +10,6 @@ namespace ESBackupServer.Database.Repositories
 {
     internal class LoginRepository : AbRepository<Login>
     {
-        #region Singleton
-        private LoginRepository()
-        {
-
-        }
-        private static LoginRepository _Instance { get; set; }
-        internal static LoginRepository GetInstance()
-        {
-            if (LoginRepository._Instance == null)
-                LoginRepository._Instance = new LoginRepository();
-            return LoginRepository._Instance;
-        }
-        #endregion
         #region Properties
         private NetInfoObtainer _NetInfo { get; set; } = new NetInfoObtainer();
         #endregion

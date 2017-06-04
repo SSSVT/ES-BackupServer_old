@@ -24,10 +24,10 @@ namespace ESBackupServer
         #region Properties
         private ITaskScheduler _scheduler { get; set; }
         #region Repos
-        private ClientRepository _ClientRepo { get; set; } = ClientRepository.GetInstance();
-        private LoginRepository _LoginRepo { get; set; } = LoginRepository.GetInstance();
-        private LogRepository _LogRepo { get; set; } = LogRepository.GetInstance();
-        private BackupRepository _BackupRepository { get; set; } = BackupRepository.GetInstance();
+        private ClientRepository _ClientRepo { get; set; } = new ClientRepository();
+        private LoginRepository _LoginRepo { get; set; } = new LoginRepository();
+        private LogRepository _LogRepo { get; set; } = new LogRepository();
+        private BackupRepository _BackupRepository { get; set; } = new BackupRepository();
         #endregion
         #region Factories
         private ConfigurationFactory _ConfigFactory { get; set; } = new ConfigurationFactory();
@@ -42,7 +42,7 @@ namespace ESBackupServer
         {
             Client item = this._ClientRepo.Find(name, hwid);
             if (item == null)
-                item = this._ClientRepo.CreateClient(AdministratorRepository.GetInstance().Find(1), name, hwid); //TODO: Remove debugging code
+                item = this._ClientRepo.CreateClient(new AdministratorRepository().Find(1), name, hwid); //TODO: Remove debugging code
             return new UserDefinitionFactory().Create(item);
         }
         #endregion

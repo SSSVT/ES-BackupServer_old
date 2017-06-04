@@ -1,26 +1,11 @@
 ﻿using ESBackupServer.Database.Objects;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace ESBackupServer.Database.Repositories
 {
     internal class EmailRepository : AbRepository<Email>
     {
-        #region Singleton
-        private EmailRepository()
-        {
-
-        }
-        private static EmailRepository _Instance { get; set; }
-        public static EmailRepository GetInstance()
-        {
-            if (EmailRepository._Instance == null)
-                EmailRepository._Instance = new EmailRepository();
-            return EmailRepository._Instance;
-        }
-        #endregion
         #region AbRepository
         protected override void Add(Email item)
         {

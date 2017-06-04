@@ -7,19 +7,6 @@ namespace ESBackupServer.Database.Repositories
 {
     internal class ClientRepository : AbRepository<Client>
     {
-        #region Singleton
-        private ClientRepository()
-        {
-
-        }
-        private static ClientRepository _Instance { get; set; }
-        internal static ClientRepository GetInstance()
-        {
-            if (ClientRepository._Instance == null)
-                ClientRepository._Instance = new ClientRepository();
-            return ClientRepository._Instance;
-        }
-        #endregion
         #region AbRepository
         protected override void Add(Client item)
         {
@@ -36,8 +23,8 @@ namespace ESBackupServer.Database.Repositories
         }
         internal override void Remove(Client item)
         {
-            BackupRepository.GetInstance().Remove(item);
-            LogRepository.GetInstance().Remove(item);
+            new BackupRepository().Remove(item);
+            new LogRepository().Remove(item);
             this._Context.Clients.Remove(item);
             this.SaveChanges();
         }

@@ -7,19 +7,6 @@ namespace ESBackupServer.Database.Repositories
 {
     internal class BackupTemplatePathRepository : AbRepository<BackupTemplatePath>
     {
-        #region Singleton
-        private BackupTemplatePathRepository()
-        {
-
-        }
-        private static BackupTemplatePathRepository _Instance { get; set; }
-        public static BackupTemplatePathRepository GetInstance()
-        {
-            if (BackupTemplatePathRepository._Instance == null)
-                BackupTemplatePathRepository._Instance = new BackupTemplatePathRepository();
-            return BackupTemplatePathRepository._Instance;
-        }
-        #endregion
         #region AbRepository
         protected override void Add(BackupTemplatePath item)
         {

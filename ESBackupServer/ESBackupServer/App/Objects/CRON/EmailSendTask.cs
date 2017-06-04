@@ -16,10 +16,10 @@ namespace ESBackupServer.App.Objects.CRON
         private MailSender _MailSender { get; set; } = new MailSender();
         private MailFactory _MailFactory { get; set; } = new MailFactory();
 
-        protected BackupRepository _BackupRepository { get; set; } = BackupRepository.GetInstance();
-        protected ClientRepository _ClientRepository { get; set; } = ClientRepository.GetInstance();
-        protected AdministratorRepository _AdministratorRepository { get; set; } = AdministratorRepository.GetInstance();
-        protected EmailRepository _EmailRepository { get; set; } = EmailRepository.GetInstance();
+        protected BackupRepository _BackupRepository { get; set; } = new BackupRepository();
+        protected ClientRepository _ClientRepository { get; set; } = new ClientRepository();
+        protected AdministratorRepository _AdministratorRepository { get; set; } = new AdministratorRepository();
+        protected EmailRepository _EmailRepository { get; set; } = new EmailRepository();
         #endregion
 
         public void Execute(IJobExecutionContext context)

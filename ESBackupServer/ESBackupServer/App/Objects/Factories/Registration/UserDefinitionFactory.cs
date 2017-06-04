@@ -21,7 +21,7 @@ namespace ESBackupServer.App.Objects.Factories.Registration
                 };
                 client.Username = client.ID.ToString();
                 client.Password = password;
-                ClientRepository.GetInstance().Update(client);
+                new ClientRepository().Update(client);
                 return def;
             }
             else

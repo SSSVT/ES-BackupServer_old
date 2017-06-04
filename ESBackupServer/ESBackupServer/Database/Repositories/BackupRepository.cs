@@ -6,19 +6,6 @@ namespace ESBackupServer.Database.Repositories
 {
     internal class BackupRepository : AbRepository<BackupInfo>
     {
-        #region Singleton
-        private BackupRepository()
-        {
-
-        }
-        private static BackupRepository _Instance { get; set; }
-        internal static BackupRepository GetInstance()
-        {
-            if (BackupRepository._Instance == null)
-                BackupRepository._Instance = new BackupRepository();
-            return BackupRepository._Instance;
-        }
-        #endregion
         #region AbRepository
         protected override void Add(BackupInfo item)
         {
@@ -53,7 +40,7 @@ namespace ESBackupServer.Database.Repositories
             BackupInfo backup = this.Find(item.ID);
             if (backup == null)
             {
-                item.EmailSent = !BackupTemplateRepository.GetInstance().Find(item.IDBackupTemplate).IsEmailNotificationEnabled;
+                item.EmailSent = !new BackupTemplateRepository().Find(item.IDBackupTemplate).IsEmailNotificationEnabled;
                 this.Add(item);
             }
             else
@@ -78,7 +65,7 @@ namespace ESBackupServer.Database.Repositories
         }
         #endregion
         #region Local properties
-        private ClientRepository _ClientRepository = ClientRepository.GetInstance();
+        private ClientRepository _ClientRepository = new ClientRepository();
         #endregion
         internal List<BackupInfo> FindByClientID(int ID)
         {

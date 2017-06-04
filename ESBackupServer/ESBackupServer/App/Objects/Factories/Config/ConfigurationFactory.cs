@@ -7,11 +7,11 @@ namespace ESBackupServer.App.Objects.Factories.Config
     {
         internal Configuration Create(Client client)
         {
-            BackupTemplatePathRepository PathRepo = BackupTemplatePathRepository.GetInstance();
+            BackupTemplatePathRepository PathRepo = new BackupTemplatePathRepository();
 
             Configuration config = new Configuration()
             {
-                Templates = BackupTemplateRepository.GetInstance().Find(client)
+                Templates = new BackupTemplateRepository().Find(client)
             };
             foreach (BackupTemplate item in config.Templates)
             {
