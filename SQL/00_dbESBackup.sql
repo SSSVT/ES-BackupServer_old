@@ -16,10 +16,11 @@ CREATE TABLE esbk_MailConfig(
 	MC_PORT int,
 	MC_USERNAME varchar(128),
 	MC_PASSWORD varchar(512),
+	MC_FROM varchar(256),
 	MC_METHOD int,
 	MC_PROTOCOL int,
 
-	MC_ACTIVE bit not null
+	MC_DEFAULT bit not null
 );
 ALTER TABLE esbk_MailConfig ADD CONSTRAINT PK_esbk_MailConfig_ID PRIMARY KEY (ID);
 

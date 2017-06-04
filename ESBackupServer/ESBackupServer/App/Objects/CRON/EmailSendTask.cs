@@ -6,6 +6,8 @@ using Quartz;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 
 namespace ESBackupServer.App.Objects.CRON
@@ -20,16 +22,20 @@ namespace ESBackupServer.App.Objects.CRON
         protected ClientRepository _ClientRepository { get; set; } = new ClientRepository();
         protected AdministratorRepository _AdministratorRepository { get; set; } = new AdministratorRepository();
         protected EmailRepository _EmailRepository { get; set; } = new EmailRepository();
+        protected SmtpConfigurationRepository _SmtpConfigurationRepository { get; set; } = new SmtpConfigurationRepository();
         #endregion
 
         public void Execute(IJobExecutionContext context)
         {
-            //TODO: Implement email sending
+            SmtpConfiguration smtpconfig = this._SmtpConfigurationRepository.FindDefault();
+
+            SmtpDeliveryMethod method = this.GetStmpDeliveryMethod(smtpconfig);
+            SecurityProtocolType protocol = this.GetSecurityProtocolType(smtpconfig);
 
             foreach (Administrator admin in this._AdministratorRepository.FindAll())
             {
                 long executing = 0;
-                long completed = 0;                
+                long completed = 0;
                 long failed = 0;
 
                 foreach (Client client in this._ClientRepository.FindByAdmin(admin.ID))
@@ -38,19 +44,43 @@ namespace ESBackupServer.App.Objects.CRON
                     completed += this._BackupRepository.GetCount(client.ID, 1);
                     failed += this._BackupRepository.GetCount(client.ID, 2);
                 }
+
+                string subject = this._MailFactory.CreateSubject();
+                string message = this._MailFactory.CreateBody(executing, completed, failed);
+
+                foreach (Email email in this._EmailRepository.Find(admin))
+                {
+                    this._MailSender.Send(smtpconfig.Server, smtpconfig.Port, smtpconfig.Username, smtpconfig.Password, smtpconfig.From, email.Address, subject, message, method, protocol);
+                }
             }
+        }
 
-            //foreach (Administrator admin in this._AdministratorRepository.FindAll())
-            //{
-            //    string message = this._MailFactory.CreateBody(this._BackupRepository.FindBackupsWithUnsentEmailByAdmin(admin.ID));
+        protected SmtpDeliveryMethod GetStmpDeliveryMethod(SmtpConfiguration config)
+        {
+            switch (config.Method)
+            {
+                case 1:
+                    return SmtpDeliveryMethod.SpecifiedPickupDirectory;
+                case 2:
+                    return SmtpDeliveryMethod.PickupDirectoryFromIis;
+                default:
+                    return SmtpDeliveryMethod.Network;
+            }
+        }
 
-            //    this._MailSender.Send(
-            //        "smtp.seznam.cz",
-            //        "vlad.mrkacek@gmail.com",
-            //        this._MailFactory.CreateSubject(),
-            //        message);
-            //}
-
+        protected SecurityProtocolType GetSecurityProtocolType(SmtpConfiguration config)
+        {
+            switch (config.Protocol)
+            {
+                case 192:
+                    return SecurityProtocolType.Tls;
+                case 768:
+                    return SecurityProtocolType.Tls11;
+                case 3072:
+                    return SecurityProtocolType.Tls12;
+                default:
+                    return SecurityProtocolType.Ssl3;
+            }
         }
     }
 }

@@ -38,14 +38,14 @@ namespace ESBackupServer.Database.Repositories
             config.Password = item.Password;
             config.Method = item.Method;
             config.Protocol = item.Protocol;
-            config.IsActive = item.IsActive;
+            config.IsDefault = item.IsDefault;
             this.SaveChanges();
         }
         #endregion
 
         internal SmtpConfiguration FindDefault()
         {
-            return this._Context.SmtpConfiguration.Where(x => x.IsActive).FirstOrDefault();
+            return this._Context.SmtpConfiguration.Where(x => x.IsDefault).FirstOrDefault();
         }
     }
 }
