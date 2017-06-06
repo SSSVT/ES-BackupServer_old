@@ -13,16 +13,17 @@ USE [dbESBackup];
 CREATE TABLE esbk_MailConfig(
 	ID int identity(1,1) not null,
 	MC_SERVER varchar(128) not null,
-	MC_PORT int,
-	MC_USERNAME varchar(128),
-	MC_PASSWORD varchar(512),
-	MC_FROM varchar(256),
-	MC_METHOD int,
-	MC_PROTOCOL int,
+	MC_PORT int not null,
+	MC_USERNAME varchar(128) not null,
+	MC_PASSWORD varchar(512) not null,
+	MC_FROM varchar(256) not null,
+	MC_METHOD int not null,
+	MC_PROTOCOL int not null,
 
 	MC_DEFAULT bit not null
 );
 ALTER TABLE esbk_MailConfig ADD CONSTRAINT PK_esbk_MailConfig_ID PRIMARY KEY (ID);
+
 
 CREATE TABLE esbk_tbAdministrators(
 	ID bigint identity(1,1) not null,
@@ -249,6 +250,8 @@ BEGIN /* INSERT */
 	INSERT INTO esbk_tbBackups VALUES (1, 1, 'Test', 'Test', 0, NULL, 'C:\src', 'C:\dst', NULL, 0, GETUTCDATE(), NULL, 1, 1,0)
 	INSERT INTO esbk_tbBackups VALUES (1, 1, 'Test', 'Test', 0, NULL, 'C:\src', 'C:\dst2', NULL, 0, GETUTCDATE(), NULL, 1, 1,0)
 	INSERT INTO esbk_tbBackups VALUES (1, 1, 'Test', 'Test', 0, NULL, 'C:\src', 'C:\dst3', NULL, 0, GETUTCDATE(), NULL, 1, 1,0)
+
+	INSERT INTO esbk_MailConfig VALUES ('smtp.seznam.cz',465,'backuptesting@seznam.cz','evolutionstudio','evolutionstudio@report.com',0,48,1)
 END
 
 --select * from esbk_tbClients

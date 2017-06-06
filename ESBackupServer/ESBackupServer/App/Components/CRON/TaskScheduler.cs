@@ -35,13 +35,12 @@ namespace ESBackupServer.App.Components.CRON
                 JobBuilder.Create<EmailSendTask>()
                 .WithIdentity("EmailSendJob", "Email")
                 .Build();
-
-            //TODO: CRON schedule - remove todo?
+            
             ITrigger EmailTrigger =
                 TriggerBuilder.Create()
                 .WithIdentity("EmailTrigger", "Email")
                 .StartNow()
-                .WithCronSchedule("0 0/1 * 1/1 * ? *")
+                .WithCronSchedule("0 59 23 1/1 * ? *")
                 .Build();
             
             this._scheduler.ScheduleJob(EmailJob, EmailTrigger);

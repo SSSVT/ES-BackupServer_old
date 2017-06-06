@@ -35,8 +35,8 @@ namespace ESBackupServer.Database.Repositories
             //client.Name = item.Name;
             client.Description = item.Description;
             //client.HardwareID = item.HardwareID;
-            //client.Username = item.Username;
-            //client.Password = item.Password;
+            client.Username = item.Username;
+            client.Password = item.Password;
             client.Status = item.Status;
             client.StatusReportEnabled = item.StatusReportEnabled;
             client.ReportInterval = item.ReportInterval;
