@@ -82,27 +82,34 @@
   <ItemGroup>
     <Content Include="ESBackupServerAdminService.svc" />
     <Content Include="ESBackupServerService.svc" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App\Components\CRON\TaskScheduler.cs" />
     <Compile Include="App\Components\Net\Mail\MailSender.cs" />
     <Compile Include="App\Components\Net\NetInfoObtainer.cs" />
+    <Compile Include="App\Interfaces\CRON\ITaskScheduler.cs" />
+    <Compile Include="App\Objects\Authentication\LoginResponse.cs" />
+    <Compile Include="App\Objects\CRON\EmailSendTask.cs" />
     <Compile Include="App\Objects\Factories\Config\ConfigurationFactory.cs" />
     <Compile Include="App\Objects\Configuration.cs" />
     <Compile Include="App\Objects\Factories\Net\Mail\MailFactory.cs" />
     <Compile Include="App\Objects\Factories\Registration\PasswordFactory.cs" />
     <Compile Include="App\Objects\Factories\Registration\UserDefinitionFactory.cs" />
     <Compile Include="App\Objects\Filters\Filter.cs" />
-    <Compile Include="App\Objects\Registration\UserDefinition.cs" />
+    <Compile Include="App\Objects\Registration\RegistrationResponse.cs" />
     <Compile Include="Database\DatabaseContext.cs" />
     <Compile Include="Database\Objects\Administrator.cs" />
-    <Compile Include="Database\Objects\Backup.cs" />
+    <Compile Include="Database\Objects\BackupInfo.cs" />
     <Compile Include="Database\Objects\BackupTemplate.cs" />
     <Compile Include="Database\Objects\BackupTemplatePath.cs" />
     <Compile Include="Database\Objects\Client.cs" />
     <Compile Include="Database\Objects\Email.cs" />
     <Compile Include="Database\Objects\Log.cs" />
     <Compile Include="Database\Objects\Login.cs" />
+    <Compile Include="Database\Objects\SmtpConfiguration.cs" />
     <Compile Include="Database\Repositories\AbRepository.cs" />
     <Compile Include="Database\Repositories\AdministratorRepository.cs" />
     <Compile Include="Database\Repositories\BackupRepository.cs" />
@@ -112,6 +119,7 @@
     <Compile Include="Database\Repositories\LoginRepository.cs" />
     <Compile Include="Database\Repositories\ClientRepository.cs" />
     <Compile Include="Database\Repositories\LogRepository.cs" />
+    <Compile Include="Database\Repositories\SmtpConfigurationRepository.cs" />
     <Compile Include="ESBackupServerAdminService.svc.cs">
       <DependentUpon>ESBackupServerAdminService.svc</DependentUpon>
     </Compile>
@@ -128,7 +136,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App\Interfaces\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>

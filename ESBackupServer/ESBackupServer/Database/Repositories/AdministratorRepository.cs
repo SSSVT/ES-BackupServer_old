@@ -6,19 +6,8 @@ namespace ESBackupServer.Database.Repositories
 {
     internal class AdministratorRepository : AbRepository<Administrator>
     {
-        #region Singleton
-        private AdministratorRepository()
-        {
+        protected EmailRepository _EmailRepository { get; set; } = new EmailRepository();
 
-        }
-        private static AdministratorRepository _Instance { get; set; }
-        internal static AdministratorRepository GetInstance()
-        {
-            if (AdministratorRepository._Instance == null)
-                AdministratorRepository._Instance = new AdministratorRepository();
-            return AdministratorRepository._Instance;
-        }
-        #endregion
         #region AbRepository
         protected override void Add(Administrator item)
         {
@@ -40,9 +29,24 @@ namespace ESBackupServer.Database.Repositories
         {
             Administrator admin = this.Find(item.ID);
             admin.FirstName = item.FirstName;
-            admin.LastName = item.LastName;
+            admin.LastName = item.LastName;            
+
+            foreach (Email email in item.Emails)
+            {
+                this._EmailRepository.Update(email);
+            }
+
             this.SaveChanges();
         }
         #endregion
+        internal Administrator FindByUsername(string username)
+        {
+            return this._Context.Administrators.Where(x => x.Username == username).FirstOrDefault();
+        }
+        internal bool IsLoginValid(Administrator admin, string password)
+        {
+            //TODO: Salt password
+            return (admin.Password == password) ? true : false;
+        }
     }
 }

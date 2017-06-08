@@ -10,10 +10,29 @@ GO
 
 USE [dbESBackup];
 
+CREATE TABLE esbk_MailConfig(
+	ID int identity(1,1) not null,
+	MC_SERVER varchar(128) not null,
+	MC_PORT int not null,
+	MC_USERNAME varchar(128) not null,
+	MC_PASSWORD varchar(512) not null,
+	MC_FROM varchar(256) not null,
+	MC_METHOD int not null,
+	MC_PROTOCOL int not null,
+
+	MC_DEFAULT bit not null
+);
+ALTER TABLE esbk_MailConfig ADD CONSTRAINT PK_esbk_MailConfig_ID PRIMARY KEY (ID);
+
+
 CREATE TABLE esbk_tbAdministrators(
 	ID bigint identity(1,1) not null,
 	AD_FIRST_NAME nvarchar(50) not null,
 	AD_LAST_NAME nvarchar(50) not null,
+
+	AD_LOGIN_NAME varchar(128) not null, -- username
+	AD_LOGIN_PSWD varchar(2048) not null, -- password
+
 	AD_META_REGISTRATION_DATE_UTC datetime not null
 );
 CREATE TABLE esbk_tbEmails(
@@ -43,6 +62,7 @@ CREATE TABLE esbk_tbClients(
 	CL_META_LAST_BACKUP_UTC datetime, -- datetime?
 	CL_META_REGISTRATION_DATE_UTC datetime not null,
 	
+	CL_META_LAST_CONFIG_UPDATE datetime,
 ); /* Tabulka serverů (klientů), kteří se zálohují */
 CREATE TABLE esbk_tbLogins(
 	ID uniqueidentifier not null, -- GUID
@@ -74,7 +94,7 @@ CREATE TABLE esbk_tbBackups(
 	BK_TIME_END_UTC datetime, -- datetime?, null - updatem
 	BK_STATUS tinyint not null, -- Executing, Competed, Failed, ...
 
-	BK_META_PATH_ORDER smallint not null, -- pořadí cesty
+	BK_META_PATH_ORDER int not null, -- pořadí cesty
 	BK_META_EMAIL_SENT bit not null
 ); /* Historie provedených záloh */
 CREATE TABLE esbk_tbBackupTemplates(
@@ -89,20 +109,24 @@ CREATE TABLE esbk_tbBackupTemplates(
 	BK_EXPIRATION_DAYS int, -- int?
 	BK_COMPRESSION bit not null, -- 0 = do not compress; 1 = compress
 	BK_SEARCH_PATTERN varchar(2048) not null,
-	BK_COPY_EMPTY_DIRS bit not null,
 
 	BK_ENABLED bit not null, -- zda je template aktivní
 
 	BK_NOTIFICATION_ENABLED bit not null, -- notifikace na klientovi
 	BK_NOTIFICATION_EMAIL_ENABLED bit not null, -- nofitikace emailem
 	BK_REPEAT_INTERVAL_CRON varchar(256) not null, -- interval opakování
+
+	BK_META_TMP_ID uniqueidentifier,
 );
 CREATE TABLE esbk_tbBackupTemplatesPaths(
 	ID uniqueidentifier not null,
 	IDesbk_tbBackupTemplates bigint not null,
 
+	BK_USERNAME varchar(128),
+	BK_PASSWORD varchar(512),
+
 	BK_PATH_ORDER smallint not null,
-	BK_TARGET_TYPE tinyint not null, -- byte; 0 = WIN, 1 = FTP, 2 = SSH, 3 = SecureCopy
+	BK_TARGET_TYPE tinyint not null, -- byte; 0 = WIN, 1 = FTP, 2 = SSH, 3 = SecureCopy, ...
 	BK_SOURCE varchar(446) not null,
 	BK_DESTINATION varchar(446) not null,
 );
@@ -151,6 +175,7 @@ BEGIN /* IX */
 	CREATE INDEX IX_esbk_tbBackups_IDesbk_tbBackups_BASE ON esbk_tbBackups(IDesbk_tbBackups_BASE) WHERE BK_TYPE IN (1, 2);
 	CREATE INDEX IX_esbk_tbBackups_BK_TIME_BEGIN_UTC ON esbk_tbBackups(BK_TIME_BEGIN_UTC);
 	CREATE INDEX IX_esbk_tbBackupTemplates_IDesbk_tbClients ON esbk_tbBackupTemplates(IDesbk_tbClients);
+	CREATE INDEX IX_esbk_tbBackupTemplates_BK_META_TMP_ID ON esbk_tbBackupTemplates(BK_META_TMP_ID) WHERE BK_META_TMP_ID IS NOT NULL;
 	CREATE INDEX IX_esbk_tbBackupTemplatesPaths_IDesbk_tbBackupTemplates ON esbk_tbBackupTemplatesPaths(IDesbk_tbBackupTemplates);
 	CREATE INDEX IX_esbk_tbLogs_IDesbk_tbClients ON esbk_tbLogs(IDesbk_tbClients);
 	CREATE INDEX IX_esbk_tbLogs_IDesbk_tbBackups ON esbk_tbLogs(IDesbk_tbBackups);
@@ -164,7 +189,7 @@ BEGIN /* DF */
 	ALTER TABLE esbk_tbClients ADD CONSTRAINT DF_esbk_tbClients_CL_STATUS DEFAULT (0) FOR CL_STATUS;
 	ALTER TABLE esbk_tbClients ADD CONSTRAINT DF_esbk_tbClients_CL_AUTO_STATUS_REPORT_ENABLED DEFAULT (1) FOR CL_AUTO_STATUS_REPORT_ENABLED;
 	ALTER TABLE esbk_tbClients ADD CONSTRAINT DF_esbk_tbClients_CL_META_REGISTRATION_DATE_UTC DEFAULT (GETUTCDATE()) FOR CL_META_REGISTRATION_DATE_UTC;
-	ALTER TABLE esbk_tbClients ADD CONSTRAINT DF_esbk_tbClients_CL_AUTO_STATUS_REPORT_INTERVAL DEFAULT (10000) FOR CL_AUTO_STATUS_REPORT_INTERVAL;
+	ALTER TABLE esbk_tbClients ADD CONSTRAINT DF_esbk_tbClients_CL_AUTO_STATUS_REPORT_INTERVAL DEFAULT (600000) FOR CL_AUTO_STATUS_REPORT_INTERVAL;
 	ALTER TABLE esbk_tbLogins ADD CONSTRAINT DF_esbk_tbLogins_ID DEFAULT (NEWID()) FOR ID;
 	ALTER TABLE esbk_tbLogins ADD CONSTRAINT DF_esbk_tbLogins_LG_TIME_UTC DEFAULT (GETUTCDATE()) FOR LG_TIME_UTC;
 	ALTER TABLE esbk_tbLogins ADD CONSTRAINT DF_esbk_tbLogins_LG_TIME_EXPIRATION_UTC DEFAULT (DATEADD(minute, 15, GETUTCDATE())) FOR LG_TIME_EXPIRATION_UTC;
@@ -175,8 +200,7 @@ BEGIN /* DF */
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT DF_esbk_tbBackups_BK_META_EMAIL_SENT DEFAULT (0) FOR BK_META_EMAIL_SENT;
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_TYPE DEFAULT (0) FOR BK_TYPE;
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_COMPRESSION DEFAULT (0) FOR BK_COMPRESSION;
-	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_SEARCH_PATTERN DEFAULT ('*') FOR BK_SEARCH_PATTERN;
-	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_COPY_EMPTY_DIRS DEFAULT (1) FOR BK_COPY_EMPTY_DIRS;
+	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_SEARCH_PATTERN DEFAULT ('.*') FOR BK_SEARCH_PATTERN;
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_ENABLED DEFAULT (0) FOR BK_ENABLED;
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_NOTIFICATION_ENABLED DEFAULT (0) FOR BK_NOTIFICATION_ENABLED;
 	ALTER TABLE esbk_tbBackupTemplates ADD CONSTRAINT DF_esbk_tbBackupTemplates_BK_NOTIFICATION_EMAIL_ENABLED DEFAULT (1) FOR BK_NOTIFICATION_EMAIL_ENABLED;
@@ -189,6 +213,7 @@ BEGIN /* CK */
 	ALTER TABLE esbk_tbClients ADD CONSTRAINT CK_esbk_tbClients_CL_META_LAST_BACKUP_UTC CHECK (CL_META_LAST_BACKUP_UTC <= GETUTCDATE());
 	ALTER TABLE esbk_tbClients ADD CONSTRAINT CK_esbk_tbClients_CL_META_LAST_STATUS_REPORT_UTC CHECK (CL_META_LAST_STATUS_REPORT_UTC <= GETUTCDATE());
 	ALTER TABLE esbk_tbClients ADD CONSTRAINT CK_esbk_tbClients_CL_META_REGISTRATION_DATE_UTC CHECK (CL_META_REGISTRATION_DATE_UTC <= GETUTCDATE());
+	ALTER TABLE esbk_tbClients ADD CONSTRAINT CK_esbk_tbClients_CL_META_LAST_CONFIG_UPDATE CHECK (CL_META_LAST_CONFIG_UPDATE <= GETUTCDATE());
 	ALTER TABLE esbk_tbLogins ADD CONSTRAINT CK_esbk_tbLogins_LG_TIME_UTC CHECK (LG_TIME_UTC <= GETUTCDATE());
 	ALTER TABLE esbk_tbLogins ADD CONSTRAINT CK_esbk_tbLogins_LG_TIME_EXPIRATION_UTC CHECK (LG_TIME_UTC <= LG_TIME_EXPIRATION_UTC);
 	ALTER TABLE esbk_tbBackups ADD CONSTRAINT CK_esbk_tbBackups_BK_EXPIRATION_UTC CHECK (BK_EXPIRATION_UTC >= GETUTCDATE());
@@ -210,7 +235,7 @@ END
 	1x Backup template path
 */
 BEGIN /* INSERT */
-	INSERT INTO esbk_tbAdministrators (AD_FIRST_NAME, AD_LAST_NAME) VALUES ('Tomáš', 'Švejnoha');
+	INSERT INTO esbk_tbAdministrators (AD_FIRST_NAME, AD_LAST_NAME, AD_LOGIN_NAME, AD_LOGIN_PSWD) VALUES ('Tomáš', 'Švejnoha', 'root', 'root');
 	INSERT INTO esbk_tbEmails (IDesbk_tbAdministrators, EMAIL, ISDEFAULT) VALUES (1, 'tomas.svejnoha@gmail.com', 1);
 	INSERT INTO esbk_tbEmails (IDesbk_tbAdministrators, EMAIL, ISDEFAULT) VALUES (1, 'svejnohatomas@gmail.com', 0);
 	INSERT INTO esbk_tbClients (IDesbk_tbAdministrators, CL_NAME, CL_HWID, CL_STATUS, CL_LOGIN_NAME, CL_LOGIN_PSWD) VALUES (1, 'PC01', 'hwid', 0, 1, 'password');
@@ -221,6 +246,12 @@ BEGIN /* INSERT */
 	INSERT INTO esbk_tbBackupTemplates (IDesbk_tbClients, BK_TYPE, BK_ENABLED, BK_REPEAT_INTERVAL_CRON) VALUES (1, 1, 1, '0 0 * * *'); -- At 00:00 every day
 	
 	INSERT INTO esbk_tbBackupTemplatesPaths (IDesbk_tbBackupTemplates, BK_PATH_ORDER, BK_TARGET_TYPE, BK_SOURCE, BK_DESTINATION) VALUES (1, 1, 0, 'C:\src', 'C:\dst');
+
+	INSERT INTO esbk_tbBackups VALUES (1, 1, 'Test', 'Test', 0, NULL, 'C:\src', 'C:\dst', NULL, 0, GETUTCDATE(), NULL, 1, 1,0)
+	INSERT INTO esbk_tbBackups VALUES (1, 1, 'Test', 'Test', 0, NULL, 'C:\src', 'C:\dst2', NULL, 0, GETUTCDATE(), NULL, 1, 1,0)
+	INSERT INTO esbk_tbBackups VALUES (1, 1, 'Test', 'Test', 0, NULL, 'C:\src', 'C:\dst3', NULL, 0, GETUTCDATE(), NULL, 1, 1,0)
+
+	INSERT INTO esbk_MailConfig VALUES ('smtp.seznam.cz',465,'backuptesting@seznam.cz','evolutionstudio','evolutionstudio@report.com',0,48,1)
 END
 
 --select * from esbk_tbClients

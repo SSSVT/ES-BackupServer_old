@@ -1,4 +1,5 @@
-﻿using ESBackupServer.App.Objects.Components.Net;
+﻿using ESBackupServer.App.Objects.Authentication;
+using ESBackupServer.App.Objects.Components.Net;
 using ESBackupServer.Database.Objects;
 using System;
 using System.Collections.Generic;
@@ -9,19 +10,6 @@ namespace ESBackupServer.Database.Repositories
 {
     internal class LoginRepository : AbRepository<Login>
     {
-        #region Singleton
-        private LoginRepository()
-        {
-
-        }
-        private static LoginRepository _Instance { get; set; }
-        internal static LoginRepository GetInstance()
-        {
-            if (LoginRepository._Instance == null)
-                LoginRepository._Instance = new LoginRepository();
-            return LoginRepository._Instance;
-        }
-        #endregion
         #region Properties
         private NetInfoObtainer _NetInfo { get; set; } = new NetInfoObtainer();
         #endregion
@@ -60,29 +48,39 @@ namespace ESBackupServer.Database.Repositories
             return this._Context.Logins.Where(x => x.IDClient == client.ID && x.UTCExpiration > DateTime.UtcNow).FirstOrDefault();
         }
 
+        internal List<Login> FindByClient(int ID)
+        {
+            return this._Context.Logins.Where(x => x.IDClient == ID).ToList();
+        }
+
         /// <summary>
         /// Create, add to database and return
         /// </summary>
         /// <param name="client">Client instance</param>
         /// <returns></returns>
-        internal Login Create(Client client, IPAddress EndpointIP)
+        internal LoginResponse Create(Client client, IPAddress EndpointIP)
         {
             Login login = this.Find(client);
             if (login != null && login.IP == EndpointIP.ToString()) //IP adresa je ok
             {
                 login.UTCExpiration = DateTime.UtcNow.AddMinutes(15); //Refresh expiration
                 this.Update(login);
-                return login;
             }
             else
             {
                 this.Add(new Login(client, DateTime.UtcNow, EndpointIP));
-                return this.Find(client);
-            }            
+                login = this.Find(client);
+            }
+
+            return new LoginResponse()
+            {
+                SessionID = login.ID,
+                UTCExpiration = login.UTCExpiration
+            };
         }
         internal bool IsSessionIDValid(Login login)
         {
-            if (login.UTCExpiration < DateTime.UtcNow && login.IP == this._NetInfo.GetClientIP().ToString())
+            if (login.UTCExpiration > DateTime.UtcNow && login.IP == this._NetInfo.GetClientIP().ToString())
             {
                 login.UTCExpiration = DateTime.UtcNow.AddMinutes(15);
                 return true;

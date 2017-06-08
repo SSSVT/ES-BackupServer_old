@@ -4,7 +4,7 @@ namespace ESBackupServer.Database.Repositories
 {
     internal abstract class AbRepository<T>
     {
-        protected DatabaseContext _Context { get; set; } = DatabaseContext.GetInstance();
+        protected DatabaseContext _Context { get; set; } = new DatabaseContext();
         internal virtual void SaveChanges()
         {
             this._Context.SaveChanges();

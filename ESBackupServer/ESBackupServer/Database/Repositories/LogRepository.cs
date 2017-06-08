@@ -7,19 +7,6 @@ namespace ESBackupServer.Database.Repositories
 {
     internal class LogRepository : AbRepository<Log>
     {
-        #region Singleton
-        private LogRepository()
-        {
-
-        }
-        private static LogRepository _Instance { get; set; }
-        internal static LogRepository GetInstance()
-        {
-            if (LogRepository._Instance == null)
-                LogRepository._Instance = new LogRepository();
-            return LogRepository._Instance;
-        }
-        #endregion
         #region AbRepository
         protected override void Add(Log item)
         {
@@ -51,6 +38,13 @@ namespace ESBackupServer.Database.Repositories
         }
         #endregion
 
+        internal void Remove(Client item)
+        {
+            foreach (Log lg in this.FindByClientID(item.ID))
+            {
+                this.Remove(lg);
+            }
+        }
         internal List<Log> FindByBackupID(long ID)
         {
             return this._Context.Logs.Where(x => x.IDBackup == ID).ToList();
@@ -63,7 +57,7 @@ namespace ESBackupServer.Database.Repositories
         {
             this.Add(new Log(client, DateTime.UtcNow, message, type));
         }
-        internal void Create(Client client, Backup backup, string message, LogTypeNames type)
+        internal void Create(Client client, BackupInfo backup, string message, LogTypeNames type)
         {
             this.Add(new Log(client, backup, DateTime.UtcNow, message, type));
         }

@@ -7,19 +7,6 @@ namespace ESBackupServer.Database.Repositories
 {
     internal class ClientRepository : AbRepository<Client>
     {
-        #region Singleton
-        private ClientRepository()
-        {
-
-        }
-        private static ClientRepository _Instance { get; set; }
-        internal static ClientRepository GetInstance()
-        {
-            if (ClientRepository._Instance == null)
-                ClientRepository._Instance = new ClientRepository();
-            return ClientRepository._Instance;
-        }
-        #endregion
         #region AbRepository
         protected override void Add(Client item)
         {
@@ -36,16 +23,18 @@ namespace ESBackupServer.Database.Repositories
         }
         internal override void Remove(Client item)
         {
+            new BackupRepository().Remove(item);
+            new LogRepository().Remove(item);
             this._Context.Clients.Remove(item);
             this.SaveChanges();
         }
         internal override void Update(Client item)
         {
             Client client = this.Find(item.ID);
-            client.IDAdministrator = item.IDAdministrator;
-            client.Name = item.Name;
+            //client.IDAdministrator = item.IDAdministrator;
+            //client.Name = item.Name;
             client.Description = item.Description;
-            client.HardwareID = item.HardwareID;
+            //client.HardwareID = item.HardwareID;
             client.Username = item.Username;
             client.Password = item.Password;
             client.Status = item.Status;
@@ -53,6 +42,7 @@ namespace ESBackupServer.Database.Repositories
             client.ReportInterval = item.ReportInterval;
             client.UTCLastStatusReportTime = item.UTCLastStatusReportTime;
             client.UTCLastBackupTime = item.UTCLastBackupTime;
+            client.UTCLastConfigUpdate = item.UTCLastConfigUpdate;
             this.SaveChanges();
         }
         #endregion
@@ -101,6 +91,10 @@ namespace ESBackupServer.Database.Repositories
                 HardwareID = hwid
             });
             return this.Find(name, hwid);
+        }
+        internal List<Client> FindByAdmin(long IDAdmin)
+        {
+            return this._Context.Clients.Where(x => x.IDAdministrator == IDAdmin).ToList();
         }
     }
 }

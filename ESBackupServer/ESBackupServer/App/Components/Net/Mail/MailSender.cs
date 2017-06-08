@@ -7,43 +7,70 @@ namespace ESBackupServer.App.Components.Net.Mail
     internal class MailSender
     {
         #region Without security protocol
-        public void Send(string server, string recipient, string subject, string message)
+        public void Send(string server, int port, string from, string to, string subject, string message)
         {
-            this.Send(new SmtpClient(server), new MailMessage(Properties.Settings.Default.MailSender, recipient, subject, message));
+            this.Send(server, port, from, to, subject, message, SmtpDeliveryMethod.Network);
         }
-        public void Send(string server, string username, string password, string recipient, string subject, string message)
+        public void Send(string server, int port, string from, string to, string subject, string message, SmtpDeliveryMethod method)
         {
             this.Send(
-                new SmtpClient(server)
+                new SmtpClient(server, port)
+                {
+                    DeliveryMethod = method
+                },
+                new MailMessage(from, to, subject, message));
+        }
+
+        public void Send(string server, int port, string username, string password, string from, string to, string subject, string message)
+        {
+            this.Send(server, port, username, password, from, to, subject, message, SmtpDeliveryMethod.Network);
+        }
+        public void Send(string server, int port, string username, string password, string from, string to, string subject, string message, SmtpDeliveryMethod method)
+        {
+            this.Send(
+                new SmtpClient(server, port)
                 {
                     UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential(username, password)
+                    Credentials = new NetworkCredential(username, password),
+                    DeliveryMethod = method
                 },
-                new MailMessage(Properties.Settings.Default.MailSender, recipient, subject, message));
+                new MailMessage(from, to, subject, message));
         }
+
         #endregion
         #region With security protocol
-        public void Send(string server, string recipient, string subject, string message, SecurityProtocolType protocol)
+        public void Send(string server, int port, string from, string to, string subject, string message, SecurityProtocolType protocol)
         {
-            ServicePointManager.SecurityProtocol = protocol;
-            this.Send(
-                new SmtpClient(server)
-                {
-                    EnableSsl = true
-                },
-                new MailMessage(Properties.Settings.Default.MailSender, recipient, subject, message));
+            this.Send(server, port, from, to, subject, message, SmtpDeliveryMethod.Network, protocol);
         }
-        public void Send(string server, string username, string password, string recipient, string subject, string message, SecurityProtocolType protocol)
+        public void Send(string server, int port, string from, string to, string subject, string message, SmtpDeliveryMethod method, SecurityProtocolType protocol)
         {
             ServicePointManager.SecurityProtocol = protocol;
             this.Send(
-                new SmtpClient(server)
+                new SmtpClient(server, port)
                 {
                     EnableSsl = true,
-                    UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential(username, password)
+                    DeliveryMethod = method
                 },
-                new MailMessage(Properties.Settings.Default.MailSender, recipient, subject, message));
+                new MailMessage(from, to, subject, message));
+        }
+
+        public void Send(string server, int port, string username, string password, string from, string to, string subject, string message, SecurityProtocolType protocol)
+        {
+            this.Send(server, port, username, password, from, to, subject, message, SmtpDeliveryMethod.Network, protocol);
+        }
+        public void Send(string server, int port, string username, string password, string from, string to, string subject, string message, SmtpDeliveryMethod method, SecurityProtocolType protocol)
+        {
+            ServicePointManager.SecurityProtocol = protocol;
+            this.Send(
+                new SmtpClient(server, port)
+                {
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(username, password),
+                    EnableSsl = true,
+                    DeliveryMethod = method
+                },
+                new MailMessage(from, to, subject, message));
         }
         #endregion
 
@@ -55,7 +82,7 @@ namespace ESBackupServer.App.Components.Net.Mail
             }
             catch (Exception ex)
             {
-                throw ex; //TODO: Fix potential bug --> log(client)
+                throw ex; //TODO: Fix potential bug --> log(client) - write to log
             }
         }
     }

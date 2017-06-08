@@ -1,4 +1,5 @@
 ﻿using ESBackupServer.Database.Objects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,19 +7,6 @@ namespace ESBackupServer.Database.Repositories
 {
     internal class BackupTemplatePathRepository : AbRepository<BackupTemplatePath>
     {
-        #region Singleton
-        private BackupTemplatePathRepository()
-        {
-
-        }
-        private static BackupTemplatePathRepository _Instance { get; set; }
-        public static BackupTemplatePathRepository GetInstance()
-        {
-            if (BackupTemplatePathRepository._Instance == null)
-                BackupTemplatePathRepository._Instance = new BackupTemplatePathRepository();
-            return BackupTemplatePathRepository._Instance;
-        }
-        #endregion
         #region AbRepository
         protected override void Add(BackupTemplatePath item)
         {
@@ -52,6 +40,9 @@ namespace ESBackupServer.Database.Repositories
                 path.TargetType = item.TargetType;
                 path.Source = item.Source;
                 path.Destination = item.Destination;
+
+                path.Username = item.Username;
+                path.Password = item.Password;
                 this.SaveChanges();
             }            
         }
@@ -60,6 +51,11 @@ namespace ESBackupServer.Database.Repositories
         internal List<BackupTemplatePath> Find(BackupTemplate template)
         {
             return this._Context.TemplatesPaths.Where(x => x.IDBackupTemplate == template.ID).ToList();
+        }
+
+        internal void Remove(Guid id)
+        {
+            this.Remove(this.Find(id));
         }
     }
 }

@@ -53,7 +53,7 @@ namespace ESBackupServer.Database.Objects
             this.UTCTime = UTCtime;
             this.Value = value;
         }
-        public Log(Client client, Backup backup, DateTime UTCtime, string value, LogTypeNames logtype) : this(client, UTCtime, value, logtype)
+        public Log(Client client, BackupInfo backup, DateTime UTCtime, string value, LogTypeNames logtype) : this(client, UTCtime, value, logtype)
         {
             this.IDBackup = backup.ID;
         }
