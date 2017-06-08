@@ -14,8 +14,14 @@ namespace ESBackupServer.Database.Objects
         [Column("IDesbk_tbBackupTemplates"), DataMember]
         public long IDBackupTemplate { get; set; }
 
+        [Column("BK_USERNAME"), DataMember]
+        public string Username { get; set; }
+
+        [Column("BK_PASSWORD"), DataMember]
+        public string Password { get; set; }
+
         [Column("BK_PATH_ORDER"), DataMember]
-        public UInt16 PathOrder { get; set; }
+        public short PathOrder { get; set; }
 
         [Column("BK_TARGET_TYPE"), DataMember]
         public byte TargetType { get; set; } //0 = WIN, 1 = FTP, 2 = SSH, 3 = SecureCopy

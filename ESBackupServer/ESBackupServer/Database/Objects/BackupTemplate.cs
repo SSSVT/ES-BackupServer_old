@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -22,7 +23,7 @@ namespace ESBackupServer.Database.Objects
         public string Description { get; set; }
 
         [Column("BK_TYPE"), DataMember]
-        public byte BackupType { get; set; } //TODO: enum
+        public byte BackupType { get; set; }
 
         [Column("BK_EXPIRATION_DAYS"), DataMember]
         public uint? DaysToExpiration { get; set; }
@@ -33,9 +34,6 @@ namespace ESBackupServer.Database.Objects
         [Column("BK_SEARCH_PATTERN"), DataMember]
         public string SearchPattern { get; set; }
 
-        [Column("BK_COPY_EMPTY_DIRS"), DataMember]
-        public bool BackupEmptyDirectories { get; set; }
-
         [Column("BK_ENABLED"), DataMember]
         public bool Enabled { get; set; }
 
@@ -45,23 +43,14 @@ namespace ESBackupServer.Database.Objects
         [Column("BK_NOTIFICATION_EMAIL_ENABLED"), DataMember]
         public bool IsEmailNotificationEnabled { get; set; }
 
-        //TODO: CRON default value
         [Column("BK_REPEAT_INTERVAL_CRON"), DataMember]
         public string CRONRepeatInterval { get; set; }
+
+        [Column("BK_META_TMP_ID")]
+        public Guid? TmpID { get; set; }
         #endregion
 
         [NotMapped, DataMember]
-        public List<BackupTemplatePath> Paths { get; set; }
-
-        public BackupTemplate()
-        {
-            this.BackupType = 0;
-            this.Compression = false;
-            this.SearchPattern = "*";
-            this.BackupEmptyDirectories = true;
-            this.Enabled = false;
-            this.IsNotificationEnabled = false;
-            this.IsEmailNotificationEnabled = true;            
-        }
+        internal List<BackupTemplatePath> Paths { get; set; }
     }
 }

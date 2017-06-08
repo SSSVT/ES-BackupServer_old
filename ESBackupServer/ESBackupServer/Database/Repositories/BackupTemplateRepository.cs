@@ -1,4 +1,5 @@
 ﻿using ESBackupServer.Database.Objects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,19 +7,8 @@ namespace ESBackupServer.Database.Repositories
 {
     internal class BackupTemplateRepository : AbRepository<BackupTemplate>
     {
-        #region Singleton
-        private BackupTemplateRepository()
-        {
+        protected BackupTemplatePathRepository _BackupTemplatePathRepository { get; set; } = new BackupTemplatePathRepository();
 
-        }
-        private static BackupTemplateRepository _Instance { get; set; }
-        internal static BackupTemplateRepository GetInstance()
-        {
-            if (BackupTemplateRepository._Instance == null)
-                BackupTemplateRepository._Instance = new BackupTemplateRepository();
-            return BackupTemplateRepository._Instance;
-        }
-        #endregion
         #region AbRepository
         protected override void Add(BackupTemplate item)
         {
@@ -40,33 +30,56 @@ namespace ESBackupServer.Database.Repositories
         }
         internal override void Update(BackupTemplate item)
         {
+            byte[] arr = new byte[16];
+            new Random().NextBytes(arr);
+            Guid tmpId = new Guid(arr);
+
             BackupTemplate template = this.Find(item.ID);
             if (template == null)
             {
-                this.Add(item); //nenalezeno - nové
+                item.TmpID = tmpId;
+                this.Add(item); //this.SaveChanges();
             }
             else
             {
+                template.TmpID = tmpId;
+
                 template.IDClient = item.IDClient;
                 template.Name = item.Name;
                 template.Description = item.Description;
                 template.BackupType = item.BackupType;
                 template.DaysToExpiration = item.DaysToExpiration;
                 template.Compression = item.Compression;
-                template.SearchPattern = item.SearchPattern;
-                template.BackupEmptyDirectories = item.BackupEmptyDirectories;
+                template.SearchPattern = item.SearchPattern;                
                 template.Enabled = item.Enabled;
                 template.IsNotificationEnabled = item.IsNotificationEnabled;
                 template.IsEmailNotificationEnabled = item.IsEmailNotificationEnabled;
                 template.CRONRepeatInterval = item.CRONRepeatInterval;
                 this.SaveChanges();
-            }            
+            }
+
+            BackupTemplate tmp = this.Find(tmpId);
+            foreach (BackupTemplatePath path in item.Paths)
+            {
+                path.IDBackupTemplate = tmp.ID;
+                this._BackupTemplatePathRepository.Update(path);
+            }
+            tmp.TmpID = null;
+            this.SaveChanges();
         }
         #endregion
 
         internal List<BackupTemplate> Find(Client client)
         {
             return this._Context.Templates.Where(x => x.IDClient == client.ID).ToList();
+        }
+        internal BackupTemplate Find(Guid tmpID)
+        {
+            return this._Context.Templates.Where(x => x.TmpID == tmpID).FirstOrDefault();
+        }
+        internal void Remove(long id)
+        {
+            this.Remove(this.Find(id));
         }
     }
 }

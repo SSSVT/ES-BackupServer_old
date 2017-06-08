@@ -24,10 +24,6 @@ namespace ESBackupServer.Database.Objects
 
         [Column("LG_CLIENT_IP"), DataMember]
         public string IP { get; set; } //IPv4 - 32; IPv6 - 128
-
-        //TODO: Zkontrolovat, zda je potřebné
-        [ForeignKey("IDClient"), DataMember]
-        public virtual Client Client { get; set; }
         #endregion
 
         public Login()

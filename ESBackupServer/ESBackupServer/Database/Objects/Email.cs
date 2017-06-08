@@ -20,6 +20,10 @@ namespace ESBackupServer.Database.Objects
         [Column("ISDEFAULT"), DataMember]
         public bool IsDefault { get; set; }
 
+        #region Virtual properties
+        [ForeignKey("IDAdministrator"), NotMapped]
+        internal virtual Administrator Administrator { get; set; }
+        #endregion
         public Email()
         {
             this.IsDefault = false;
